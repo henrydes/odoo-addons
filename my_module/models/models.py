@@ -4,6 +4,7 @@ from odoo import models, fields, api
 
 
 class my_module(models.Model):
+    _description = "My module"
     _name = 'my_module.my_module'
 
     name = fields.Char()
