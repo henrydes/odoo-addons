@@ -6,6 +6,7 @@
         <field name="name">Library member form view</field>
         <field name="model">library.member</field>
         <field name="arch" type="xml">
+            <sheet>
                 <form>
                     <group>
                         <field name="name"/>
@@ -14,6 +15,7 @@
                     </group>
 
                 </form>
+            </sheet>
             <!-- mail mixin fields -->
             <div class="oe_chatter">
                 <field name="message_follower_ids" widget="mail_followers"/>
