@@ -1,5 +1,6 @@
 {
     'name': 'Library Management',
+    'version': '0.2',
     'description':'Manage library book catalogues and lending.',
     'author': 'Jean-Baptiste Roquefère',
     'website': 'www.laetis.fr',
