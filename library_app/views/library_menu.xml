@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <menuitem id="library_menu" name="Library"/>
+
+    <!-- Action to open the Book list -->
+    <act_window id="action_library_book"
+                name="Library Books"
+                res_model="library.book"
+                view_mode="tree,form"
+    />
+     <!-- Action to open the Book category list -->
+    <act_window id="action_library_book_category"
+                name="Library Book Categories"
+                res_model="library.book.category"
+                view_mode="tree,form"
+    />
+
+    <!-- Menu item to open the Book list -->
+    <menuitem id="menu_library_book"
+              name="Livres"
+              parent="library_menu"
+              action="action_library_book"
+    />
+
+    <!-- Menu item to open the Book category list -->
+    <menuitem id="menu_library_book_category"
+              name="Book categories"
+              parent="library_menu"
+              action="action_library_book_category"
+    />
+</odoo>
