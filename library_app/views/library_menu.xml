@@ -17,7 +17,7 @@
 
     <!-- Menu item to open the Book list -->
     <menuitem id="menu_library_book"
-              name="Livres"
+              name="Bouquins"
               parent="library_menu"
               action="action_library_book"
     />
