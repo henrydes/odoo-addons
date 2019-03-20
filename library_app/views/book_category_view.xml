@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_tree_book_category" model="ir.ui.view">
+        <field name="name">Book category list</field>
+        <field name="model">library.book.category</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_search_book_category" model="ir.ui.view">
+        <field name="name">Book category Filters</field>
+        <field name="model">library.book.category</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="view_form_book_category" model="ir.ui.view">
+        <field name="name">Book category form</field>
+        <field name="model">library.book.category</field>
+        <field name="arch" type="xml">
+            <form string="Book category">
+                <header>
+
+                </header>
+                <sheet>
+                    <group name="group_top">
+                        <group name="group_left">
+                            <field name="name"/>
+                            <field name="parent_id"/>
+                            <field name="child_ids" widget="one2many" attrs="{'readonly':True}" string="sous-catégories (lecture seule)" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
