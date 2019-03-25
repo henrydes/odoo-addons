@@ -52,6 +52,7 @@ class Book(models.Model):
         inverse='_inverse_publisher_country',
         search='_search_publisher_country'
     )
+    category_id = fields.Many2one('library.book.category')
 
 
     def _inverse_publisher_country(self):
