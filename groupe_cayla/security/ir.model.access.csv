@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_groupe_cayla_groupe_cayla,groupe_cayla.groupe_cayla,model_groupe_cayla_groupe_cayla,,1,0,0,0
