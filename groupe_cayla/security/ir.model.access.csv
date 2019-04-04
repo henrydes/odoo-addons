@@ -1,3 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_client_ouvrier,Accès Client pour Ouvrier,model_groupe_cayla_client,groupe_cayla_group_ouvrier,1,0,0,0
 access_client_resp_admin,Accès Client pour Responsable Administratif,model_groupe_cayla_client,groupe_cayla_group_resp_admin,1,1,1,0
+access_client_secretaire,Accès Client pour Secrétaire,model_groupe_cayla_client,groupe_cayla_group_secretaire,1,0,0,0

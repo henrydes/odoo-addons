@@ -83,7 +83,7 @@
                             string="Return books"
                             states="open,cancel"
                             class="oe_highlight"/>
-                    <field name="stage_id" widget="statusbar" clickable="True" options="{'fold_field': 'fold'}"/>
+                    <field name="stage_id" widget="statusbar" options="{'fold_field': 'fold'}"/>
 
                 </header>
                 <sheet>
