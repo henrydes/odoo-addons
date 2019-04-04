@@ -1,48 +1,63 @@
 <odoo>
-  <data>
-    <!-- explicit list view definition -->
-    <record model="ir.ui.view" id="groupe_cayla.list">
-      <field name="name">groupe_cayla list</field>
-      <field name="model">groupe_cayla.groupe_cayla</field>
-      <field name="arch" type="xml">
-        <tree>
-          <field name="name"/>
-          <field name="value"/>
-          <field name="value2"/>
-        </tree>
-      </field>
-    </record>
+    <data>
+        <!-- explicit list view definition -->
+        <record model="ir.ui.view" id="groupe_cayla.list">
+            <field name="name">groupe_cayla list</field>
+            <field name="model">groupe_cayla.client</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
 
-    <!-- actions opening views on models -->
-    <record model="ir.actions.act_window" id="groupe_cayla.action_window">
-      <field name="name">groupe_cayla window</field>
-      <field name="res_model">groupe_cayla.groupe_cayla</field>
-      <field name="view_mode">tree,form</field>
-    </record>
 
-    <!-- server action to the one above -->
-    <record model="ir.actions.server" id="groupe_cayla.action_server">
-      <field name="name">groupe_cayla server</field>
-      <field name="model_id" ref="model_groupe_cayla_groupe_cayla"/>
-      <field name="state">code</field>
-      <field name="code">
-        action = {
-          "type": "ir.actions.act_window",
-          "view_mode": "tree,form",
-          "res_model": self._name,
-        }
-      </field>
-    </record>
+        <record id="view_form_client" model="ir.ui.view">
+            <field name="name">Cient form view</field>
+            <field name="model">groupe_cayla.client</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="title"/>
+                            <field name="name"/>
+                            <field name="ref"/>
+                            <field name="comment"/>
+                            <field name="customer"/>
+                            <field name="street"/>
+                            <field name="street2"/>
+                            <field name="zip"/>
+                            <field name="city"/>
+                            <field name="country_id"/>
+                            <field name="is_company"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
 
-    <!-- Top menu item -->
-    <menuitem name="Groupe Cayla" groups="base.group_user" id="groupe_cayla.menu_root" web_icon="groupe_cayla,static/description/icon.png" sequence="6"/>
-    <!-- menu categories -->
-    <menuitem name="Menu 1" id="groupe_cayla.menu_1" parent="groupe_cayla.menu_root"/>
-    <menuitem name="Menu 2" id="groupe_cayla.menu_2" parent="groupe_cayla.menu_root"/>
-    <!-- actions -->
-    <menuitem name="List" id="groupe_cayla.menu_1_list" parent="groupe_cayla.menu_1"
-              action="groupe_cayla.action_window"/>
-    <menuitem name="Server to list" id="groupe_cayla" parent="groupe_cayla.menu_2"
-              action="groupe_cayla.action_server"/>
-  </data>
+                </form>
+
+            </field>
+        </record>
+
+        <!-- actions opening views on models -->
+        <record model="ir.actions.act_window" id="groupe_cayla.action_window">
+            <field name="name">Clients</field>
+            <field name="res_model">groupe_cayla.client</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <!-- Top menu item -->
+        <menuitem name="Groupe Cayla" groups="base.group_user" id="groupe_cayla.menu_root"
+                  web_icon="groupe_cayla,static/description/icon.png" sequence="6"/>
+        <!-- menu categories -->
+        <menuitem name="Menu 1" id="groupe_cayla.menu_1" parent="groupe_cayla.menu_root"/>
+        <!-- actions -->
+        <menuitem name="List" id="groupe_cayla.menu_1_list" parent="groupe_cayla.menu_1"
+                  action="groupe_cayla.action_window"/>
+    </data>
 </odoo>

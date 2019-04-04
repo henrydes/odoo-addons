@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="module_groupe_cayla_category" model="ir.module.category">
+        <field name="name">Groupe Cayla</field>
+    </record>
+
+    <!-- Responsable administratif -->
+    <record id="groupe_cayla_group_resp_admin" model="res.groups">
+        <field name="name">Responsable administratif</field>
+        <field name="category_id" ref="module_groupe_cayla_category"></field>
+    </record>
+
+    <!-- Secrétaire -->
+    <record id="groupe_cayla_group_secretaire" model="res.groups">
+        <field name="name">Secrétaire</field>
+        <field name="category_id" ref="module_groupe_cayla_category"></field>
+    </record>
+
+     <!-- Commercial -->
+    <record id="groupe_cayla_group_commercial" model="res.groups">
+        <field name="name">Commercial</field>
+        <field name="category_id" ref="module_groupe_cayla_category"></field>
+    </record>
+
+    <!-- Directeur commercial -->
+    <record id="groupe_cayla_group_dir_commercial" model="res.groups">
+        <field name="name">Directeur commercial</field>
+        <field name="category_id" ref="module_groupe_cayla_category"></field>
+    </record>
+
+    <!-- Planificateur  -->
+    <record id="groupe_cayla_group_planif_chantier" model="res.groups">
+        <field name="name">Planificateur chantier</field>
+        <field name="category_id" ref="module_groupe_cayla_category"></field>
+    </record>
+
+    <!-- Ouvrier -->
+    <record id="groupe_cayla_group_ouvrier" model="res.groups">
+        <field name="name">Ouvrier</field>
+        <field name="category_id" ref="module_groupe_cayla_category"></field>
+    </record>
+
+
+
+</odoo>
