@@ -31,25 +31,42 @@
             <field name="arch" type="xml">
                 <form>
                     <sheet>
-                        <group>
+                        <group col="6">
                             <field name="etat"/>
+                            <field name="ref"/>
                             <field name="title"/>
                             <field name="name"/>
-                            <field name="ref"/>
-                            <field name="comment"/>
-                            <field name="customer"/>
                             <field name="street"/>
                             <field name="street2"/>
                             <field name="zip"/>
                             <field name="city"/>
                             <field name="country_id"/>
-                            <field name="is_company"/>
+                            <field name="comment"/>
                         </group>
                         <notebook>
                             <page string="Service commercial">
                                 <sheet>
-                                    <group>
-                                        <field name="date_edition_devis"/>
+                                    <group col="3">
+                                        <group string="1 - Apporteur">
+                                            <field name="date_entree"/>
+                                            <field name="utilisateur_id"/>
+                                            <field name="source_client"/>
+                                        </group>
+                                        <group string="2 - Maitrise d'oeuvre">
+                                            <field name="maitre_oeuvre"/>
+                                            <field name="installateur"/>
+                                            <field name="contrat"/>
+                                        </group>
+                                        <group string="5.1 - Edition devis">
+
+                                            <field name="devis_id"/>
+                                            <field name="utilisateur_devis"/>
+                                            <field name="date_edition_devis"/>
+                                            <field name="date_envoi_devis"/>
+                                            <field name="date_acceptation_devis"/>
+                                            <field name="date_refus_devis"/>
+                                            <field name="montant_devis"/>
+                                        </group>
                                     </group>
                                 </sheet>
                             </page>
@@ -80,8 +97,11 @@
                             <field name="numero"/>
                             <field name="montant"/>
                             <field name="date_edition"/>
+                            <field name="date_envoi"/>
                             <field name="date_acceptation"/>
                             <field name="date_refus"/>
+
+                            <field name="user_id"/>
                         </group>
                     </sheet>
 
@@ -104,13 +124,6 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <!-- actions opening views on models -->
-        <record model="ir.actions.act_window" id="groupe_cayla.action_devis">
-            <field name="name">Devis</field>
-            <field name="res_model">groupe_cayla.devis</field>
-            <field name="view_mode">tree,form</field>
-        </record>
-
 
         <!-- Top menu item -->
         <menuitem name="Groupe Cayla" groups="base.group_user" id="groupe_cayla.menu_root"
@@ -118,8 +131,7 @@
         <!-- menu categories -->
         <menuitem name="Clients" id="groupe_cayla.clients" parent="groupe_cayla.menu_root"
                   action="groupe_cayla.action_clients"/>
-        <menuitem name="Devis" id="groupe_cayla.devis" parent="groupe_cayla.menu_root"
-                  action="groupe_cayla.action_devis"/>
+
 
     </data>
 </odoo>
