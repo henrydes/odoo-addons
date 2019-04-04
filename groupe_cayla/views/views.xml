@@ -2,11 +2,24 @@
     <data>
         <!-- explicit list view definition -->
         <record model="ir.ui.view" id="groupe_cayla.list">
-            <field name="name">groupe_cayla list</field>
+            <field name="name">groupe_cayla clients</field>
             <field name="model">groupe_cayla.client</field>
             <field name="arch" type="xml">
                 <tree>
                     <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- explicit list view definition -->
+        <record model="ir.ui.view" id="groupe_cayla.list">
+            <field name="name">groupe_cayla devis</field>
+            <field name="model">groupe_cayla.devis</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="numero"/>
+                    <field name="date_edition"/>
+                    <field name="montant"/>
                 </tree>
             </field>
         </record>
@@ -19,6 +32,7 @@
                 <form>
                     <sheet>
                         <group>
+                            <field name="etat"/>
                             <field name="title"/>
                             <field name="name"/>
                             <field name="ref"/>
@@ -31,7 +45,17 @@
                             <field name="country_id"/>
                             <field name="is_company"/>
                         </group>
+                        <notebook>
+                            <page string="Service commercial">
+                                <sheet>
+                                    <group>
+                                        <field name="date_edition_devis"/>
+                                    </group>
+                                </sheet>
+                            </page>
+                        </notebook>
                     </sheet>
+
                     <div class="oe_chatter">
                         <field name="message_follower_ids" widget="mail_followers"/>
                         <field name="activity_ids" widget="mail_activity"/>
@@ -43,10 +67,47 @@
             </field>
         </record>
 
+
+        <record id="view_form_devis" model="ir.ui.view">
+            <field name="name">Devis form view</field>
+            <field name="model">groupe_cayla.devis</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+
+                            <field name="client_id"/>
+                            <field name="numero"/>
+                            <field name="montant"/>
+                            <field name="date_edition"/>
+                            <field name="date_acceptation"/>
+                            <field name="date_refus"/>
+                        </group>
+                    </sheet>
+
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+
+                </form>
+
+            </field>
+        </record>
+
+
         <!-- actions opening views on models -->
-        <record model="ir.actions.act_window" id="groupe_cayla.action_window">
+        <record model="ir.actions.act_window" id="groupe_cayla.action_clients">
             <field name="name">Clients</field>
             <field name="res_model">groupe_cayla.client</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- actions opening views on models -->
+        <record model="ir.actions.act_window" id="groupe_cayla.action_devis">
+            <field name="name">Devis</field>
+            <field name="res_model">groupe_cayla.devis</field>
             <field name="view_mode">tree,form</field>
         </record>
 
@@ -55,9 +116,10 @@
         <menuitem name="Groupe Cayla" groups="base.group_user" id="groupe_cayla.menu_root"
                   web_icon="groupe_cayla,static/description/icon.png" sequence="6"/>
         <!-- menu categories -->
-        <menuitem name="Menu 1" id="groupe_cayla.menu_1" parent="groupe_cayla.menu_root"/>
-        <!-- actions -->
-        <menuitem name="List" id="groupe_cayla.menu_1_list" parent="groupe_cayla.menu_1"
-                  action="groupe_cayla.action_window"/>
+        <menuitem name="Clients" id="groupe_cayla.clients" parent="groupe_cayla.menu_root"
+                  action="groupe_cayla.action_clients"/>
+        <menuitem name="Devis" id="groupe_cayla.devis" parent="groupe_cayla.menu_root"
+                  action="groupe_cayla.action_devis"/>
+
     </data>
 </odoo>
