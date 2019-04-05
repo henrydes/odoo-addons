@@ -33,6 +33,8 @@
         'views/planif_chantier.xml',
         'views/chantier.xml',
         'views/entite_edition_devis.xml',
+        'views/travaux_devis.xml',
+        'views/objet_devis.xml',
         'views/templates.xml',
     ],
     'application': True,

@@ -17,6 +17,16 @@
                 name="Entite édition devis"
                 res_model="groupe_cayla.entite_edition_devis"
                 view_mode="tree,form"/>
+        <act_window
+                id="action_cayla_travaux_devis"
+                name="Type de travaux"
+                res_model="groupe_cayla.travaux_devis"
+                view_mode="tree,form"/>
+        <act_window
+                id="action_cayla_objet_devis"
+                name="Objets de devis"
+                res_model="groupe_cayla.objet_devis"
+                view_mode="tree,form"/>
 
 
         <!-- Top menu item -->
@@ -31,6 +41,10 @@
                   action="action_cayla_devis"/>
         <menuitem name="Entité édition" id="groupe_cayla.entite_edition_devis" parent="groupe_cayla.devis"
                   action="action_cayla_entite_edition_devis"/>
+        <menuitem name="Type de travaux" id="groupe_cayla.travaux_devis" parent="groupe_cayla.devis"
+                  action="action_cayla_travaux_devis"/>
+        <menuitem name="Objets de devis" id="groupe_cayla.objet_devis" parent="groupe_cayla.devis"
+                  action="action_cayla_objet_devis"/>
 
 
     </data>

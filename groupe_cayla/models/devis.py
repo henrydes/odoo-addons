@@ -37,6 +37,30 @@ class Devis(models.Model):
 
     motif_refus = fields.Text()
 
+    type_octeha = fields.Boolean(string="Oc'teha", default=False)
+    type_anah = fields.Boolean(string='ANAH', default=False)
+    type_eco_cheque = fields.Boolean(string='Eco-chéque', default=False)
+    type_cee = fields.Boolean(string='CEE', default=False)
+    type_profesionnel = fields.Boolean(string='Profesionnel', default=False)
+    remise = fields.Float(string='Remise (%)')
+
+    objet = fields.Char()
+    objet_autres = fields.Char()
+    autre_1 = fields.Char(string='Autre')
+    autre_2 = fields.Char(string='Autre')
+    autre_3 = fields.Char(string='Autre')
+    choix_tva = fields.Char()
+
+    quantite_1 = fields.Integer(default=None)
+    quantite_2 = fields.Integer(default=None)
+    quantite_3 = fields.Integer(default=None)
+    prix_unitaire_1 = fields.Float(default=None)
+    prix_unitaire_2 = fields.Float(default=None)
+    prix_unitaire_3 = fields.Float(default=None)
+    tarif_1 = fields.Float(default=None)
+    tarif_2 = fields.Float(default=None)
+    tarif_3 = fields.Float(default=None)
+
     _rec_name = 'combination'
     combination = fields.Char(string='Combination', compute='_compute_fields_combination')
 

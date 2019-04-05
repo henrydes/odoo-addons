@@ -369,13 +369,13 @@ class Client(models.Model):
     type_produit_chantier = fields.Char(compute='_compute_type_produit_chantier',
                                         string='Type Produit', store=False)
     marque_chantier = fields.Char(compute='_compute_marque_chantier',
-                                        string='Marque', store=False)
+                                  string='Marque', store=False)
     nb_sac_chantier = fields.Char(compute='_compute_nb_sac_chantier',
-                                        string='Nb sac', store=False)
+                                  string='Nb sac', store=False)
     temps_passe_chantier = fields.Char(compute='_compute_temps_passe_chantier',
                                        string='Temps passé', store=False)
     chantier_realise_chantier = fields.Boolean(compute='_compute_chantier_realise_chantier',
-                                       string='Chantier réalisé', store=False)
+                                               string='Chantier réalisé', store=False)
 
     @api.depends('chantier_id')
     def _compute_date_de_realisation_chantier(self):

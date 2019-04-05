@@ -8,3 +8,5 @@ from . import vt
 from . import planif_chantier
 from . import entite_edition_devis
 from . import chantier
+from . import travaux_devis
+from . import objet_devis
