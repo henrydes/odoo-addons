@@ -30,6 +30,7 @@
         'views/devis.xml',
         'views/planif_vt.xml',
         'views/vt.xml',
+        'views/planif_chantier.xml',
         'views/templates.xml',
     ],
     'application': True,

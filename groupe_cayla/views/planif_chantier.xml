@@ -1,0 +1,33 @@
+<odoo>
+    <data>
+
+
+        <record id="view_form_planif_vt" model="ir.ui.view">
+            <field name="name">Formulaire planif chantier</field>
+            <field name="model">groupe_cayla.planif_chantier</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="client_id"/>
+                            <field name="date_appel"/>
+                            <field name="date_time_planif"/>
+                            <field name="utilisateur_id"/>
+                            <field name="equipier_1_id"/>
+                            <field name="equipier_2_id"/>
+                            <field name="entreprise"/>
+                            <field name="entite_devis"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

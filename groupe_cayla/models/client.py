@@ -22,7 +22,8 @@ class Client(models.Model):
         ('devis_a_editer', 'Devis à éditer'),
         ('attente_commande', 'Devis en attente de commande'),
         ('chantier_a_planifier', 'Chantier à planifier'),
-        ('annule_par_client', 'Annulé par client')
+        ('annule_par_client', 'Annulé par client'),
+        ('chantier_a_saisir', 'Chantier à saisir')
     ], default='nouveau'
     )
 
@@ -256,3 +257,89 @@ class Client(models.Model):
                 record.utilisateur_devis = None
             else:
                 record.utilisateur_devis = record.devis_id.user_id
+
+    # 6 Planif Chantier
+    planif_chantier_id = fields.Many2one(
+        'groupe_cayla.planif_chantier',
+        delegate=False,
+        required=False
+    )
+    date_appel_planif_chantier = fields.Date(compute='_compute_date_appel_planif_chantier',
+                                       string="Date appel", store=False)
+    date_time_planif_planif_chantier = fields.Datetime(compute='_compute_date_time_planif_planif_chantier',
+                                                 string="Chantier planifié", store=False)
+    utilisateur_id_planif_chantier = fields.Many2one('res.users', compute='_compute_utilisateur_id_planif_chantier',
+                                            string="Utilisateur", store=False)
+    equipier_1_id_planif_chantier = fields.Many2one('res.users', compute='_compute_equipier_1_id_planif_chantier',
+                                           string="Equipe", store=False)
+    equipier_2_id_planif_chantier = fields.Many2one('res.users', compute='_compute_equipier_2_id_planif_chantier',
+                                           string=" ", store=False)
+    entreprise_planif_chantier = fields.Char(compute='_compute_entreprise_planif_chantier',
+                                             string="Entreprise", store=False)
+    entite_devis_planif_chantier = fields.Char(compute='_compute_entite_devis_planif_chantier',
+                                             string="Entité devis", store=False)
+
+    @api.onchange('planif_chantier_id')
+    def on_change_state_chantier_id(self):
+        for record in self:
+            if record.planif_chantier_id:
+                record.etat = 'chantier_a_saisir'
+            else:
+                record.etat = 'chantier_a_planifier'
+
+    @api.depends('planif_chantier_id')
+    def _compute_date_appel_planif_chantier(self):
+        for record in self:
+            if record.planif_chantier_id is None:
+                record.date_appel_planif_chantier = None
+            else:
+                record.date_appel_planif_chantier = record.planif_chantier_id.date_appel
+
+    @api.depends('planif_chantier_id')
+    def _compute_date_time_planif_planif_chantier(self):
+        for record in self:
+            if record.planif_chantier_id is None:
+                record.date_time_planif_planif_chantier = None
+            else:
+                record.date_time_planif_planif_chantier = record.planif_chantier_id.date_time_planif
+
+    @api.depends('planif_chantier_id')
+    def _compute_utilisateur_id_planif_chantier(self):
+        for record in self:
+            if record.planif_chantier_id is None:
+                record.utilisateur_id_planif_chantier = None
+            else:
+                record.utilisateur_id_planif_chantier = record.planif_chantier_id.utilisateur_id
+
+    @api.depends('planif_chantier_id')
+    def _compute_equipier_1_id_planif_chantier(self):
+        for record in self:
+            if record.planif_chantier_id is None:
+                record.equipier_1_id_planif_chantier = None
+            else:
+                record.equipier_1_id_planif_chantier = record.planif_chantier_id.equipier_1_id
+
+    @api.depends('planif_chantier_id')
+    def _compute_equipier_2_id_planif_chantier(self):
+        for record in self:
+            if record.planif_chantier_id is None:
+                record.equipier_2_id_planif_chantier = None
+            else:
+                record.equipier_2_id_planif_chantier = record.planif_chantier_id.equipier_2_id
+
+    @api.depends('planif_chantier_id')
+    def _compute_entreprise_planif_chantier(self):
+        for record in self:
+            if record.planif_chantier_id is None:
+                record.entreprise_planif_chantier = None
+            else:
+                record.entreprise_planif_chantier = record.planif_chantier_id.entreprise
+
+    @api.depends('planif_chantier_id')
+    def _compute_entite_devis_planif_chantier(self):
+        for record in self:
+            if record.planif_chantier_id is None:
+                record.entite_devis_planif_chantier = None
+            else:
+                record.entite_devis_planif_chantier = record.planif_chantier_id.entite_devis
+
