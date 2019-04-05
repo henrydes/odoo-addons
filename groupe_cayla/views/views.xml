@@ -31,9 +31,13 @@
             <field name="arch" type="xml">
                 <form>
                     <sheet>
-                        <group col="6">
+                        <group col="4" colspan="6">
                             <field name="etat"/>
-                            <field name="ref"/>
+                            <field name="ref" position="attributes">
+                                <attribute name="string">Réf.</attribute>
+                            </field>
+                        </group>
+                        <group col="6">
                             <field name="title"/>
                             <field name="name"/>
                             <field name="street"/>
@@ -59,7 +63,9 @@
                                         </group>
                                         <group string="5.1 - Edition devis">
 
-                                            <field name="devis_id"/>
+                                            <field name="devis_id"
+                                                   domain="[('client_id', '=', active_id)]"
+                                                   context="{'default_client_id': active_id, 'default_user_id': uid}"/>
                                             <field name="utilisateur_devis"/>
                                             <field name="date_edition_devis"/>
                                             <field name="date_envoi_devis"/>
@@ -88,6 +94,7 @@
         <record id="view_form_devis" model="ir.ui.view">
             <field name="name">Devis form view</field>
             <field name="model">groupe_cayla.devis</field>
+
             <field name="arch" type="xml">
                 <form>
                     <sheet>

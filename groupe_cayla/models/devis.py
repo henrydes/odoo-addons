@@ -1,3 +1,5 @@
+from datetime import date
+
 from odoo import models, fields, api
 import logging
 
@@ -23,7 +25,7 @@ class Devis(models.Model):
     )
 
     numero = fields.Char()
-    date_edition = fields.Date()
+    date_edition = fields.Date(default=date.today())
     date_acceptation = fields.Date()
     date_envoi = fields.Date()
     date_refus = fields.Date()
