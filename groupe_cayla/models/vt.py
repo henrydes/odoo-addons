@@ -34,10 +34,33 @@ class VT(models.Model):
     vt_validee = fields.Boolean(default=False)
     documents_complets = fields.Boolean(default=False)
 
-    adresse = fields.Text()
+    adresse_1 = fields.Char(compute='_compute_adresse_1')
+    adresse_2 = fields.Char(compute='_compute_adresse_2')
+    code_postal = fields.Char(compute='_compute_code_postal')
+    ville = fields.Char(compute='_compute_ville')
 
     _rec_name = 'combination'
     combination = fields.Char(string='Combination', compute='_compute_fields_combination')
+
+    @api.depends('client_id')
+    def _compute_adresse_1(self):
+        for d in self:
+            d.adresse_1 = d.client_id.street
+
+    @api.depends('client_id')
+    def _compute_adresse_2(self):
+        for d in self:
+            d.adresse_2 = d.client_id.street2
+
+    @api.depends('client_id')
+    def _compute_code_postal(self):
+        for d in self:
+            d.code_postal = d.client_id.zip
+
+    @api.depends('client_id')
+    def _compute_ville(self):
+        for d in self:
+            d.ville = d.client_id.city
 
     @api.depends('date_de_realisation')
     def _compute_fields_combination(self):
@@ -58,5 +81,3 @@ class VT(models.Model):
 
         client.vt_id = rec
         return rec
-
-

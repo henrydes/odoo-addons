@@ -8,15 +8,24 @@
             <field name="arch" type="xml">
                 <form>
                     <sheet>
-                        <group>
-                            <field name="client_id"/>
-                            <field name="date_de_realisation"/>
-                            <field name="vt_validee"/>
-                            <field name="documents_complets"/>
-                            <field name="adresse"/>
-                            <field name="utilisateur_id"/>
-                            <field name="technicien_id"/>
+                        <group col="2">
+                            <group>
+                                <field name="client_id"/>
+                                <field name="date_de_realisation"/>
+                                <field name="vt_validee"/>
+                                <field name="documents_complets"/>
+                                <field name="utilisateur_id"/>
+                                <field name="technicien_id"/>
+                            </group>
+                            <group>
+                                 <field name="adresse_1"/>
+                                 <field name="adresse_2"/>
+                                 <field name="ville"/>
+                                 <field name="code_postal"/>
+                            </group>
+
                         </group>
+
                     </sheet>
                     <div class="oe_chatter">
                         <field name="message_follower_ids" widget="mail_followers"/>
