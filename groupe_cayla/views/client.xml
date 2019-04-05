@@ -92,6 +92,7 @@
                                             <field name="equipier_2_id_planif_chantier"/>
                                             <field name="entreprise_planif_chantier"/>
                                             <field name="entite_edition_devis_id_planif_chantier"/>
+                                            <field name="entreprise_planif_chantier"/>
                                         </group>
                                     </group>
                                 </sheet>

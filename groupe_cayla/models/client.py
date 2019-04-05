@@ -278,6 +278,8 @@ class Client(models.Model):
                                              string="Entreprise", store=False)
     entite_edition_devis_id_planif_chantier = fields.Many2one('groupe_cayla.entite_edition_devis', compute='_compute_entite_edition_devis_id_planif_chantier',
                                              string="Entité devis", store=False)
+    entreprise_planif_chantier = fields.Char(compute='_compute_entreprise_planif_chantier',
+                                             string="Entreprise", store=False)
 
     @api.onchange('planif_chantier_id')
     def on_change_state_chantier_id(self):
@@ -286,6 +288,16 @@ class Client(models.Model):
                 record.etat = 'chantier_a_saisir'
             else:
                 record.etat = 'chantier_a_planifier'
+
+
+
+    @api.depends('planif_chantier_id')
+    def _compute_entreprise_planif_chantier(self):
+        for record in self:
+            if record.planif_chantier_id is None:
+                record.entreprise_planif_chantier = None
+            else:
+                record.entreprise_planif_chantier = record.planif_chantier_id.entreprise
 
     @api.depends('planif_chantier_id')
     def _compute_date_appel_planif_chantier(self):
