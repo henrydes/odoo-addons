@@ -72,9 +72,9 @@
                                     <table style='width:100%;' border='0'>
                                         <tr>
                                             <td style='width:15%'> </td>
-                                            <td style='width:55%'> </td>
-                                            <td style='width:3%'> </td>
-                                            <td style='width:27%; text-align: center' colspan="3">
+                                            <td style='width:50%'> </td>
+                                            <td style='width:1%'> </td>
+                                            <td style='width:34%; text-align: center' colspan="3">
                                                 <label for="choix_tva"/>
                                             </td>
                                         </tr>
@@ -83,11 +83,11 @@
                                                 <label for="objet"/>
                                             </td>
                                             <td>
-                                                <field name="objet"/>
+                                                <field name="objet"  options='{"no_open": True}'/>
                                             </td>
                                             <td> </td>
                                             <td colspan="3" style="text-align: center">
-                                                <field name="choix_tva" />
+                                                <field name="choix_tva" options='{"no_open": True}' />
                                             </td>
 
                                         </tr>
@@ -108,7 +108,7 @@
                                                 <label for="autre_1"/>
                                             </td>
                                             <td>
-                                                <field name="autre_1"/>
+                                                <field name="autre_1" options='{"no_open": True}'/>
                                             </td>
                                             <td> </td>
                                             <td style="text-align: center">
@@ -126,7 +126,7 @@
                                                 <label for="autre_2"/>
                                             </td>
                                             <td>
-                                                <field name="autre_2"/>
+                                                <field name="autre_2" options='{"no_open": True}'/>
                                             </td>
                                             <td> </td>
                                             <td style="text-align: center">
@@ -144,7 +144,7 @@
                                                 <label for="autre_3"/>
                                             </td>
                                             <td>
-                                                <field name="autre_3"/>
+                                                <field name="autre_3" options='{"no_open": True}'/>
                                             </td>
                                             <td> </td>
                                             <td style="text-align: center">
@@ -153,9 +153,9 @@
                                             <td style="text-align: center">
                                                 <field name="prix_unitaire_3"/>
                                             </td>
-                                            <d style="text-align: center">
+                                            <td style="text-align: center">
                                                 <field name="tarif_3"/>
-                                            </d>
+                                            </td>
                                         </tr>
 
                                     </table>

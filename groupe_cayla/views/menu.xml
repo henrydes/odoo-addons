@@ -28,6 +28,12 @@
                 res_model="groupe_cayla.objet_devis"
                 view_mode="tree,form"/>
 
+        <act_window
+                id="action_cayla_taux_tva"
+                name="Taux de TVA"
+                res_model="groupe_cayla.taux_tva"
+                view_mode="tree,form"/>
+
 
         <!-- Top menu item -->
         <menuitem name="Groupe Cayla" id="groupe_cayla.menu_root"
@@ -45,6 +51,8 @@
                   action="action_cayla_travaux_devis"/>
         <menuitem name="Objets de devis" id="groupe_cayla.objet_devis" parent="groupe_cayla.devis"
                   action="action_cayla_objet_devis"/>
+        <menuitem name="Taux TVA" id="groupe_cayla.taux_tva" parent="groupe_cayla.devis"
+                  action="action_cayla_taux_tva"/>
 
 
     </data>

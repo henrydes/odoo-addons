@@ -10,3 +10,4 @@ from . import entite_edition_devis
 from . import chantier
 from . import travaux_devis
 from . import objet_devis
+from . import taux_tva

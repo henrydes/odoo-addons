@@ -36,6 +36,7 @@
         'views/travaux_devis.xml',
         'views/objet_devis.xml',
         'views/templates.xml',
+        'views/taux_tva.xml',
     ],
     'application': True,
 }

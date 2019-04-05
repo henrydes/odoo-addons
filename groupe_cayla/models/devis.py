@@ -44,12 +44,12 @@ class Devis(models.Model):
     type_profesionnel = fields.Boolean(string='Profesionnel', default=False)
     remise = fields.Float(string='Remise (%)')
 
-    objet = fields.Char()
+    objet = fields.Many2one('groupe_cayla.objet_devis', required=False)
     objet_autres = fields.Char()
-    autre_1 = fields.Char(string='Autre')
-    autre_2 = fields.Char(string='Autre')
-    autre_3 = fields.Char(string='Autre')
-    choix_tva = fields.Char()
+    autre_1 = fields.Many2one('groupe_cayla.travaux_devis', string='Autre')
+    autre_2 = fields.Many2one('groupe_cayla.travaux_devis', string='Autre')
+    autre_3 = fields.Many2one('groupe_cayla.travaux_devis', string='Autre')
+    choix_tva = fields.Many2one('groupe_cayla.taux_tva', string='Choix TVA')
 
     quantite_1 = fields.Integer(default=None)
     quantite_2 = fields.Integer(default=None)
@@ -63,6 +63,22 @@ class Devis(models.Model):
 
     _rec_name = 'combination'
     combination = fields.Char(string='Combination', compute='_compute_fields_combination')
+
+    @api.onchange('autre_1')
+    def onchange_autre_1(self):
+        self.prix_unitaire_1 = self.autre_1.prix_unitaire
+
+    @api.onchange('prix_unitaire_1', 'quantite_1')
+    def onchange_prix_unitaire_1(self):
+        self.tarif_1 = self.prix_unitaire_1 * self.quantite_1
+
+    @api.onchange('prix_unitaire_2', 'quantite_2')
+    def onchange_prix_unitaire_2(self):
+        self.tarif_2 = self.prix_unitaire_2 * self.quantite_2
+
+    @api.onchange('prix_unitaire_3', 'quantite_3')
+    def onchange_prix_unitaire_3(self):
+        self.tarif_3 = self.prix_unitaire_3 * self.quantite_3
 
     @api.depends('numero')
     def _compute_fields_combination(self):

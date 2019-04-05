@@ -10,3 +10,4 @@ access_entite_edition_devis_resp_admin,Accès Entite Edition Devis pour Responsa
 access_chantier_resp_admin,Accès Chantier pour Responsable Administratif,model_groupe_cayla_chantier,groupe_cayla_group_resp_admin,1,1,1,1
 access_travaux_devis_resp_admin,Accès Travaux Devis pour Responsable Administratif,model_groupe_cayla_travaux_devis,groupe_cayla_group_resp_admin,1,1,1,1
 access_objet_devis_resp_admin,Accès Objet Devis pour Responsable Administratif,model_groupe_cayla_objet_devis,groupe_cayla_group_resp_admin,1,1,1,1
+access_taux_tva_resp_admin,Accès Taux TVA pour Responsable Administratif,model_groupe_cayla_taux_tva,groupe_cayla_group_resp_admin,1,1,1,1
