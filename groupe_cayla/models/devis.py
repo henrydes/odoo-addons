@@ -24,7 +24,7 @@ class Devis(models.Model):
         required=True,
     )
 
-    numero = fields.Char()
+    numero = fields.Char(required=True)
     date_edition = fields.Date(default=date.today())
     date_acceptation = fields.Date()
     date_envoi = fields.Date()
@@ -42,8 +42,27 @@ class Devis(models.Model):
     @api.model
     def create(self, values):
         rec = super(Devis, self).create(values)
-        if values['numero'] is not None:
-            client = self.env['groupe_cayla.client'].search([('id', '=', values['client_id'])], limit=1)
-            client.etat = 'attente_commande'
-            client.devis_id = rec
+        client = self.env['groupe_cayla.client'].search([('id', '=', values['client_id'])], limit=1)
+        client.etat = 'attente_commande'
+        client.devis_id = rec
         return rec
+
+    @api.multi
+    def write(self, vals):
+        client = self.client_id
+        if vals['date_acceptation']:
+            client.etat = 'chantier_a_planifier'
+        elif vals['date_refus']:
+            client.etat = 'annule_par_client'
+        super().write(vals)
+        return True
+
+    @api.onchange('date_refus')
+    def onchange_date_refus(self):
+        if self.date_refus:
+            self.date_acceptation = None
+
+    @api.onchange('date_acceptation')
+    def onchange_date_acceptation(self):
+        if self.date_acceptation:
+            self.date_refus = None

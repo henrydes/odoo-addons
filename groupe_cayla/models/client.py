@@ -17,7 +17,13 @@ class Client(models.Model):
         ('annule_client', 'Annulé par le client'),
         ('vt_a_planifier', 'VT à planifier'),
         ('vt_a_saisir', 'VT à mettre à jour'),
-        ('attente_commande', 'Devis en attente de commande')], default='nouveau'
+        ('annule_par_vt', 'Annulé par VT'),
+        ('vt_incomplete', 'VT incomplète'),
+        ('devis_a_editer', 'Devis à éditer'),
+        ('attente_commande', 'Devis en attente de commande'),
+        ('chantier_a_planifier', 'Chantier à planifier'),
+        ('annule_par_client', 'Annulé par client')
+    ], default='nouveau'
     )
 
     # 1 Source apporteur
@@ -85,6 +91,76 @@ class Client(models.Model):
             else:
                 record.technicien_planif_vt = record.planif_vt_id.technicien_id
 
+    # 4 Saisie VT
+    vt_id = fields.Many2one(
+        'groupe_cayla.vt',
+        delegate=False,
+        required=False
+    )
+    date_de_realisation_vt = fields.Date(compute='_compute_date_de_realisation_vt',
+                                         string="Date de réalisation", store=False)
+    vt_validee_vt = fields.Boolean(compute='_compute_vt_validee_vt',
+                                   string="VT validée", store=False)
+    documents_complets_vt = fields.Boolean(compute='_compute_documents_complets_vt',
+                                           string="Documents complets", store=False)
+
+    utilisateur_vt = fields.Many2one('res.users', compute='_compute_utilisateur_vt',
+                                     string="Utilisateur", store=False)
+    technicien_vt = fields.Many2one('res.users', compute='_compute_technicien_vt',
+                                    string="Technicien", store=False)
+
+    @api.onchange('vt_validee_vt', 'documents_complets_vt')
+    def on_change_vt_state(self):
+        for record in self:
+            if record.vt_id:
+                if record.vt_validee_vt is False:
+                    record.etat = 'annule_par_vt'
+                elif record.documents_complets_vt is False:
+                    record.etat = 'vt_incomplete'
+                else:
+                    record.etat = 'devis_a_editer'
+
+    @api.depends('vt_id')
+    def _compute_utilisateur_vt(self):
+        for record in self:
+            if record.vt_id is None:
+                record.utilisateur_vt = None
+            else:
+                record.utilisateur_vt = record.vt_id.utilisateur_id
+
+    @api.depends('vt_id')
+    def _compute_vt_validee_vt(self):
+        for record in self:
+            if record.vt_id is None:
+                record.vt_validee_vt = None
+            else:
+                record.vt_validee_vt = record.vt_id.vt_validee
+
+    @api.depends('vt_id')
+    def _compute_documents_complets_vt(self):
+        for record in self:
+            if record.vt_id is None:
+                record.documents_complets_vt = None
+            else:
+                record.documents_complets_vt = record.vt_id.documents_complets
+
+
+    @api.depends('vt_id')
+    def _compute_technicien_vt(self):
+        for record in self:
+            if record.vt_id is None:
+                record.technicien_vt = None
+            else:
+                record.technicien_vt = record.vt_id.technicien_id
+
+    @api.depends('vt_id')
+    def _compute_date_de_realisation_vt(self):
+        for record in self:
+            if record.vt_id is None:
+                record.date_de_realisation_vt = None
+            else:
+                record.date_de_realisation_vt = record.vt_id.date_de_realisation
+
     # 5 Edition devis
     devis_id = fields.Many2one(
         'groupe_cayla.devis',
@@ -105,6 +181,25 @@ class Client(models.Model):
                                string="N° Devis", store=False)
     montant_devis = fields.Char(compute='_compute_montant_devis',
                                 string="Montant", store=False)
+
+    @api.onchange('date_acceptation_devis')
+    def on_change_date_acceptation_devis(self):
+        for record in self:
+            if record.date_acceptation_devis:
+                record.etat = 'chantier_a_planifier'
+
+    @api.onchange('date_refus_devis')
+    def on_change_date_refus_devis(self):
+        for record in self:
+            if record.date_refus_devis:
+                record.etat = 'annule_par_client'
+
+
+    @api.onchange('devis_id')
+    def on_change_devis_id(self):
+        for record in self:
+            if record.devis_id:
+                record.etat = 'attente_commande'
 
     @api.depends('devis_id')
     def _compute_numero_devis(self):

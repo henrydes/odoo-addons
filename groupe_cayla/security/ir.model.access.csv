@@ -4,3 +4,4 @@ access_client_resp_admin,Accès Client pour Responsable Administratif,model_grou
 access_client_secretaire,Accès Client pour Secrétaire,model_groupe_cayla_client,groupe_cayla_group_secretaire,1,0,0,0
 access_devis_resp_admin,Accès Devis pour Responsable Administratif,model_groupe_cayla_devis,groupe_cayla_group_resp_admin,1,1,1,1
 access_planif_vt_resp_admin,Accès Planif VT pour Responsable Administratif,model_groupe_cayla_planif_vt,groupe_cayla_group_resp_admin,1,1,1,1
+access_vt_resp_admin,Accès VT pour Responsable Administratif,model_groupe_cayla_vt,groupe_cayla_group_resp_admin,1,1,1,1

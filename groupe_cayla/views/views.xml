@@ -6,6 +6,7 @@
             <field name="model">groupe_cayla.client</field>
             <field name="arch" type="xml">
                 <tree>
+                    <field name="etat"/>
                     <field name="name"/>
                 </tree>
             </field>
@@ -17,6 +18,7 @@
             <field name="model">groupe_cayla.devis</field>
             <field name="arch" type="xml">
                 <tree>
+                    <field name="client_id" widget="many2one"/>
                     <field name="numero"/>
                     <field name="date_edition"/>
                     <field name="montant"/>
@@ -81,7 +83,7 @@
                                 <sheet>
                                     <group col="2">
                                         <group string="3 - Planif VT" attrs="{'invisible':[('active_id', '=', False)]}">
-                                           <field name="planif_vt_id"
+                                            <field name="planif_vt_id"
                                                    domain="[('client_id', '=', active_id)]"
                                                    context="{'default_client_id': active_id, 'default_utilisateur_id': uid}"/>
 
@@ -99,7 +101,17 @@
                             </page>
                             <page string="Service technique">
                                 <sheet>
-                                    <group col="3">
+                                    <group string="4 - Visite technique"
+                                           attrs="{'invisible':[('active_id', '=', False)]}">
+                                        <field name="vt_id"
+                                               domain="[('client_id', '=', active_id)]"
+                                               context="{'default_client_id': active_id, 'default_utilisateur_id': uid}"/>
+                                        <field name="utilisateur_vt"/>
+                                        <field name="technicien_vt"/>
+                                        <field name="vt_validee_vt"/>
+                                        <field name="documents_complets_vt"/>
+
+
                                     </group>
                                 </sheet>
                             </page>
@@ -181,10 +193,41 @@
             </field>
         </record>
 
+        <record id="view_form_vt" model="ir.ui.view">
+            <field name="name">VT form view</field>
+            <field name="model">groupe_cayla.vt</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="client_id"/>
+                            <field name="date_de_realisation"/>
+                            <field name="vt_validee"/>
+                            <field name="documents_complets"/>
+                            <field name="adresse"/>
+                            <field name="utilisateur_id"/>
+                            <field name="technicien_id"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
         <!-- actions opening views on models -->
         <record model="ir.actions.act_window" id="groupe_cayla.action_clients">
             <field name="name">Clients</field>
             <field name="res_model">groupe_cayla.client</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+         <record model="ir.actions.act_window" id="groupe_cayla.action_devis">
+            <field name="name">Devis</field>
+            <field name="res_model">groupe_cayla.devis</field>
             <field name="view_mode">tree,form</field>
         </record>
 
@@ -195,6 +238,8 @@
         <!-- menu categories -->
         <menuitem name="Clients" id="groupe_cayla.clients" parent="groupe_cayla.menu_root"
                   action="groupe_cayla.action_clients"/>
+        <menuitem name="Devis" id="groupe_cayla.devis" parent="groupe_cayla.menu_root"
+                  action="groupe_cayla.action_devis"/>
 
 
     </data>
