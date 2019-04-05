@@ -31,6 +31,10 @@ class Devis(models.Model):
     date_refus = fields.Date()
     montant = fields.Float()
 
+    entite_edition_id = fields.Many2one(
+        'groupe_cayla.entite_edition_devis', required=True
+    )
+
     motif_refus = fields.Text()
 
     _rec_name = 'combination'

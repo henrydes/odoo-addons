@@ -1,7 +1,7 @@
 <odoo>
     <data>
 
-          <!-- actions opening views on models -->
+        <!-- actions opening views on models -->
         <act_window
                 id="action_cayla_clients"
                 name="Clients"
@@ -12,6 +12,11 @@
                 name="Devis"
                 res_model="groupe_cayla.devis"
                 view_mode="tree,form"/>
+        <act_window
+                id="action_cayla_entite_edition_devis"
+                name="Entite édition devis"
+                res_model="groupe_cayla.entite_edition_devis"
+                view_mode="tree,form"/>
 
 
         <!-- Top menu item -->
@@ -21,10 +26,11 @@
         <!-- menu categories -->
         <menuitem name="Clients" id="groupe_cayla.clients" parent="groupe_cayla.menu_root"
                   action="action_cayla_clients"/>
-        <menuitem name="Devis" id="groupe_cayla.devis" parent="groupe_cayla.menu_root"
+        <menuitem name="Devis" id="groupe_cayla.devis" parent="groupe_cayla.menu_root"/>
+        <menuitem name="Devis" id="groupe_cayla.liste_devis" parent="groupe_cayla.devis"
                   action="action_cayla_devis"/>
-
-
+        <menuitem name="Entité édition" id="groupe_cayla.entite_edition_devis" parent="groupe_cayla.devis"
+                  action="action_cayla_entite_edition_devis"/>
 
 
     </data>

@@ -276,7 +276,7 @@ class Client(models.Model):
                                            string=" ", store=False)
     entreprise_planif_chantier = fields.Char(compute='_compute_entreprise_planif_chantier',
                                              string="Entreprise", store=False)
-    entite_devis_planif_chantier = fields.Char(compute='_compute_entite_devis_planif_chantier',
+    entite_edition_devis_id_planif_chantier = fields.Many2one('groupe_cayla.entite_edition_devis', compute='_compute_entite_edition_devis_id_planif_chantier',
                                              string="Entité devis", store=False)
 
     @api.onchange('planif_chantier_id')
@@ -336,10 +336,10 @@ class Client(models.Model):
                 record.entreprise_planif_chantier = record.planif_chantier_id.entreprise
 
     @api.depends('planif_chantier_id')
-    def _compute_entite_devis_planif_chantier(self):
+    def _compute_entite_edition_devis_id_planif_chantier(self):
         for record in self:
             if record.planif_chantier_id is None:
-                record.entite_devis_planif_chantier = None
+                record.entite_edition_devis_id_planif_chantier = None
             else:
-                record.entite_devis_planif_chantier = record.planif_chantier_id.entite_devis
+                record.entite_edition_devis_id_planif_chantier = record.planif_chantier_id.entite_devis_id
 

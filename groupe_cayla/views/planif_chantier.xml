@@ -2,7 +2,7 @@
     <data>
 
 
-        <record id="view_form_planif_vt" model="ir.ui.view">
+        <record id="view_form_planif_chantier" model="ir.ui.view">
             <field name="name">Formulaire planif chantier</field>
             <field name="model">groupe_cayla.planif_chantier</field>
             <field name="arch" type="xml">
@@ -16,7 +16,7 @@
                             <field name="equipier_1_id"/>
                             <field name="equipier_2_id"/>
                             <field name="entreprise"/>
-                            <field name="entite_devis"/>
+                            <field name="entite_devis_id"/>
                         </group>
                     </sheet>
                     <div class="oe_chatter">
