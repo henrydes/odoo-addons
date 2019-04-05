@@ -61,7 +61,8 @@
                                             <field name="installateur"/>
                                             <field name="contrat"/>
                                         </group>
-                                        <group string="5.1 - Edition devis" attrs="{'invisible':[('active_id', '=', False)]}">
+                                        <group string="5.1 - Edition devis"
+                                               attrs="{'invisible':[('active_id', '=', False)]}">
 
                                             <field name="devis_id"
                                                    domain="[('client_id', '=', active_id)]"
@@ -76,6 +77,45 @@
                                     </group>
                                 </sheet>
                             </page>
+                            <page string="Service planning">
+                                <sheet>
+                                    <group col="2">
+                                        <group string="3 - Planif VT" attrs="{'invisible':[('active_id', '=', False)]}">
+                                           <field name="planif_vt_id"
+                                                   domain="[('client_id', '=', active_id)]"
+                                                   context="{'default_client_id': active_id, 'default_utilisateur_id': uid}"/>
+
+                                            <field name="date_time_planif_planif_vt"/>
+                                            <field name="utilisateur_planif_vt"/>
+                                            <field name="technicien_planif_vt"/>
+
+
+                                        </group>
+                                        <group string="6.1 - Planif chantier">
+
+                                        </group>
+                                    </group>
+                                </sheet>
+                            </page>
+                            <page string="Service technique">
+                                <sheet>
+                                    <group col="3">
+                                    </group>
+                                </sheet>
+                            </page>
+                            <page string="Service energie">
+                                <sheet>
+                                    <group col="3">
+                                    </group>
+                                </sheet>
+                            </page>
+                            <page string="Comptabilité client">
+                                <sheet>
+                                    <group col="3">
+                                    </group>
+                                </sheet>
+                            </page>
+
                         </notebook>
                     </sheet>
 
@@ -94,7 +134,6 @@
         <record id="view_form_devis" model="ir.ui.view">
             <field name="name">Devis form view</field>
             <field name="model">groupe_cayla.devis</field>
-
             <field name="arch" type="xml">
                 <form>
                     <sheet>
@@ -107,22 +146,40 @@
                             <field name="date_envoi"/>
                             <field name="date_acceptation"/>
                             <field name="date_refus"/>
-
                             <field name="user_id"/>
                         </group>
                     </sheet>
-
                     <div class="oe_chatter">
                         <field name="message_follower_ids" widget="mail_followers"/>
                         <field name="activity_ids" widget="mail_activity"/>
                         <field name="message_ids" widget="mail_thread"/>
                     </div>
-
                 </form>
-
             </field>
         </record>
 
+        <record id="view_form_planif_vt" model="ir.ui.view">
+            <field name="name">Planif VT form view</field>
+            <field name="model">groupe_cayla.planif_vt</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="client_id"/>
+                            <field name="date_appel"/>
+                            <field name="date_time_planif"/>
+                            <field name="utilisateur_id"/>
+                            <field name="technicien_id"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
 
         <!-- actions opening views on models -->
         <record model="ir.actions.act_window" id="groupe_cayla.action_clients">

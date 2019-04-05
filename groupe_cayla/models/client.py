@@ -29,6 +29,55 @@ class Client(models.Model):
     installateur = fields.Char()
     contrat = fields.Char()
 
+    # 3 Planif VT
+    planif_vt_id = fields.Many2one(
+        'groupe_cayla.planif_vt',
+        delegate=False,
+        required=False
+    )
+    date_appel_planif_vt = fields.Date(compute='_compute_date_appel_planif_vt',
+                                     string="Date appel", store=False)
+    date_time_planif_planif_vt = fields.Datetime(compute='_compute_date_time_planif_planif_vt',
+                                   string="VT planifiée", store=False)
+    utilisateur_planif_vt = fields.Many2one('res.users', compute='_compute_utilisateur_planif_vt',
+                                        string="Utilisateur", store=False)
+    technicien_planif_vt = fields.Many2one('res.users', compute='_compute_technicien_planif_vt',
+                                            string="Technicien", store=False)
+
+    @api.depends('planif_vt_id')
+    def _compute_date_appel_planif_vt(self):
+        for record in self:
+            if record.planif_vt_id is None:
+                record.date_appel_planif_vt = None
+            else:
+                record.date_appel_planif_vt = record.planif_vt_id.date_appel
+
+    @api.depends('planif_vt_id')
+    def _compute_date_time_planif_planif_vt(self):
+        for record in self:
+            if record.planif_vt_id is None:
+                record.date_time_planif_planif_vt = None
+            else:
+                record.date_time_planif_planif_vt = record.planif_vt_id.date_time_planif
+
+
+    @api.depends('planif_vt_id')
+    def _compute_utilisateur_planif_vt(self):
+        for record in self:
+            if record.planif_vt_id is None:
+                record.utilisateur_planif_vt = None
+            else:
+                record.utilisateur_planif_vt = record.planif_vt_id.utilisateur_id
+
+
+    @api.depends('planif_vt_id')
+    def _compute_technicien_planif_vt(self):
+        for record in self:
+            if record.planif_vt_id is None:
+                record.technicien_planif_vt = None
+            else:
+                record.technicien_planif_vt = record.planif_vt_id.technicien_id
+
     # 5 Edition devis
     devis_id = fields.Many2one(
         'groupe_cayla.devis',
