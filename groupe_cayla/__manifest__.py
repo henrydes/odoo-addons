@@ -25,7 +25,11 @@
     'data': [
         'security/groupe_cayla_security.xml',
         'security/ir.model.access.csv',
-        'views/views.xml',
+        'views/menu.xml',
+        'views/client.xml',
+        'views/devis.xml',
+        'views/planif_vt.xml',
+        'views/vt.xml',
         'views/templates.xml',
     ],
     'application': True,

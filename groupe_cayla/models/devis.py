@@ -31,6 +31,8 @@ class Devis(models.Model):
     date_refus = fields.Date()
     montant = fields.Float()
 
+    motif_refus = fields.Text()
+
     _rec_name = 'combination'
     combination = fields.Char(string='Combination', compute='_compute_fields_combination')
 
@@ -50,9 +52,9 @@ class Devis(models.Model):
     @api.multi
     def write(self, vals):
         client = self.client_id
-        if vals['date_acceptation']:
+        if 'date_acceptation' in vals and vals['date_acceptation']:
             client.etat = 'chantier_a_planifier'
-        elif vals['date_refus']:
+        elif 'date_refus' in vals and vals['date_refus']:
             client.etat = 'annule_par_client'
         super().write(vals)
         return True

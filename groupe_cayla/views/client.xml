@@ -1,8 +1,8 @@
 <odoo>
     <data>
         <!-- explicit list view definition -->
-        <record model="ir.ui.view" id="groupe_cayla.list">
-            <field name="name">groupe_cayla clients</field>
+        <record model="ir.ui.view" id="view_tree_client">
+            <field name="name">Liste des clients</field>
             <field name="model">groupe_cayla.client</field>
             <field name="arch" type="xml">
                 <tree>
@@ -12,23 +12,9 @@
             </field>
         </record>
 
-        <!-- explicit list view definition -->
-        <record model="ir.ui.view" id="groupe_cayla.list">
-            <field name="name">groupe_cayla devis</field>
-            <field name="model">groupe_cayla.devis</field>
-            <field name="arch" type="xml">
-                <tree>
-                    <field name="client_id" widget="many2one"/>
-                    <field name="numero"/>
-                    <field name="date_edition"/>
-                    <field name="montant"/>
-                </tree>
-            </field>
-        </record>
-
 
         <record id="view_form_client" model="ir.ui.view">
-            <field name="name">Cient form view</field>
+            <field name="name">Formulaire client</field>
             <field name="model">groupe_cayla.client</field>
             <field name="arch" type="xml">
                 <form>
@@ -141,105 +127,6 @@
 
             </field>
         </record>
-
-
-        <record id="view_form_devis" model="ir.ui.view">
-            <field name="name">Devis form view</field>
-            <field name="model">groupe_cayla.devis</field>
-            <field name="arch" type="xml">
-                <form>
-                    <sheet>
-                        <group>
-
-                            <field name="client_id"/>
-                            <field name="numero"/>
-                            <field name="montant"/>
-                            <field name="date_edition"/>
-                            <field name="date_envoi"/>
-                            <field name="date_acceptation"/>
-                            <field name="date_refus"/>
-                            <field name="user_id"/>
-                        </group>
-                    </sheet>
-                    <div class="oe_chatter">
-                        <field name="message_follower_ids" widget="mail_followers"/>
-                        <field name="activity_ids" widget="mail_activity"/>
-                        <field name="message_ids" widget="mail_thread"/>
-                    </div>
-                </form>
-            </field>
-        </record>
-
-        <record id="view_form_planif_vt" model="ir.ui.view">
-            <field name="name">Planif VT form view</field>
-            <field name="model">groupe_cayla.planif_vt</field>
-            <field name="arch" type="xml">
-                <form>
-                    <sheet>
-                        <group>
-                            <field name="client_id"/>
-                            <field name="date_appel"/>
-                            <field name="date_time_planif"/>
-                            <field name="utilisateur_id"/>
-                            <field name="technicien_id"/>
-                        </group>
-                    </sheet>
-                    <div class="oe_chatter">
-                        <field name="message_follower_ids" widget="mail_followers"/>
-                        <field name="activity_ids" widget="mail_activity"/>
-                        <field name="message_ids" widget="mail_thread"/>
-                    </div>
-                </form>
-            </field>
-        </record>
-
-        <record id="view_form_vt" model="ir.ui.view">
-            <field name="name">VT form view</field>
-            <field name="model">groupe_cayla.vt</field>
-            <field name="arch" type="xml">
-                <form>
-                    <sheet>
-                        <group>
-                            <field name="client_id"/>
-                            <field name="date_de_realisation"/>
-                            <field name="vt_validee"/>
-                            <field name="documents_complets"/>
-                            <field name="adresse"/>
-                            <field name="utilisateur_id"/>
-                            <field name="technicien_id"/>
-                        </group>
-                    </sheet>
-                    <div class="oe_chatter">
-                        <field name="message_follower_ids" widget="mail_followers"/>
-                        <field name="activity_ids" widget="mail_activity"/>
-                        <field name="message_ids" widget="mail_thread"/>
-                    </div>
-                </form>
-            </field>
-        </record>
-
-        <!-- actions opening views on models -->
-        <record model="ir.actions.act_window" id="groupe_cayla.action_clients">
-            <field name="name">Clients</field>
-            <field name="res_model">groupe_cayla.client</field>
-            <field name="view_mode">tree,form</field>
-        </record>
-
-         <record model="ir.actions.act_window" id="groupe_cayla.action_devis">
-            <field name="name">Devis</field>
-            <field name="res_model">groupe_cayla.devis</field>
-            <field name="view_mode">tree,form</field>
-        </record>
-
-
-        <!-- Top menu item -->
-        <menuitem name="Groupe Cayla" groups="base.group_user" id="groupe_cayla.menu_root"
-                  web_icon="groupe_cayla,static/description/icon.png" sequence="6"/>
-        <!-- menu categories -->
-        <menuitem name="Clients" id="groupe_cayla.clients" parent="groupe_cayla.menu_root"
-                  action="groupe_cayla.action_clients"/>
-        <menuitem name="Devis" id="groupe_cayla.devis" parent="groupe_cayla.menu_root"
-                  action="groupe_cayla.action_devis"/>
 
 
     </data>
