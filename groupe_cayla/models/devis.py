@@ -42,9 +42,8 @@ class Devis(models.Model):
     @api.model
     def create(self, values):
         rec = super(Devis, self).create(values)
-        if values['numero'] == '1':
+        if values['numero'] is not None:
             client = self.env['groupe_cayla.client'].search([('id', '=', values['client_id'])], limit=1)
-            client.etat = 'vt_a_planifier'
+            client.etat = 'attente_commande'
             client.devis_id = rec
-            _logger.info('Client is %s', client.name)
         return rec

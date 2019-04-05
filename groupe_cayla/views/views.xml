@@ -32,7 +32,7 @@
                 <form>
                     <sheet>
                         <group col="4" colspan="6">
-                            <field name="etat"/>
+                            <field name="etat" attrs="{'readonly': True}"/>
                             <field name="ref" position="attributes">
                                 <attribute name="string">Réf.</attribute>
                             </field>

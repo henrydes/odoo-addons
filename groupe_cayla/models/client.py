@@ -16,7 +16,8 @@ class Client(models.Model):
         ('nouveau', 'Nouveau prospect à contacter'),
         ('annule_client', 'Annulé par le client'),
         ('vt_a_planifier', 'VT à planifier'),
-        ('vt_a_saisir', 'VT à saisir')], default='nouveau'
+        ('vt_a_saisir', 'VT à mettre à jour'),
+        ('attente_commande', 'Devis en attente de commande')], default='nouveau'
     )
 
     # 1 Source apporteur
@@ -36,13 +37,21 @@ class Client(models.Model):
         required=False
     )
     date_appel_planif_vt = fields.Date(compute='_compute_date_appel_planif_vt',
-                                     string="Date appel", store=False)
+                                       string="Date appel", store=False)
     date_time_planif_planif_vt = fields.Datetime(compute='_compute_date_time_planif_planif_vt',
-                                   string="VT planifiée", store=False)
+                                                 string="VT planifiée", store=False)
     utilisateur_planif_vt = fields.Many2one('res.users', compute='_compute_utilisateur_planif_vt',
-                                        string="Utilisateur", store=False)
+                                            string="Utilisateur", store=False)
     technicien_planif_vt = fields.Many2one('res.users', compute='_compute_technicien_planif_vt',
-                                            string="Technicien", store=False)
+                                           string="Technicien", store=False)
+
+    @api.onchange('planif_vt_id')
+    def on_change_state(self):
+        for record in self:
+            if record.planif_vt_id:
+                record.etat = 'vt_a_saisir'
+            else:
+                record.etat = 'nouveau'
 
     @api.depends('planif_vt_id')
     def _compute_date_appel_planif_vt(self):
@@ -60,7 +69,6 @@ class Client(models.Model):
             else:
                 record.date_time_planif_planif_vt = record.planif_vt_id.date_time_planif
 
-
     @api.depends('planif_vt_id')
     def _compute_utilisateur_planif_vt(self):
         for record in self:
@@ -68,7 +76,6 @@ class Client(models.Model):
                 record.utilisateur_planif_vt = None
             else:
                 record.utilisateur_planif_vt = record.planif_vt_id.utilisateur_id
-
 
     @api.depends('planif_vt_id')
     def _compute_technicien_planif_vt(self):
