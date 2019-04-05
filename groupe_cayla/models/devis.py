@@ -66,7 +66,30 @@ class Devis(models.Model):
 
     @api.onchange('autre_1')
     def onchange_autre_1(self):
-        self.prix_unitaire_1 = self.autre_1.prix_unitaire
+        if self.autre_1:
+            self.prix_unitaire_1 = self.autre_1.prix_unitaire
+            self.quantite_1 = 1
+        else:
+            self.prix_unitaire_1 = 0
+            self.quantite_1 = 0
+
+    @api.onchange('autre_2')
+    def onchange_autre_2(self):
+        if self.autre_2:
+            self.prix_unitaire_2 = self.autre_2.prix_unitaire
+            self.quantite_2 = 1
+        else:
+            self.prix_unitaire_2 = 0
+            self.quantite_2 = 0
+
+    @api.onchange('autre_3')
+    def onchange_autre_3(self):
+        if self.autre_3:
+            self.prix_unitaire_3 = self.autre_3.prix_unitaire
+            self.quantite_3 = 1
+        else:
+            self.prix_unitaire_3 = 0
+            self.quantite_3 = 0
 
     @api.onchange('prix_unitaire_1', 'quantite_1')
     def onchange_prix_unitaire_1(self):
