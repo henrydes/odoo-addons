@@ -31,6 +31,7 @@
         'views/planif_vt.xml',
         'views/vt.xml',
         'views/planif_chantier.xml',
+        'views/chantier.xml',
         'views/entite_edition_devis.xml',
         'views/templates.xml',
     ],

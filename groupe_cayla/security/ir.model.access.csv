@@ -7,3 +7,4 @@ access_planif_vt_resp_admin,Accès Planif VT pour Responsable Administratif,mode
 access_vt_resp_admin,Accès VT pour Responsable Administratif,model_groupe_cayla_vt,groupe_cayla_group_resp_admin,1,1,1,1
 access_planif_chantier_resp_admin,Accès Planif Chantier pour Responsable Administratif,model_groupe_cayla_planif_chantier,groupe_cayla_group_resp_admin,1,1,1,1
 access_entite_edition_devis_resp_admin,Accès Entite Edition Devis pour Responsable Administratif,model_groupe_cayla_entite_edition_devis,groupe_cayla_group_resp_admin,1,1,1,1
+access_chantier_resp_admin,Accès Chantier pour Responsable Administratif,model_groupe_cayla_chantier,groupe_cayla_group_resp_admin,1,1,1,1

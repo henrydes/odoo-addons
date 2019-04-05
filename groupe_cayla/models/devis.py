@@ -56,11 +56,12 @@ class Devis(models.Model):
     @api.multi
     def write(self, vals):
         client = self.client_id
-        if 'date_acceptation' in vals and vals['date_acceptation']:
-            client.etat = 'chantier_a_planifier'
-        elif 'date_refus' in vals and vals['date_refus']:
-            client.etat = 'annule_par_client'
         super().write(vals)
+        devis = self.env['groupe_cayla.devis'].search([('id', '=', self.id)], limit=1)
+        if devis.date_acceptation:
+            client.etat = 'chantier_a_planifier'
+        elif devis.date_refus:
+            client.etat = 'annule_par_client'
         return True
 
     @api.onchange('date_refus')

@@ -7,7 +7,7 @@
             <field name="arch" type="xml">
                 <tree>
                     <field name="numero"/>
-                    <field name="client_id"/>
+                    <field name="client_id" attrs="{'invisible': True}"/>
                     <field name="date_edition"/>
                     <field name="montant"/>
                 </tree>

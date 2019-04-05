@@ -99,17 +99,38 @@
                             </page>
                             <page string="Service technique">
                                 <sheet>
-                                    <group string="4 - Visite technique"
-                                           attrs="{'invisible':[('active_id', '=', False)]}">
-                                        <field name="vt_id"
-                                               domain="[('client_id', '=', active_id)]"
-                                               context="{'default_client_id': active_id, 'default_utilisateur_id': uid}"/>
-                                        <field name="utilisateur_vt"/>
-                                        <field name="technicien_vt"/>
-                                        <field name="vt_validee_vt"/>
-                                        <field name="documents_complets_vt"/>
+                                    <group col="2">
+                                        <group string="4 - Visite technique"
+                                               attrs="{'invisible':[('active_id', '=', False)]}">
+                                            <field name="vt_id"
+                                                   domain="[('client_id', '=', active_id)]"
+                                                   context="{'default_client_id': active_id, 'default_utilisateur_id': uid}"/>
+                                            <field name="utilisateur_vt"/>
+                                            <field name="technicien_vt"/>
+                                            <field name="vt_validee_vt"/>
+                                            <field name="documents_complets_vt"/>
 
 
+                                        </group>
+                                        <group string="7 - Chantier"
+                                               attrs="{'invisible':[('active_id', '=', False)]}">
+                                            <field name="chantier_id"
+                                                   domain="[('client_id', '=', active_id)]"
+                                                   context="{'default_client_id': active_id,
+                                                    'default_utilisateur_id': uid,
+                                                    'default_equipier_1_id': equipier_1_id_planif_chantier,
+                                                    'default_equipier_2_id': equipier_2_id_planif_chantier}"/>
+                                            <field name="date_de_realisation_chantier"/>
+                                            <field name="equipier_1_id_chantier"/>
+                                            <field name="equipier_2_id_chantier"/>
+                                            <field name="type_produit_chantier"/>
+                                            <field name="marque_chantier"/>
+                                            <field name="nb_sac_chantier"/>
+                                            <field name="temps_passe_chantier"/>
+                                            <field name="chantier_realise_chantier"/>
+
+
+                                        </group>
                                     </group>
                                 </sheet>
                             </page>

@@ -7,3 +7,4 @@ from . import planif_vt
 from . import vt
 from . import planif_chantier
 from . import entite_edition_devis
+from . import chantier

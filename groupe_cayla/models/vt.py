@@ -85,7 +85,7 @@ class VT(models.Model):
     @api.multi
     def write(self, values):
         client = self.client_id
-        super().write(values)
+        result = super().write(values)
         vt = self.env['groupe_cayla.vt'].search([('id', '=', self.id)], limit=1)
         if vt.vt_validee is False:
             client.etat = 'annule_par_vt'
@@ -93,5 +93,4 @@ class VT(models.Model):
             client.etat = 'vt_incomplete'
         elif vt.vt_validee and vt.documents_complets:
             client.etat = 'devis_a_editer'
-
-        return True
+        return result

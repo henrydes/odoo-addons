@@ -10,9 +10,9 @@
                     <sheet>
                         <group col="2">
                             <group>
-                                <field name="client_id"/>
-                                <field name="date_de_realisation"/>
+                                <field name="client_id" attrs="{'invisible': True}"/>
                                 <field name="vt_validee"/>
+                                <field name="date_de_realisation"/>
                                 <field name="documents_complets"/>
                                 <field name="utilisateur_id"/>
                                 <field name="technicien_id"/>

@@ -9,7 +9,7 @@
                 <form>
                     <sheet>
                         <group>
-                            <field name="client_id"/>
+                            <field name="client_id" attrs="{'invisible': True}"/>
                             <field name="date_appel"/>
                             <field name="date_time_planif"/>
                             <field name="utilisateur_id"/>
