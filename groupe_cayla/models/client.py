@@ -16,7 +16,7 @@ class Client(models.Model):
         ('nouveau', 'Nouveau prospect à contacter'),
         ('annule_client', 'Annulé par le client'),
         ('vt_a_planifier', 'VT à planifier'),
-        ('vt_a_saisir', 'VT à saisir')]
+        ('vt_a_saisir', 'VT à saisir')], default='nouveau'
     )
 
     # 1 Source apporteur

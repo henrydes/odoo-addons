@@ -61,7 +61,7 @@
                                             <field name="installateur"/>
                                             <field name="contrat"/>
                                         </group>
-                                        <group string="5.1 - Edition devis">
+                                        <group string="5.1 - Edition devis" attrs="{'invisible':[('active_id', '=', False)]}">
 
                                             <field name="devis_id"
                                                    domain="[('client_id', '=', active_id)]"
