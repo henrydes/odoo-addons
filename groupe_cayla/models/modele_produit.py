@@ -11,4 +11,7 @@ class ModeleProduit(models.Model):
     _rec_name = 'libelle'
 
     marque_produit_id = fields.Many2one('groupe_cayla.marque_produit')
-    libelle = fields.Char(required=True )
+    libelle = fields.Char(required=True)
+    acermi = fields.Char(required=False)
+    epaisseur = fields.Integer(required=False, string='Epaisseur (mm)')
+    resistance_thermique = fields.Char(required=False, string='Res.Ther.')

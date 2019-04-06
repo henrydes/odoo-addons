@@ -29,6 +29,7 @@
                             <field name="tarif_pro" attrs="{'invisible':[('tarif_tout_compris', '=', False)]}"/>
                             <field name="tarif_solidarite_energetique"
                                    attrs="{'invisible':[('tarif_tout_compris', '=', False)]}"/>
+                            <field name="detail"/>
                             <field name="produits_id" widget="one2many"  attrs="{'invisible':[('active_id', '=', False)]}"
                                    context="{'tarif_tout_compris': tarif_tout_compris,
                                    'default_tarif_particulier': tarif_particulier,

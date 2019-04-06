@@ -7,6 +7,9 @@
             <field name="arch" type="xml">
                 <tree>
                     <field name="libelle"/>
+                    <field name="acermi"/>
+                    <field name="epaisseur"/>
+                    <field name="resistance_thermique"/>
                 </tree>
             </field>
         </record>
@@ -20,6 +23,9 @@
                     <sheet>
                         <group>
                             <field name="libelle"/>
+                            <field name="acermi"/>
+                            <field name="epaisseur"/>
+                            <field name="resistance_thermique"/>
                         </group>
                     </sheet>
                     <div class="oe_chatter">

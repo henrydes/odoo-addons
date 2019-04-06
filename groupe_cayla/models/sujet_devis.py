@@ -19,6 +19,7 @@ class SujetDevis(models.Model):
     tarif_pro = fields.Float()
     tarif_solidarite_energetique = fields.Float()
 
+    detail = fields.Char()
 
     @api.model
     def create(self, values):
