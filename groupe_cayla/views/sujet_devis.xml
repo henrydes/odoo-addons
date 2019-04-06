@@ -7,10 +7,10 @@
             <field name="arch" type="xml">
                 <tree>
                     <field name="libelle"/>
-                    <field name="type_tarif"/>
-                    <field name="tarif_particulier" attrs="{'invisible':[('type_tarif', '=', 'detail')]}"/>
-                    <field name="tarif_pro" attrs="{'invisible':[('type_tarif', '=', 'detail')]}"/>
-                    <field name="tarif_solidarite_energetique" attrs="{'invisible':[('type_tarif', '=', 'detail')]}"/>
+                    <field name="tarif_tout_compris" attrs="{'invisible':True}"/>
+                    <field name="tarif_particulier" attrs="{'invisible':[('tarif_tout_compris', '=', False)]}"/>
+                    <field name="tarif_pro" attrs="{'invisible':[('tarif_tout_compris', '=', False)]}"/>
+                    <field name="tarif_solidarite_energetique" attrs="{'invisible':[('tarif_tout_compris', '=', False)]}"/>
                 </tree>
             </field>
         </record>
@@ -24,10 +24,16 @@
                     <sheet>
                         <group col="2">
                             <field name="libelle"/>
-                            <field name="type_tarif"/>
-                            <field name="tarif_particulier" attrs="{'invisible':[('type_tarif', '=', 'detail')]}"/>
-                            <field name="tarif_pro" attrs="{'invisible':[('type_tarif', '=', 'detail')]}"/>
-                            <field name="tarif_solidarite_energetique" attrs="{'invisible':[('type_tarif', '=', 'detail')]}"/>
+                            <field name="tarif_tout_compris"/>
+                            <field name="tarif_particulier" attrs="{'invisible':[('tarif_tout_compris', '=', False)]}"/>
+                            <field name="tarif_pro" attrs="{'invisible':[('tarif_tout_compris', '=', False)]}"/>
+                            <field name="tarif_solidarite_energetique"
+                                   attrs="{'invisible':[('tarif_tout_compris', '=', False)]}"/>
+                            <field name="produits_id" widget="one2many"  attrs="{'invisible':[('active_id', '=', False)]}"
+                                   context="{'tarif_tout_compris': tarif_tout_compris,
+                                   'default_tarif_particulier': tarif_particulier,
+                                   'default_tarif_pro': tarif_pro,
+                                   'default_tarif_solidarite_energetique': tarif_solidarite_energetique}"/>
                         </group>
                     </sheet>
                     <div class="oe_chatter">

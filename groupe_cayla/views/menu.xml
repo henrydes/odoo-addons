@@ -39,11 +39,6 @@
                 name="Sujets devis"
                 res_model="groupe_cayla.sujet_devis"
                 view_mode="tree,form"/>
-        <act_window
-                id="action_cayla_marque_produit"
-                name="Marques produit"
-                res_model="groupe_cayla.marque_produit"
-                view_mode="tree,form"/>
 
 
         <!-- Top menu item -->
@@ -66,9 +61,6 @@
                   action="action_cayla_taux_tva"/>
         <menuitem name="Sujets devis" id="groupe_cayla.sujet_devis" parent="groupe_cayla.administration"
                   action="action_cayla_sujet_devis"/>
-        <menuitem name="Marque produits" id="groupe_cayla.marque_produit" parent="groupe_cayla.administration"
-                  action="action_cayla_marque_produit"/>
-
 
     </data>
 </odoo>

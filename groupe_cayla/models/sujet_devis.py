@@ -11,11 +11,34 @@ class SujetDevis(models.Model):
     _rec_name = 'libelle'
 
     libelle = fields.Char(required=True)
-    type_tarif = fields.Selection([
-        ('tout_compris', 'Tout compris'),
-        ('detail', 'Par produit')
-    ], default='tout_compris', required=True)
+    tarif_tout_compris = fields.Boolean(default=True)
+
+    produits_id = fields.One2many('groupe_cayla.produit', 'sujet_devis_id', string='Produits')
 
     tarif_particulier = fields.Float()
     tarif_pro = fields.Float()
     tarif_solidarite_energetique = fields.Float()
+
+
+    @api.model
+    def create(self, values):
+        rec = super(SujetDevis, self).create(values)
+        if self.tarif_tout_compris:
+            produits = self.env['groupe_cayla.produit'].search([('sujet_devis_id', '=', self.id)])
+            for p in produits:
+                p.tarif_particulier = self.tarif_particulier
+                p.tarif_pro = self.tarif_pro
+                p.tarif_eco = self.tarif_eco
+        return rec
+
+    @api.multi
+    def write(self, vals):
+        super().write(vals)
+        sujet_devis = self.env['groupe_cayla.sujet_devis'].search([('id', '=', self.id)], limit=1)
+        if sujet_devis.tarif_tout_compris:
+            produits = self.env['groupe_cayla.produit'].search([('sujet_devis_id', '=', self.id)])
+            for p in produits:
+                p.tarif_particulier = self.tarif_particulier
+                p.tarif_pro = self.tarif_pro
+                p.tarif_solidarite_energetique = self.tarif_solidarite_energetique
+        return True

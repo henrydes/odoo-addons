@@ -1,0 +1,43 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="view_tree_produit">
+            <field name="name">Liste des produits</field>
+            <field name="model">groupe_cayla.produit</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="libelle"/>
+                    <field name="tarif_particulier"/>
+                    <field name="tarif_pro"/>
+                    <field name="tarif_solidarite_energetique"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_form_produit" model="ir.ui.view">
+            <field name="name">Formulaire produit</field>
+            <field name="model">groupe_cayla.produit</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="libelle"/>
+                            <field name="tarif_particulier" invisible="context.get('tarif_tout_compris',False)"/>
+                            <field name="tarif_pro" invisible="context.get('tarif_tout_compris',False)"/>
+                            <field name="tarif_solidarite_energetique"
+                                   invisible="context.get('tarif_tout_compris',False)"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

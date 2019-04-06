@@ -40,6 +40,7 @@
         'views/taux_tva.xml',
         'views/sujet_devis.xml',
         'views/marque_produit.xml',
+        'views/produit.xml',
     ],
     'application': True,
 }
