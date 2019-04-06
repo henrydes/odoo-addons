@@ -11,6 +11,6 @@ class MarqueProduit(models.Model):
     _rec_name = 'libelle'
 
     produit_id = fields.Many2one('groupe_cayla.produit')
+    modeles_produit_id = fields.One2many('groupe_cayla.modele_produit', 'marque_produit_id')
 
-
-    libelle = fields.Char(required=True )
+    libelle = fields.Char(required=True)

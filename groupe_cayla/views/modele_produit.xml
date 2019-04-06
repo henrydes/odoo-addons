@@ -1,27 +1,25 @@
 <odoo>
     <data>
 
-        <record model="ir.ui.view" id="view_tree_marque_produit">
-            <field name="name">Liste des marques</field>
-            <field name="model">groupe_cayla.marque_produit</field>
+        <record model="ir.ui.view" id="view_tree_modele_produit">
+            <field name="name">Liste des modeles</field>
+            <field name="model">groupe_cayla.modele_produit</field>
             <field name="arch" type="xml">
                 <tree>
                     <field name="libelle"/>
-                    <field name="modeles_produit_id"  widget="many2many_tags"/>
                 </tree>
             </field>
         </record>
 
 
-        <record id="view_form_marque_produit" model="ir.ui.view">
-            <field name="name">Formulaire marque produit</field>
-            <field name="model">groupe_cayla.marque_produit</field>
+        <record id="view_form_modele_produit" model="ir.ui.view">
+            <field name="name">Formulaire modèle produit</field>
+            <field name="model">groupe_cayla.modele_produit</field>
             <field name="arch" type="xml">
                 <form>
                     <sheet>
                         <group>
                             <field name="libelle"/>
-                             <field name="modeles_produit_id" widget="one2many"/>
                         </group>
                     </sheet>
                     <div class="oe_chatter">

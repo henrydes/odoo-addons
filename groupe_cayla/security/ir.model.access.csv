@@ -15,3 +15,4 @@ access_ligne_supplement_devis_resp_admin,Accès Ligne Supplement Devis pour Resp
 access_sujet_devis_resp_admin,Accès Sujet Devis pour Responsable Administratif,model_groupe_cayla_sujet_devis,groupe_cayla_group_resp_admin,1,1,1,1
 access_marque_produit_resp_admin,Accès MArque Produit pour Responsable Administratif,model_groupe_cayla_marque_produit,groupe_cayla_group_resp_admin,1,1,1,1
 access_produit_resp_admin,Accès Produit pour Responsable Administratif,model_groupe_cayla_produit,groupe_cayla_group_resp_admin,1,1,1,1
+access_modele_produit_resp_admin,Accès Modèle Produit pour Responsable Administratif,model_groupe_cayla_modele_produit,groupe_cayla_group_resp_admin,1,1,1,1
