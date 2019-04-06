@@ -10,6 +10,7 @@
                     <field name="tarif_particulier"/>
                     <field name="tarif_pro"/>
                     <field name="tarif_solidarite_energetique"/>
+                    <field name="marques_produit_id"  widget="many2many_tags"/>
                 </tree>
             </field>
         </record>
@@ -27,6 +28,7 @@
                             <field name="tarif_pro" invisible="context.get('tarif_tout_compris',False)"/>
                             <field name="tarif_solidarite_energetique"
                                    invisible="context.get('tarif_tout_compris',False)"/>
+                            <field name="marques_produit_id" widget="one2many"/>
                         </group>
                     </sheet>
                     <div class="oe_chatter">

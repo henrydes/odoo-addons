@@ -12,6 +12,8 @@ class Produit(models.Model):
 
     sujet_devis_id = fields.Many2one('groupe_cayla.sujet_devis')
 
+    marques_produit_id = fields.One2many('groupe_cayla.marque_produit', 'produit_id')
+
     tarif_particulier = fields.Float()
     tarif_pro = fields.Float()
     tarif_solidarite_energetique = fields.Float()
