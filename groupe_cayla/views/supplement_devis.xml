@@ -1,9 +1,9 @@
 <odoo>
     <data>
 
-        <record model="ir.ui.view" id="view_tree_travaux_devis">
-            <field name="name">Liste des travaux devis</field>
-            <field name="model">groupe_cayla.travaux_devis</field>
+        <record model="ir.ui.view" id="view_tree_supplement_devis">
+            <field name="name">Liste des supplement devis</field>
+            <field name="model">groupe_cayla.supplement_devis</field>
             <field name="arch" type="xml">
                 <tree>
                     <field name="libelle"/>
@@ -13,9 +13,9 @@
         </record>
 
 
-        <record id="view_form_travaux_devis" model="ir.ui.view">
-            <field name="name">Formulaire travaux devis</field>
-            <field name="model">groupe_cayla.travaux_devis</field>
+        <record id="view_form_supplement_devis" model="ir.ui.view">
+            <field name="name">Formulaire supplement devis</field>
+            <field name="model">groupe_cayla.supplement_devis</field>
             <field name="arch" type="xml">
                 <form>
                     <sheet>

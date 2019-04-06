@@ -18,9 +18,9 @@
                 res_model="groupe_cayla.entite_edition_devis"
                 view_mode="tree,form"/>
         <act_window
-                id="action_cayla_travaux_devis"
-                name="Type de travaux"
-                res_model="groupe_cayla.travaux_devis"
+                id="action_cayla_supplement_devis"
+                name="Type de supplement"
+                res_model="groupe_cayla.supplement_devis"
                 view_mode="tree,form"/>
         <act_window
                 id="action_cayla_objet_devis"
@@ -46,8 +46,8 @@
         <menuitem name="Administration" id="groupe_cayla.administration" parent="groupe_cayla.menu_root"/>
         <menuitem name="Entité édition devis" id="groupe_cayla.entite_edition_devis" parent="groupe_cayla.administration"
                   action="action_cayla_entite_edition_devis"/>
-        <menuitem name="Type de travaux" id="groupe_cayla.travaux_devis" parent="groupe_cayla.administration"
-                  action="action_cayla_travaux_devis"/>
+        <menuitem name="Type de supplement" id="groupe_cayla.supplement_devis" parent="groupe_cayla.administration"
+                  action="action_cayla_supplement_devis"/>
         <menuitem name="Objets de devis" id="groupe_cayla.objet_devis" parent="groupe_cayla.administration"
                   action="action_cayla_objet_devis"/>
         <menuitem name="Taux TVA" id="groupe_cayla.taux_tva" parent="groupe_cayla.administration"

@@ -5,9 +5,9 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
-class TravauxDevis(models.Model):
-    _name = 'groupe_cayla.travaux_devis'
-    _description = 'Un type de travaux devis'
+class SupplementDevis(models.Model):
+    _name = 'groupe_cayla.supplement_devis'
+    _description = 'Un type de supplement devis'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'libelle'
 
