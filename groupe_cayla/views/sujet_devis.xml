@@ -1,0 +1,44 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="view_tree_sujet_devis">
+            <field name="name">Liste des sujet devis</field>
+            <field name="model">groupe_cayla.sujet_devis</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="libelle"/>
+                    <field name="type_tarif"/>
+                    <field name="tarif_particulier" attrs="{'invisible':[('type_tarif', '=', 'detail')]}"/>
+                    <field name="tarif_pro" attrs="{'invisible':[('type_tarif', '=', 'detail')]}"/>
+                    <field name="tarif_solidarite_energetique" attrs="{'invisible':[('type_tarif', '=', 'detail')]}"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_form_sujet_devis" model="ir.ui.view">
+            <field name="name">Formulaire sujet devis</field>
+            <field name="model">groupe_cayla.sujet_devis</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group col="2">
+                            <field name="libelle"/>
+                            <field name="type_tarif"/>
+                            <field name="tarif_particulier" attrs="{'invisible':[('type_tarif', '=', 'detail')]}"/>
+                            <field name="tarif_pro" attrs="{'invisible':[('type_tarif', '=', 'detail')]}"/>
+                            <field name="tarif_solidarite_energetique" attrs="{'invisible':[('type_tarif', '=', 'detail')]}"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>
