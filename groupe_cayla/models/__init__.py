@@ -12,3 +12,5 @@ from . import supplement_devis
 from . import objet_devis
 from . import taux_tva
 from . import ligne_supplement_devis
+from . import sujet_devis
+from . import marque_produit
