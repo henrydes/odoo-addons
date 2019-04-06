@@ -42,16 +42,15 @@
         <!-- menu categories -->
         <menuitem name="Clients" id="groupe_cayla.clients" parent="groupe_cayla.menu_root"
                   action="action_cayla_clients"/>
-        <menuitem name="Devis" id="groupe_cayla.devis" parent="groupe_cayla.menu_root"/>
-        <menuitem name="Devis" id="groupe_cayla.liste_devis" parent="groupe_cayla.devis"
-                  action="action_cayla_devis"/>
-        <menuitem name="Entité édition" id="groupe_cayla.entite_edition_devis" parent="groupe_cayla.devis"
+        <menuitem name="Devis" id="groupe_cayla.devis" parent="groupe_cayla.menu_root" action="action_cayla_devis"/>
+        <menuitem name="Administration" id="groupe_cayla.administration" parent="groupe_cayla.menu_root"/>
+        <menuitem name="Entité édition devis" id="groupe_cayla.entite_edition_devis" parent="groupe_cayla.administration"
                   action="action_cayla_entite_edition_devis"/>
-        <menuitem name="Type de travaux" id="groupe_cayla.travaux_devis" parent="groupe_cayla.devis"
+        <menuitem name="Type de travaux" id="groupe_cayla.travaux_devis" parent="groupe_cayla.administration"
                   action="action_cayla_travaux_devis"/>
-        <menuitem name="Objets de devis" id="groupe_cayla.objet_devis" parent="groupe_cayla.devis"
+        <menuitem name="Objets de devis" id="groupe_cayla.objet_devis" parent="groupe_cayla.administration"
                   action="action_cayla_objet_devis"/>
-        <menuitem name="Taux TVA" id="groupe_cayla.taux_tva" parent="groupe_cayla.devis"
+        <menuitem name="Taux TVA" id="groupe_cayla.taux_tva" parent="groupe_cayla.administration"
                   action="action_cayla_taux_tva"/>
 
 
