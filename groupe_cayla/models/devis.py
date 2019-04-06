@@ -61,6 +61,8 @@ class Devis(models.Model):
     tarif_2 = fields.Float(default=None)
     tarif_3 = fields.Float(default=None)
 
+    lignes_travaux_devis = fields.One2many('groupe_cayla.ligne_travaux_devis', 'devis_id', string='Travaux')
+
     _rec_name = 'combination'
     combination = fields.Char(string='Combination', compute='_compute_fields_combination')
 

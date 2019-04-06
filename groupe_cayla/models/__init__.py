@@ -11,3 +11,4 @@ from . import chantier
 from . import travaux_devis
 from . import objet_devis
 from . import taux_tva
+from . import ligne_travaux_devis

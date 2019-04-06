@@ -34,6 +34,7 @@
         'views/chantier.xml',
         'views/entite_edition_devis.xml',
         'views/travaux_devis.xml',
+        'views/ligne_travaux_devis.xml',
         'views/objet_devis.xml',
         'views/templates.xml',
         'views/taux_tva.xml',
