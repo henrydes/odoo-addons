@@ -38,7 +38,7 @@
                                             <label for="type_cee" style="font-weight:bold"/>
                                         </th>
                                         <th style='width:16%; text-align: center'>
-                                            <label for="type_profesionnel" style="font-weight:bold"/>
+                                            <label for="type_professionnel" style="font-weight:bold"/>
                                         </th>
                                         <th style='width:20%; text-align: center'>
                                             <label for="remise" style="font-weight:bold"/>
@@ -59,7 +59,7 @@
                                             <field name="type_cee"/>
                                         </td>
                                         <td style='text-align: center'>
-                                            <field name="type_profesionnel"/>
+                                            <field name="type_professionnel"/>
                                         </td>
                                         <td style='text-align: center'>
                                             <field name="remise"/>
@@ -72,7 +72,7 @@
                                 <field name="objet"/>
                                 <field name="objet_autres"/>
                                 <field name="lignes_supplement_devis" widget="one2many"/>
-                                <field name="lignes_devis" widget="one2many"/>
+                                <field name="lignes_devis" widget="one2many" attrs="{'invisible':[('active_id', '=', False)]}"/>
                             </group>
 
                         </group>

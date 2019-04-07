@@ -16,6 +16,27 @@ class LigneDevis(models.Model):
     marque_produit_id = fields.Many2one('groupe_cayla.marque_produit', required=True, string='Marque')
     modele_produit_id = fields.Many2one('groupe_cayla.modele_produit', required=True, string='Modèle')
 
+    acermi = fields.Char(compute='_compute_acermi', store=False)
+    epaisseur = fields.Integer(compute='_compute_epaisseur', string='Epaisseur (mm)', store=False)
+    resistance_thermique = fields.Char(compute='_compute_resistance_thermique', string='Res.Ther.', store=False)
+
+    prix_unitaire = fields.Float()
+    quantite = fields.Integer()
+    prix_total = fields.Float()
+
+    @api.depends('modele_produit_id')
+    def _compute_acermi(self):
+        for d in self:
+            if d.modele_produit_id:
+                d.acermi = d.modele_produit_id.acermi
+                d.epaisseur = d.modele_produit_id.epaisseur
+                d.resistance_thermique = d.modele_produit_id.resistance_thermique
+
+    @api.onchange('quantite', 'prix_unitaire')
+    def on_change_quantite(self):
+        for record in self:
+            record.prix_total = record.quantite * record.prix_unitaire
+
     @api.onchange('sujet_devis_id')
     def on_change_sujet_devis_id(self):
         for record in self:
@@ -23,6 +44,16 @@ class LigneDevis(models.Model):
                 record.produit_id = None
                 record.marque_produit_id = None
                 record.modele_produit_id = None
+                if record.sujet_devis_id.tarif_tout_compris:
+                    # si tarif tout compris, le tarif est porté par le SUJET, sinon par le PRODUIT
+                    # TODO tarif eco : si service energie client type P.GP (particulier grand précaire) et devis Prime CEE
+                    # à implémenter après avoir fait le service energie
+                    if record.devis_id.type_professionnel:
+                        record.prix_unitaire = record.sujet_devis_id.tarif_pro
+                    else:
+                        record.prix_unitaire = record.sujet_devis_id.tarif_particulier
+                else:
+                    record.prix_unitaire = None
 
     @api.onchange('produit_id')
     def on_change_produit_id(self):
@@ -34,7 +65,14 @@ class LigneDevis(models.Model):
                     [('produit_id', '=', record.produit_id.id)])
                 if marques and len(marques) == 1:
                     record.marque_produit_id = marques[0]
-
+                if not record.sujet_devis_id.tarif_tout_compris:
+                    # si tarif tout compris, le tarif est porté par le SUJET, sinon par le PRODUIT
+                    # TODO tarif eco : si service energie client type P.GP (particulier grand précaire) et devis Prime CEE
+                    # à implémenter après avoir fait le service energie
+                    if record.devis_id.type_professionnel:
+                        record.prix_unitaire = record.produit_id.tarif_pro
+                    else:
+                        record.prix_unitaire = record.produit_id.tarif_particulier
 
     @api.onchange('marque_produit_id')
     def on_change_marque_produit_id(self):
@@ -45,6 +83,3 @@ class LigneDevis(models.Model):
                     [('marque_produit_id', '=', record.marque_produit_id.id)])
                 if modeles and len(modeles) == 1:
                     record.modele_produit_id = modeles[0]
-
-
-

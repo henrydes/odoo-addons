@@ -41,7 +41,7 @@ class Devis(models.Model):
     type_anah = fields.Boolean(string='ANAH', default=False)
     type_eco_cheque = fields.Boolean(string='Eco-chéque', default=False)
     type_cee = fields.Boolean(string='CEE', default=False)
-    type_profesionnel = fields.Boolean(string='Profesionnel', default=False)
+    type_professionnel = fields.Boolean(string='Professionnel', default=False)
     remise = fields.Float(string='Remise (%)')
 
     objet = fields.Many2one('groupe_cayla.objet_devis', required=False)
@@ -77,6 +77,18 @@ class Devis(models.Model):
         elif devis.date_refus:
             client.etat = 'annule_par_client'
         return True
+
+    @api.onchange('type_professionnel')
+    def onchange_type_professionnel(self):
+        # si tarif tout compris, le tarif est porté par le SUJET, sinon par le PRODUIT
+        # TODO tarif eco : si service energie client type P.GP (particulier grand précaire) et devis Prime CEE
+        # à implémenter après avoir fait le service energie
+        for ligne in self.lignes_devis:
+            if ligne.sujet_devis_id.tarif_tout_compris:
+                ligne.prix_unitaire = ligne.produit_id.tarif_pro if self.type_professionnel else ligne.produit_id.tarif_particulier
+            else:
+                ligne.prix_unitaire = ligne.produit_id.tarif_pro if self.type_professionnel else ligne.produit_id.tarif_particulier
+            ligne.prix_total = ligne.prix_unitaire * ligne.quantite
 
     @api.onchange('date_refus')
     def onchange_date_refus(self):
