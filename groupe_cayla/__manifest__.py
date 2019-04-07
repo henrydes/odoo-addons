@@ -42,6 +42,7 @@
         'views/marque_produit.xml',
         'views/produit.xml',
         'views/modele_produit.xml',
+        'views/ligne_devis.xml',
     ],
     'application': True,
 }

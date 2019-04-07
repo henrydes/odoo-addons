@@ -16,3 +16,4 @@ from . import sujet_devis
 from . import produit
 from . import marque_produit
 from . import modele_produit
+from . import ligne_devis

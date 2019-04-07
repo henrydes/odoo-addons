@@ -48,12 +48,11 @@ class Devis(models.Model):
     objet_autres = fields.Char()
     choix_tva = fields.Many2one('groupe_cayla.taux_tva', string='Choix TVA')
 
-
     lignes_supplement_devis = fields.One2many('groupe_cayla.ligne_supplement_devis', 'devis_id', string='Supplement')
+    lignes_devis = fields.One2many('groupe_cayla.ligne_devis', 'devis_id', string='Lignes')
 
     _rec_name = 'combination'
     combination = fields.Char(string='Combination', compute='_compute_fields_combination')
-
 
     @api.depends('numero')
     def _compute_fields_combination(self):

@@ -72,6 +72,7 @@
                                 <field name="objet"/>
                                 <field name="objet_autres"/>
                                 <field name="lignes_supplement_devis" widget="one2many"/>
+                                <field name="lignes_devis" widget="one2many"/>
                             </group>
 
                         </group>
