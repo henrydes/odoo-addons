@@ -29,6 +29,17 @@ class Devis(models.Model):
     date_acceptation = fields.Date()
     date_envoi = fields.Date()
     date_refus = fields.Date()
+
+    # champs en lecture seuls
+    montant_ht = fields.Float(compute='_compute_montant_ht_montant_remise', store=True)
+    montant_tva = fields.Float(compute='_compute_montant_tva_montant_ttc', store=True)
+    montant_ttc = fields.Float(compute='_compute_montant_tva_montant_ttc', store=True)
+    montant_remise = fields.Float(compute='_compute_montant_ht_montant_remise', store=True)
+    montant_eco_cheque = fields.Float(compute='_compute_montant_eco_cheque', store=True)
+    superficie = fields.Integer(compute='_compute_superficie', store=True)
+    # fin champs en lecture seuls
+
+    # champ à supprimer sur nouvelle base
     montant = fields.Float()
 
     entite_edition_id = fields.Many2one(
@@ -58,6 +69,38 @@ class Devis(models.Model):
     def _compute_fields_combination(self):
         for d in self:
             d.combination = 'Devis numéro ' + d.numero
+
+    @api.depends('type_eco_cheque')
+    def _compute_montant_eco_cheque(self):
+        for d in self:
+            d.montant_eco_cheque = 1500 if d.type_eco_cheque else 0
+
+    @api.depends('lignes_supplement_devis', 'lignes_devis')
+    def _compute_superficie(self):
+        for d in self:
+            for ligne_supplement in d.lignes_supplement_devis:
+                d.superficie += ligne_supplement.quantite
+            for ligne in d.lignes_devis:
+                d.superficie += ligne.quantite
+
+    @api.depends('lignes_supplement_devis', 'lignes_devis', 'remise')
+    def _compute_montant_ht_montant_remise(self):
+        for d in self:
+            for ligne_supplement in d.lignes_supplement_devis:
+                d.montant_ht += ligne_supplement.tarif
+            for ligne in d.lignes_devis:
+                d.montant_ht += ligne.prix_total
+            if d.remise:
+                d.montant_remise = d.montant_ht * d.remise / 100
+                d.montant_ht = d.montant_ht - d.montant_remise
+
+
+    @api.depends('montant_ht', 'choix_tva')
+    def _compute_montant_tva_montant_ttc(self):
+        for d in self:
+            d.montant_tva = d.montant_ht * d.choix_tva.taux / 100
+            d.montant_ttc = d.montant_ht + d.montant_tva
+
 
     @api.model
     def create(self, values):

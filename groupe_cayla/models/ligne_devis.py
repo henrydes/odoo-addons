@@ -24,7 +24,7 @@ class LigneDevis(models.Model):
     prix_unitaire = fields.Float()
     quantite = fields.Integer()
     prix_total = fields.Float()
-
+    prime_cee=fields.Boolean(default=False)
 
     @api.depends('modele_produit_id')
     def _compute_acermi(self):

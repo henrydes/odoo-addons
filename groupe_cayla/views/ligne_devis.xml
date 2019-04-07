@@ -16,6 +16,7 @@
                     <field name="prix_unitaire"/>
                     <field name="quantite"/>
                     <field name="prix_total"/>
+                    <field name="prime_cee"/>
                 </tree>
             </field>
         </record>
@@ -41,7 +42,9 @@
                             <field name="prix_unitaire"/>
                             <field name="quantite"/>
                             <field name="prix_total" attrs="{'readonly':[True]}"/>
+                            <field name="prime_cee"/>
                             <field name="detail"/>
+
                         </group>
                     </sheet>
                     <div class="oe_chatter">
