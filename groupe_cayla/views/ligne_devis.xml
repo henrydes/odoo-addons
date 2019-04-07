@@ -41,6 +41,7 @@
                             <field name="prix_unitaire"/>
                             <field name="quantite"/>
                             <field name="prix_total" attrs="{'readonly':[True]}"/>
+                            <field name="detail"/>
                         </group>
                     </sheet>
                     <div class="oe_chatter">

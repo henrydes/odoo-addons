@@ -19,10 +19,12 @@ class LigneDevis(models.Model):
     acermi = fields.Char(compute='_compute_acermi', store=False)
     epaisseur = fields.Integer(compute='_compute_epaisseur', string='Epaisseur (mm)', store=False)
     resistance_thermique = fields.Char(compute='_compute_resistance_thermique', string='Res.Ther.', store=False)
+    detail = fields.Char()
 
     prix_unitaire = fields.Float()
     quantite = fields.Integer()
     prix_total = fields.Float()
+
 
     @api.depends('modele_produit_id')
     def _compute_acermi(self):
@@ -41,6 +43,7 @@ class LigneDevis(models.Model):
     def on_change_sujet_devis_id(self):
         for record in self:
             if record.sujet_devis_id:
+                record.detail = record.sujet_devis_id.detail
                 record.produit_id = None
                 record.marque_produit_id = None
                 record.modele_produit_id = None
