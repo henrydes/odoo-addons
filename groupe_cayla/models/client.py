@@ -181,8 +181,8 @@ class Client(models.Model):
                                         string="Utilisateur", store=False)
     numero_devis = fields.Char(compute='_compute_numero_devis',
                                string="N° Devis", store=False)
-    montant_devis = fields.Char(compute='_compute_montant_devis',
-                                string="Montant", store=False)
+    montant_ttc_devis = fields.Float(compute='_compute_montant_ttc_devis',
+                                string="Montant TTC", store=False)
 
     @api.onchange('date_acceptation_devis')
     def on_change_date_acceptation_devis(self):
@@ -211,12 +211,12 @@ class Client(models.Model):
                 record.numero_devis = record.devis_id.numero
 
     @api.depends('devis_id')
-    def _compute_montant_devis(self):
+    def _compute_montant_ttc_devis(self):
         for record in self:
             if record.devis_id is None:
-                record.montant_devis = None
+                record.montant_ttc_devis = None
             else:
-                record.montant_devis = record.devis_id.montant
+                record.montant_ttc_devis = record.devis_id.montant_ttc
 
     @api.depends('devis_id')
     def _compute_date_edition_devis(self):

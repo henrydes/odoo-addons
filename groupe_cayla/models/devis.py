@@ -94,13 +94,11 @@ class Devis(models.Model):
                 d.montant_remise = d.montant_ht * d.remise / 100
                 d.montant_ht = d.montant_ht - d.montant_remise
 
-
     @api.depends('montant_ht', 'choix_tva')
     def _compute_montant_tva_montant_ttc(self):
         for d in self:
             d.montant_tva = d.montant_ht * d.choix_tva.taux / 100
             d.montant_ttc = d.montant_ht + d.montant_tva
-
 
     @api.model
     def create(self, values):
