@@ -7,7 +7,7 @@
             <field name="arch" type="xml">
                 <tree>
                     <field name="libelle"/>
-                    <field name="tarif_tout_compris" attrs="{'invisible':True}"/>
+                    <field name="tarif_tout_compris"/>
                     <field name="tarif_particulier" attrs="{'invisible':[('tarif_tout_compris', '=', False)]}"/>
                     <field name="tarif_pro" attrs="{'invisible':[('tarif_tout_compris', '=', False)]}"/>
                     <field name="tarif_solidarite_energetique"
