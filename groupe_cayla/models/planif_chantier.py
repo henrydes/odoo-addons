@@ -34,7 +34,6 @@ class PlanifChantier(models.Model):
         required=True,
     )
 
-
     date_appel = fields.Date(default=date.today(), required=True)
     date_time_planif = fields.Datetime()
 
@@ -49,12 +48,10 @@ class PlanifChantier(models.Model):
         for d in self:
             d.entreprise = d.client_id.installateur
 
-
     @api.depends('client_id')
     def _compute_entite_edition_devis(self):
         for d in self:
             d.entite_devis_id = d.client_id.devis_id.entite_edition_id
-
 
     @api.depends('date_appel')
     def _compute_fields_combination(self):
@@ -69,4 +66,3 @@ class PlanifChantier(models.Model):
         client.etat = 'chantier_a_saisir'
         client.planif_chantier_id = rec
         return rec
-

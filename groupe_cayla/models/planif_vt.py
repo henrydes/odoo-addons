@@ -29,7 +29,6 @@ class PlanifVT(models.Model):
         required=True,
     )
 
-
     date_appel = fields.Date(default=date.today(), required=True)
     date_time_planif = fields.Datetime()
 
@@ -49,4 +48,3 @@ class PlanifVT(models.Model):
         client.etat = 'vt_a_saisir'
         client.planif_vt_id = rec
         return rec
-
