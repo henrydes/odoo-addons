@@ -8,6 +8,7 @@
     <record id="groupe_cayla_group_resp_admin" model="res.groups">
         <field name="name">Responsable administratif</field>
         <field name="category_id" ref="module_groupe_cayla_category"></field>
+        <field name="users" eval="[(4, ref('base.user_root')),(4, ref('base.user_admin'))]"/>
     </record>
 
     <!-- Secrétaire -->

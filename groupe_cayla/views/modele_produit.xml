@@ -6,10 +6,16 @@
             <field name="model">groupe_cayla.modele_produit</field>
             <field name="arch" type="xml">
                 <tree>
+
                     <field name="libelle"/>
+
+                    <field name="marque_produit_id"/>
                     <field name="acermi"/>
                     <field name="epaisseur"/>
                     <field name="resistance_thermique"/>
+
+                    <field name="produits_id" widget="many2many_tags"/>
+
                 </tree>
             </field>
         </record>
@@ -22,10 +28,12 @@
                 <form>
                     <sheet>
                         <group>
+                            <field name="marque_produit_id" options="{'no_create': True, 'no_edit': True}"/>
                             <field name="libelle"/>
                             <field name="acermi"/>
                             <field name="epaisseur"/>
                             <field name="resistance_thermique"/>
+                            <field name="produits_id" widget="many2many" options="{'no_create': True}"/>
                         </group>
                     </sheet>
                     <div class="oe_chatter">

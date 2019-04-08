@@ -9,8 +9,11 @@ class ModeleProduit(models.Model):
     _description = 'Un modèle'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'libelle'
-
+    _sql_constraints = [
+        ('libelle', 'unique (libelle)', 'Ce modèle existe déjà')
+    ]
     marque_produit_id = fields.Many2one('groupe_cayla.marque_produit', required=True)
+    produits_id = fields.Many2many('groupe_cayla.produit')
     libelle = fields.Char(required=True)
     acermi = fields.Char(required=False)
     epaisseur = fields.Integer(required=True, string='Epaisseur (mm)')

@@ -47,6 +47,23 @@
                 res_model="groupe_cayla.sujet_devis"
                 view_mode="tree,form"/>
 
+        <act_window
+                id="action_cayla_produit"
+                name="Produits"
+                res_model="groupe_cayla.produit"
+                view_mode="tree,form"/>
+
+        <act_window
+                id="action_cayla_marque_produit"
+                name="Marques produit"
+                res_model="groupe_cayla.marque_produit"
+                view_mode="tree,form"/>
+        <act_window
+                id="action_cayla_modele_produit"
+                name="Modèles produits"
+                res_model="groupe_cayla.modele_produit"
+                view_mode="tree,form"/>
+
 
         <!-- Top menu item -->
         <menuitem name="Groupe Cayla" id="groupe_cayla.menu_root"
@@ -68,6 +85,13 @@
                   action="action_cayla_taux_tva"/>
         <menuitem name="Sujets devis" id="groupe_cayla.sujet_devis" parent="groupe_cayla.administration"
                   action="action_cayla_sujet_devis"/>
+
+        <menuitem name="Produits" id="groupe_cayla.produit" parent="groupe_cayla.administration"
+                  action="action_cayla_produit"/>
+        <menuitem name="Marques produits" id="groupe_cayla.marque_produit" parent="groupe_cayla.administration"
+                  action="action_cayla_marque_produit"/>
+        <menuitem name="Modèles produits" id="groupe_cayla.modele_produit" parent="groupe_cayla.administration"
+                  action="action_cayla_modele_produit"/>
 
     </data>
 </odoo>

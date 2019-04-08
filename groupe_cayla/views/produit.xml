@@ -7,10 +7,8 @@
             <field name="arch" type="xml">
                 <tree>
                     <field name="libelle"/>
-                    <field name="tarif_particulier"/>
-                    <field name="tarif_pro"/>
-                    <field name="tarif_solidarite_energetique"/>
-                    <field name="marques_produit_id"  widget="many2many_tags"/>
+                    <field name="marques_produit_id" widget="many2many_tags"/>
+                    <field name="modeles_produit_id" widget="many2many_tags"/>
                 </tree>
             </field>
         </record>
@@ -24,12 +22,12 @@
                     <sheet>
                         <group>
                             <field name="libelle"/>
-                            <field name="tarif_particulier" invisible="context.get('tarif_tout_compris',False)"/>
-                            <field name="tarif_pro" invisible="context.get('tarif_tout_compris',False)"/>
-                            <field name="tarif_solidarite_energetique"
-                                   invisible="context.get('tarif_tout_compris',False)"/>
-                            <field name="marques_produit_id" widget="one2many"/>
+                            <field name="marques_produit_id" widget="many2many" options="{'no_create': True}"/>
+                            <field name="modeles_produit_id" widget="many2many" options="{'no_create': True}"
+                            domain="[('marque_produit_id','in',marques_produit_id)]"/>
+
                         </group>
+
                     </sheet>
                     <div class="oe_chatter">
                         <field name="message_follower_ids" widget="mail_followers"/>

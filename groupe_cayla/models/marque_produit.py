@@ -9,8 +9,10 @@ class MarqueProduit(models.Model):
     _description = 'Une marque'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'libelle'
+    _sql_constraints = [
+        ('libelle', 'unique (libelle)', 'Cette marque existe déjà')
+    ]
 
-    produit_id = fields.Many2one('groupe_cayla.produit', required=True)
+    produits_id = fields.Many2many('groupe_cayla.produit')
     modeles_produit_id = fields.One2many('groupe_cayla.modele_produit', 'marque_produit_id')
-
     libelle = fields.Char(required=True)
