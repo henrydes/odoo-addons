@@ -13,6 +13,12 @@ class Devis(models.Model):
     _sql_constraints = [
         ('client_id', 'unique (client_id)', 'Ce client a déjà un devis')
     ]
+    etat = fields.Selection([
+        ('nouveau', 'Brouillon'),
+        ('valide', 'Validé')
+    ], default='nouveau'
+    )
+
     client_id = fields.Many2one(
         'groupe_cayla.client',
         delegate=False,
@@ -101,6 +107,7 @@ class Devis(models.Model):
     @api.model
     def create(self, values):
         rec = super(Devis, self).create(values)
+
         client = self.env['groupe_cayla.client'].search([('id', '=', values['client_id'])], limit=1)
         client.etat = 'attente_commande'
         client.devis_id = rec
@@ -139,3 +146,8 @@ class Devis(models.Model):
         if self.date_acceptation:
             self.date_refus = None
             self.motif_refus = None
+
+    @api.onchange('date_envoi')
+    def onchange_date_envoi(self):
+        if self.date_envoi:
+            self.etat = 'valide'
