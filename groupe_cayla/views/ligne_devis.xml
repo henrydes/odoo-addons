@@ -7,7 +7,7 @@
             <field name="arch" type="xml">
                 <tree>
                     <field name="sujet_devis_id"/>
-                    <field name="produit_id"/>
+                    <field name="ligne_sujet_devis_id"/>
                     <field name="marque_produit_id"/>
                     <field name="modele_produit_id"/>
                     <field name="acermi"/>
@@ -30,10 +30,11 @@
                     <sheet>
                         <group col="2">
                             <field name="sujet_devis_id" options="{'no_create': True, 'no_create_edit':True}"/>
-                            <field name="produit_id" options="{'no_create': True, 'no_create_edit':True}"
-                                   domain="[('sujet_devis_id','in',[sujet_devis_id])]"/>
+                            <field name="ligne_sujet_devis_id" options="{'no_create': True, 'no_create_edit':True}"
+                            domain="[('sujet_devis_id','=',sujet_devis_id)]"/>
+                            <field name="produit_id" options="{'no_create': True, 'no_create_edit':True}"/>
                             <field name="marque_produit_id" options="{'no_create': True, 'no_create_edit':True}"
-                                   domain="[('produit_id','in',[produit_id])]"/>
+                                   domain="[('produits_id','in',produit_id)]"/>
                             <field name="modele_produit_id" options="{'no_create': True, 'no_create_edit':True}"
                                    domain="[('marque_produit_id','in',[marque_produit_id])]"/>
                             <field name="acermi"/>

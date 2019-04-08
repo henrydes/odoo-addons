@@ -12,7 +12,8 @@ class LigneDevis(models.Model):
     devis_id = fields.Many2one('groupe_cayla.devis', ondelete='cascade')
 
     sujet_devis_id = fields.Many2one('groupe_cayla.sujet_devis', required=True, string='Sujet')
-    produit_id = fields.Many2one('groupe_cayla.produit', required=True)
+    ligne_sujet_devis_id = fields.Many2one('groupe_cayla.ligne_sujet_devis', required=True, string='Produit')
+    produit_id = fields.Many2one('groupe_cayla.produit', required=False, string='Produit 2')
     marque_produit_id = fields.Many2one('groupe_cayla.marque_produit', required=True, string='Marque')
     modele_produit_id = fields.Many2one('groupe_cayla.modele_produit', required=True, string='Modèle')
 
@@ -39,12 +40,19 @@ class LigneDevis(models.Model):
         for record in self:
             record.prix_total = record.quantite * record.prix_unitaire
 
+    @api.onchange('ligne_sujet_devis_id')
+    def on_change_ligne_sujet_devis_id(self):
+        for record in self:
+            record.produit_id = record.ligne_sujet_devis_id.produit_id
+            _logger.info(len(record.produit_id.marques_produit_id.ids))
+
+
     @api.onchange('sujet_devis_id')
     def on_change_sujet_devis_id(self):
         for record in self:
             if record.sujet_devis_id:
                 record.detail = record.sujet_devis_id.detail
-                record.produit_id = None
+                record.ligne_sujet_devis_id = None
                 record.marque_produit_id = None
                 record.modele_produit_id = None
                 if record.sujet_devis_id.tarif_tout_compris:
@@ -58,14 +66,14 @@ class LigneDevis(models.Model):
                 else:
                     record.prix_unitaire = None
 
-    @api.onchange('produit_id')
-    def on_change_produit_id(self):
+    @api.onchange('ligne_sujet_id')
+    def on_change_ligne_sujet_id(self):
         for record in self:
-            if record.produit_id:
+            if record.ligne_sujet_devis_id:
                 record.marque_produit_id = None
                 record.modele_produit_id = None
                 marques = self.env['groupe_cayla.marque_produit'].search(
-                    [('produit_id', '=', record.produit_id.id)])
+                    [('produit_id', '=', record.ligne_sujet_devis_id.produit_id.id)])
                 if marques and len(marques) == 1:
                     record.marque_produit_id = marques[0]
                 if not record.sujet_devis_id.tarif_tout_compris:
@@ -73,9 +81,9 @@ class LigneDevis(models.Model):
                     # TODO tarif eco : si service energie client type P.GP (particulier grand précaire) et devis Prime CEE
                     # à implémenter après avoir fait le service energie
                     if record.devis_id.type_professionnel:
-                        record.prix_unitaire = record.produit_id.tarif_pro
+                        record.prix_unitaire = record.ligne_sujet_devis_id.tarif_pro
                     else:
-                        record.prix_unitaire = record.produit_id.tarif_particulier
+                        record.prix_unitaire = record.ligne_sujet_devis_id.tarif_particulier
 
     @api.onchange('marque_produit_id')
     def on_change_marque_produit_id(self):
