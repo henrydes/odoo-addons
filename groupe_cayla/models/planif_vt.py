@@ -17,6 +17,7 @@ class PlanifVT(models.Model):
         'groupe_cayla.client',
         delegate=False,
         required=True,
+        ondelete='cascade'
     )
     utilisateur_id = fields.Many2one(
         'res.users',

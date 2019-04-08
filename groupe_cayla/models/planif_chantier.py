@@ -17,6 +17,7 @@ class PlanifChantier(models.Model):
         'groupe_cayla.client',
         delegate=False,
         required=True,
+        ondelete='cascade'
     )
     utilisateur_id = fields.Many2one(
         'res.users',
@@ -38,7 +39,7 @@ class PlanifChantier(models.Model):
     date_time_planif = fields.Datetime()
 
     entreprise = fields.Char(compute='_compute_entreprise')
-    entite_devis_id = fields.Many2one('groupe_cayla.entite_edition_devis', compute='_compute_entite_edition_devis')
+    entite_devis_id = fields.Many2one('groupe_cayla.entite_edition_devis', compute='_compute_entite_edition_devis', required=True)
 
     _rec_name = 'combination'
     combination = fields.Char(string='Combination', compute='_compute_fields_combination')

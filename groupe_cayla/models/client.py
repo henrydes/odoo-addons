@@ -42,8 +42,8 @@ class Client(models.Model):
     # 3 Planif VT
     planif_vt_id = fields.Many2one(
         'groupe_cayla.planif_vt',
-        delegate=False,
-        required=False
+        required=False,
+        ondelete='set null'
     )
     date_appel_planif_vt = fields.Date(compute='_compute_date_appel_planif_vt',
                                        string="Date appel", store=False)
@@ -98,7 +98,8 @@ class Client(models.Model):
     vt_id = fields.Many2one(
         'groupe_cayla.vt',
         delegate=False,
-        required=False
+        required=False,
+        ondelete='set null'
     )
     date_de_realisation_vt = fields.Date(compute='_compute_date_de_realisation_vt',
                                          string="Date de réalisation", store=False)
@@ -167,7 +168,8 @@ class Client(models.Model):
     devis_id = fields.Many2one(
         'groupe_cayla.devis',
         delegate=False,
-        required=False
+        required=False,
+        ondelete='set null'
     )
     date_edition_devis = fields.Date(compute='_compute_date_edition_devis',
                                      string="Edition", store=False)
@@ -262,7 +264,8 @@ class Client(models.Model):
     planif_chantier_id = fields.Many2one(
         'groupe_cayla.planif_chantier',
         delegate=False,
-        required=False
+        required=False,
+        ondelete='set null'
     )
     date_appel_planif_chantier = fields.Date(compute='_compute_date_appel_planif_chantier',
                                              string="Date appel", store=False)
@@ -358,7 +361,8 @@ class Client(models.Model):
     chantier_id = fields.Many2one(
         'groupe_cayla.chantier',
         delegate=False,
-        required=False
+        required=False,
+        ondelete='set null'
     )
     date_de_realisation_chantier = fields.Date(compute='_compute_date_de_realisation_chantier',
                                                string="Date de réalisation", store=False)
@@ -455,3 +459,10 @@ class Client(models.Model):
                     record.etat = 'annule_par_applicateur'
                 else:
                     record.etat = 'facture_client_a_editer'
+
+    @api.model
+    def default_get(self, fields_list):
+        res = models.Model.default_get(self, fields_list)
+        france = self.env['res.country'].search([('name', '=', 'France')], limit=1)
+        res['country_id'] = france.id
+        return res

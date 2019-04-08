@@ -10,11 +10,11 @@ class ModeleProduit(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'libelle'
 
-    marque_produit_id = fields.Many2one('groupe_cayla.marque_produit')
+    marque_produit_id = fields.Many2one('groupe_cayla.marque_produit', required=True)
     libelle = fields.Char(required=True)
     acermi = fields.Char(required=False)
-    epaisseur = fields.Integer(required=False, string='Epaisseur (mm)')
-    resistance_thermique = fields.Char(required=False, string='Res.Ther.')
+    epaisseur = fields.Integer(required=True, string='Epaisseur (mm)')
+    resistance_thermique = fields.Char(required=True, string='Res.Ther.')
 
     @api.model
     def create(self, values):

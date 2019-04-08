@@ -17,6 +17,7 @@ class Devis(models.Model):
         'groupe_cayla.client',
         delegate=False,
         required=True,
+        ondelete='cascade'
     )
     user_id = fields.Many2one(
         'res.users',
@@ -39,9 +40,6 @@ class Devis(models.Model):
     superficie = fields.Integer(compute='_compute_superficie', store=True)
     # fin champs en lecture seuls
 
-    # champ à supprimer sur nouvelle base
-    montant = fields.Float()
-
     entite_edition_id = fields.Many2one(
         'groupe_cayla.entite_edition_devis', required=True
     )
@@ -55,9 +53,9 @@ class Devis(models.Model):
     type_professionnel = fields.Boolean(string='Professionnel', default=False)
     remise = fields.Float(string='Remise (%)')
 
-    objet = fields.Many2one('groupe_cayla.objet_devis', required=False)
+    objet = fields.Many2one('groupe_cayla.objet_devis', required=True)
     objet_autres = fields.Char()
-    choix_tva = fields.Many2one('groupe_cayla.taux_tva', string='Choix TVA')
+    choix_tva = fields.Many2one('groupe_cayla.taux_tva', string='Choix TVA', required=True)
 
     lignes_supplement_devis = fields.One2many('groupe_cayla.ligne_supplement_devis', 'devis_id', string='Supplement')
     lignes_devis = fields.One2many('groupe_cayla.ligne_devis', 'devis_id', string='Lignes')

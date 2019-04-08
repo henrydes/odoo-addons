@@ -10,7 +10,7 @@ class Produit(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'libelle'
 
-    sujet_devis_id = fields.Many2one('groupe_cayla.sujet_devis')
+    sujet_devis_id = fields.Many2one('groupe_cayla.sujet_devis', required=True)
 
     marques_produit_id = fields.One2many('groupe_cayla.marque_produit', 'produit_id')
 

@@ -9,15 +9,15 @@ class LigneChantier(models.Model):
     _description = 'Une ligne chantier'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    chantier_id = fields.Many2one('groupe_cayla.chantier')
+    chantier_id = fields.Many2one('groupe_cayla.chantier', ondelete='cascade')
 
-    sujet_devis_id = fields.Many2one('groupe_cayla.sujet_devis', required=False, string='Sujet')
-    produit_id = fields.Many2one('groupe_cayla.produit', required=False)
-    marque_produit_id = fields.Many2one('groupe_cayla.marque_produit', required=False, string='Marque')
-    modele_produit_id = fields.Many2one('groupe_cayla.modele_produit', required=False, string='Modèle')
+    sujet_devis_id = fields.Many2one('groupe_cayla.sujet_devis', required=True, string='Sujet')
+    produit_id = fields.Many2one('groupe_cayla.produit', required=True)
+    marque_produit_id = fields.Many2one('groupe_cayla.marque_produit', required=True, string='Marque')
+    modele_produit_id = fields.Many2one('groupe_cayla.modele_produit', required=True, string='Modèle')
 
-    nb_sacs = fields.Integer()
-    temps_passe = fields.Integer(string='Temps passé en heures, nombre entier')
+    nb_sacs = fields.Integer(required=True, default=0)
+    temps_passe = fields.Integer(string='Temps passé en heures, nombre entier', required=True)
 
     @api.onchange('sujet_devis_id')
     def on_change_sujet_devis_id(self):

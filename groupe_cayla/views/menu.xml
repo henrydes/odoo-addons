@@ -12,6 +12,13 @@
                 name="Devis"
                 res_model="groupe_cayla.devis"
                 view_mode="tree,form"/>
+
+        <act_window
+                id="action_cayla_planif_vt"
+                name="Planif VT"
+                res_model="groupe_cayla.planif_vt"
+                view_mode="tree,form"/>
+
         <act_window
                 id="action_cayla_entite_edition_devis"
                 name="Entite édition devis"

@@ -11,5 +11,5 @@ class EntiteEditionDevis(models.Model):
     _description = 'Une entité édition devis'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    nom = fields.Char()
+    nom = fields.Char(required=True)
     _rec_name = 'nom'

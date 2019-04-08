@@ -30,13 +30,13 @@
                             </field>
                         </group>
                         <group col="6">
-                            <field name="title"/>
+                            <field name="title" options="{'no_create': True, 'no_create_edit':True, 'no_open':True}"/>
                             <field name="name"/>
                             <field name="street"/>
                             <field name="street2"/>
                             <field name="zip"/>
                             <field name="city"/>
-                            <field name="country_id"/>
+                            <field name="country_id" options="{'no_create': True, 'no_create_edit':True, 'no_open':True}"/>
                             <field name="comment"/>
                         </group>
                         <notebook>

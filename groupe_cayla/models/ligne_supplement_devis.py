@@ -9,7 +9,7 @@ class LigneSupplementDevis(models.Model):
     _description = 'Une ligne supplement devis'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    devis_id = fields.Many2one('groupe_cayla.devis')
+    devis_id = fields.Many2one('groupe_cayla.devis', ondelete='cascade')
 
     supplement_devis_id = fields.Many2one('groupe_cayla.supplement_devis', required=True, string='Type')
 

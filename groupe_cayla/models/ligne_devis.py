@@ -9,7 +9,7 @@ class LigneDevis(models.Model):
     _description = 'Une ligne devis'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    devis_id = fields.Many2one('groupe_cayla.devis')
+    devis_id = fields.Many2one('groupe_cayla.devis', ondelete='cascade')
 
     sujet_devis_id = fields.Many2one('groupe_cayla.sujet_devis', required=True, string='Sujet')
     produit_id = fields.Many2one('groupe_cayla.produit', required=True)
@@ -21,9 +21,9 @@ class LigneDevis(models.Model):
     resistance_thermique = fields.Char(compute='_compute_resistance_thermique', string='Res.Ther.', store=False)
     detail = fields.Char()
 
-    prix_unitaire = fields.Float()
-    quantite = fields.Integer()
-    prix_total = fields.Float()
+    prix_unitaire = fields.Float(required=True)
+    quantite = fields.Integer(required=True)
+    prix_total = fields.Float(required=True)
     prime_cee=fields.Boolean(default=False)
 
     @api.depends('modele_produit_id')
