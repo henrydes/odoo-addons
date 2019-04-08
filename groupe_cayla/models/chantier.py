@@ -33,14 +33,7 @@ class Chantier(models.Model):
         delegate=False,
         required=True,
     )
-    type_produit_1 = fields.Char()
-    type_produit_2 = fields.Char()
-    marque_1 = fields.Char()
-    marque_2 = fields.Char()
-    nb_sac_1 = fields.Integer()
-    nb_sac_2 = fields.Integer()
-    temps_passe_1 = fields.Char()
-    temps_passe_2 = fields.Char()
+
 
     date_de_realisation = fields.Date(default=date.today(), required=True)
 
@@ -50,6 +43,7 @@ class Chantier(models.Model):
     _rec_name = 'combination'
     combination = fields.Char(string='Combination', compute='_compute_fields_combination')
 
+    lignes_chantier = fields.One2many('groupe_cayla.ligne_chantier', 'chantier_id', string='Lignes')
 
     @api.depends('date_de_realisation')
     def _compute_fields_combination(self):

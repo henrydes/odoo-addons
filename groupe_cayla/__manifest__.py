@@ -43,6 +43,7 @@
         'views/produit.xml',
         'views/modele_produit.xml',
         'views/ligne_devis.xml',
+        'views/ligne_chantier.xml',
     ],
     'application': True,
 }

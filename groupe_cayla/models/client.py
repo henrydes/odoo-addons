@@ -182,7 +182,7 @@ class Client(models.Model):
     numero_devis = fields.Char(compute='_compute_numero_devis',
                                string="N° Devis", store=False)
     montant_ttc_devis = fields.Float(compute='_compute_montant_ttc_devis',
-                                string="Montant TTC", store=False)
+                                     string="Montant TTC", store=False)
 
     @api.onchange('date_acceptation_devis')
     def on_change_date_acceptation_devis(self):
@@ -368,11 +368,11 @@ class Client(models.Model):
                                              string=" ", store=False)
     type_produit_chantier = fields.Char(compute='_compute_type_produit_chantier',
                                         string='Type Produit', store=False)
-    marque_chantier = fields.Char(compute='_compute_marque_chantier',
+    marque_produit_chantier = fields.Char(compute='_compute_marque_chantier',
                                   string='Marque', store=False)
-    nb_sac_chantier = fields.Char(compute='_compute_nb_sac_chantier',
+    nb_sac_chantier = fields.Integer(compute='_compute_nb_sac_chantier',
                                   string='Nb sac', store=False)
-    temps_passe_chantier = fields.Char(compute='_compute_temps_passe_chantier',
+    temps_passe_chantier = fields.Integer(compute='_compute_temps_passe_chantier',
                                        string='Temps passé', store=False)
     chantier_realise_chantier = fields.Boolean(compute='_compute_chantier_realise_chantier',
                                                string='Chantier réalisé', store=False)
@@ -404,34 +404,36 @@ class Client(models.Model):
     @api.depends('chantier_id')
     def _compute_type_produit_chantier(self):
         for record in self:
-            if record.chantier_id is None:
+            if record.chantier_id is None or len(record.chantier_id.lignes_chantier) == 0:
                 record.type_produit_chantier = None
             else:
-                record.type_produit_chantier = record.chantier_id.type_produit_1
+                record.type_produit_chantier = record.chantier_id.lignes_chantier[0].type_produit
 
     @api.depends('chantier_id')
     def _compute_marque_chantier(self):
         for record in self:
-            if record.chantier_id is None:
-                record.marque_chantier = None
+            if record.chantier_id is None or len(record.chantier_id.lignes_chantier) == 0:
+                record.marque_produit_chantier = None
             else:
-                record.marque_chantier = record.chantier_id.marque_1
+                record.marque_produit_chantier = record.chantier_id.lignes_chantier[0].marque_produit
 
     @api.depends('chantier_id')
     def _compute_nb_sac_chantier(self):
         for record in self:
-            if record.chantier_id is None:
+            if record.chantier_id is None or len(record.chantier_id.lignes_chantier) == 0:
                 record.nb_sac_chantier = None
             else:
-                record.nb_sac_chantier = record.chantier_id.nb_sac_1 if record.chantier_id.nb_sac_1 > 0 else None
+                for ligne in record.chantier_id.lignes_chantier:
+                    record.nb_sac_chantier += ligne.nb_sacs
 
     @api.depends('chantier_id')
     def _compute_temps_passe_chantier(self):
         for record in self:
-            if record.chantier_id is None:
+            if record.chantier_id is None or len(record.chantier_id.lignes_chantier) == 0:
                 record.temps_passe_chantier = None
             else:
-                record.temps_passe_chantier = record.chantier_id.temps_passe_1
+                for ligne in record.chantier_id.lignes_chantier:
+                    record.temps_passe_chantier += ligne.temps_passe
 
     @api.depends('chantier_id')
     def _compute_chantier_realise_chantier(self):
