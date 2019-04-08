@@ -22,7 +22,8 @@
                     <sheet>
                         <group>
                             <field name="libelle"/>
-                            <field name="marques_produit_id" widget="many2many" options="{'no_create': True}"/>
+                            <field name="marques_produit_id" widget="many2many" options="{'no_create': True}"
+                           />
                             <field name="modeles_produit_id" widget="many2many" options="{'no_create': True}"
                             domain="[('marque_produit_id','in',marques_produit_id)]"/>
 

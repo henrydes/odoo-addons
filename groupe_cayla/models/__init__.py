@@ -18,3 +18,4 @@ from . import marque_produit
 from . import modele_produit
 from . import ligne_devis
 from . import ligne_chantier
+from . import ligne_sujet_devis

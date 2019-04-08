@@ -10,7 +10,8 @@
                     <field name="tarif_tout_compris" attrs="{'invisible':True}"/>
                     <field name="tarif_particulier" attrs="{'invisible':[('tarif_tout_compris', '=', False)]}"/>
                     <field name="tarif_pro" attrs="{'invisible':[('tarif_tout_compris', '=', False)]}"/>
-                    <field name="tarif_solidarite_energetique" attrs="{'invisible':[('tarif_tout_compris', '=', False)]}"/>
+                    <field name="tarif_solidarite_energetique"
+                           attrs="{'invisible':[('tarif_tout_compris', '=', False)]}"/>
                 </tree>
             </field>
         </record>
@@ -30,13 +31,19 @@
                             <field name="tarif_solidarite_energetique"
                                    attrs="{'invisible':[('tarif_tout_compris', '=', False)]}"/>
                             <field name="detail"/>
-                        <!--
-                            <field name="produits_id" widget="one2many"  attrs="{'invisible':[('active_id', '=', False)]}"
-                                   context="{'tarif_tout_compris': tarif_tout_compris,
+                            <field name="lignes_sujet_devis" widget="one2many"
+                                   context="{'default_sujet_devis_id': active_id,
+                            'tarif_tout_compris': tarif_tout_compris,
                                    'default_tarif_particulier': tarif_particulier,
                                    'default_tarif_pro': tarif_pro,
                                    'default_tarif_solidarite_energetique': tarif_solidarite_energetique}"/>
-                                   -->
+                            <!--
+                                <field name="produits_id" widget="one2many"  attrs="{'invisible':[('active_id', '=', False)]}"
+                                       context="{'tarif_tout_compris': tarif_tout_compris,
+                                       'default_tarif_particulier': tarif_particulier,
+                                       'default_tarif_pro': tarif_pro,
+                                       'default_tarif_solidarite_energetique': tarif_solidarite_energetique}"/>
+                                       -->
                         </group>
                     </sheet>
                     <div class="oe_chatter">

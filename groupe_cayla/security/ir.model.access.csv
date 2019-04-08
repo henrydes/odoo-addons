@@ -18,3 +18,4 @@ access_produit_resp_admin,Accès Produit pour Responsable Administratif,model_gr
 access_modele_produit_resp_admin,Accès Modèle Produit pour Responsable Administratif,model_groupe_cayla_modele_produit,groupe_cayla_group_resp_admin,1,1,1,1
 access_ligne_devis_resp_admin,Accès Ligne Devis pour Responsable Administratif,model_groupe_cayla_ligne_devis,groupe_cayla_group_resp_admin,1,1,1,1
 access_ligne_chantier_resp_admin,Accès Ligne Chantier pour Responsable Administratif,model_groupe_cayla_ligne_chantier,groupe_cayla_group_resp_admin,1,1,1,1
+access_ligne_sujet_devis_resp_admin,Accès Ligne Sujet Devis pour Responsable Administratif,model_groupe_cayla_ligne_sujet_devis,groupe_cayla_group_resp_admin,1,1,1,1
