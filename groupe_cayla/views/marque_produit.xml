@@ -23,7 +23,7 @@
                         <group>
                             <field name="libelle"/>
                             <field name="produits_id" widget="many2many" options="{'no_create': True}"/>
-                            <field name="modeles_produit_id" widget="many2many"/>
+                            <field name="modeles_produit_id" widget="many2many" options="{'no_create': True}"/>
                         </group>
                     </sheet>
                     <div class="oe_chatter">

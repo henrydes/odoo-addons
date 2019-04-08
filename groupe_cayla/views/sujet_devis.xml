@@ -37,13 +37,7 @@
                                    'default_tarif_particulier': tarif_particulier,
                                    'default_tarif_pro': tarif_pro,
                                    'default_tarif_solidarite_energetique': tarif_solidarite_energetique}"/>
-                            <!--
-                                <field name="produits_id" widget="one2many"  attrs="{'invisible':[('active_id', '=', False)]}"
-                                       context="{'tarif_tout_compris': tarif_tout_compris,
-                                       'default_tarif_particulier': tarif_particulier,
-                                       'default_tarif_pro': tarif_pro,
-                                       'default_tarif_solidarite_energetique': tarif_solidarite_energetique}"/>
-                                       -->
+                            <field name="modeles_produit_id" widget="many2many" options="{'no_create': True}"/>
                         </group>
                     </sheet>
                     <div class="oe_chatter">

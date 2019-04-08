@@ -11,7 +11,7 @@ class SujetDevis(models.Model):
     _rec_name = 'libelle'
 
     lignes_sujet_devis = fields.One2many('groupe_cayla.ligne_sujet_devis', 'sujet_devis_id')
-
+    modeles_produit_id = fields.Many2many('groupe_cayla.modele_produit')
     libelle = fields.Char(required=True)
     tarif_tout_compris = fields.Boolean(default=True)
 

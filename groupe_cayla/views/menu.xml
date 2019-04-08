@@ -74,23 +74,28 @@
                   action="action_cayla_clients"/>
         <menuitem name="Devis" id="groupe_cayla.devis" parent="groupe_cayla.menu_root" action="action_cayla_devis"/>
         <menuitem name="Administration" id="groupe_cayla.administration" parent="groupe_cayla.menu_root"/>
-        <menuitem name="Entité édition devis" id="groupe_cayla.entite_edition_devis"
-                  parent="groupe_cayla.administration"
-                  action="action_cayla_entite_edition_devis"/>
-        <menuitem name="Type de supplement" id="groupe_cayla.supplement_devis" parent="groupe_cayla.administration"
-                  action="action_cayla_supplement_devis"/>
-        <menuitem name="Objets de devis" id="groupe_cayla.objet_devis" parent="groupe_cayla.administration"
-                  action="action_cayla_objet_devis"/>
         <menuitem name="Taux TVA" id="groupe_cayla.taux_tva" parent="groupe_cayla.administration"
                   action="action_cayla_taux_tva"/>
-        <menuitem name="Sujets devis" id="groupe_cayla.sujet_devis" parent="groupe_cayla.administration"
+
+        <menuitem name="Paramétrages devis" id="groupe_cayla.param_devis"
+                  parent="groupe_cayla.administration"/>
+        <menuitem name="Entité édition devis" id="groupe_cayla.entite_edition_devis"
+                  parent="groupe_cayla.param_devis"
+                  action="action_cayla_entite_edition_devis"/>
+        <menuitem name="Suppléments devis" id="groupe_cayla.supplement_devis" parent="groupe_cayla.param_devis"
+                  action="action_cayla_supplement_devis"/>
+        <menuitem name="Objets de devis" id="groupe_cayla.objet_devis" parent="groupe_cayla.param_devis"
+                  action="action_cayla_objet_devis"/>
+        <menuitem name="Sujets devis" id="groupe_cayla.sujet_devis" parent="groupe_cayla.param_devis"
                   action="action_cayla_sujet_devis"/>
 
-        <menuitem name="Produits" id="groupe_cayla.produit" parent="groupe_cayla.administration"
+        <menuitem name="Paramétrages produits" id="groupe_cayla.param_produits"
+                  parent="groupe_cayla.administration"/>
+        <menuitem name="Produits" id="groupe_cayla.produit" parent="groupe_cayla.param_produits"
                   action="action_cayla_produit"/>
-        <menuitem name="Marques produits" id="groupe_cayla.marque_produit" parent="groupe_cayla.administration"
+        <menuitem name="Marques produits" id="groupe_cayla.marque_produit" parent="groupe_cayla.param_produits"
                   action="action_cayla_marque_produit"/>
-        <menuitem name="Modèles produits" id="groupe_cayla.modele_produit" parent="groupe_cayla.administration"
+        <menuitem name="Modèles produits" id="groupe_cayla.modele_produit" parent="groupe_cayla.param_produits"
                   action="action_cayla_modele_produit"/>
 
     </data>
