@@ -106,6 +106,9 @@ class Devis(models.Model):
 
     @api.model
     def create(self, values):
+        if 'date_envoi' in values:
+            values['etat'] = 'valide'
+
         rec = super(Devis, self).create(values)
 
         client = self.env['groupe_cayla.client'].search([('id', '=', values['client_id'])], limit=1)
@@ -116,12 +119,15 @@ class Devis(models.Model):
     @api.multi
     def write(self, vals):
         client = self.client_id
+        if 'date_envoi' in vals:
+            vals['etat'] = 'valide'
         super().write(vals)
         devis = self.env['groupe_cayla.devis'].search([('id', '=', self.id)], limit=1)
         if devis.date_acceptation:
             client.etat = 'chantier_a_planifier'
         elif devis.date_refus:
             client.etat = 'annule_par_client'
+
         return True
 
     @api.onchange('type_professionnel')
@@ -149,5 +155,5 @@ class Devis(models.Model):
 
     @api.onchange('date_envoi')
     def onchange_date_envoi(self):
-        if self.date_envoi:
-            self.etat = 'valide'
+        if self.date_envoi:pass
+            #self.etat = 'valide'
