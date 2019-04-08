@@ -34,17 +34,15 @@ class LigneDevis(models.Model):
                 d.acermi = d.modele_produit_id.acermi
                 d.epaisseur = d.modele_produit_id.epaisseur
                 d.resistance_thermique = d.modele_produit_id.resistance_thermique
+            else:
+                d.acermi = None
+                d.epaisseur = None
+                d.resistance_thermique = None
 
     @api.onchange('quantite', 'prix_unitaire')
     def on_change_quantite(self):
         for record in self:
             record.prix_total = record.quantite * record.prix_unitaire
-
-    @api.onchange('ligne_sujet_devis_id')
-    def on_change_ligne_sujet_devis_id(self):
-        for record in self:
-            record.produit_id = record.ligne_sujet_devis_id.produit_id
-            _logger.info(len(record.produit_id.marques_produit_id.ids))
 
 
     @api.onchange('sujet_devis_id')
@@ -66,17 +64,19 @@ class LigneDevis(models.Model):
                 else:
                     record.prix_unitaire = None
 
-    @api.onchange('ligne_sujet_id')
-    def on_change_ligne_sujet_id(self):
+    @api.onchange('ligne_sujet_devis_id')
+    def on_change_ligne_sujet_devis_id(self):
         for record in self:
             if record.ligne_sujet_devis_id:
+                record.produit_id = record.ligne_sujet_devis_id.produit_id
                 record.marque_produit_id = None
                 record.modele_produit_id = None
                 marques = self.env['groupe_cayla.marque_produit'].search(
-                    [('produit_id', '=', record.ligne_sujet_devis_id.produit_id.id)])
+                    [('produits_id', 'in', record.ligne_sujet_devis_id.produit_id.id)])
                 if marques and len(marques) == 1:
                     record.marque_produit_id = marques[0]
                 if not record.sujet_devis_id.tarif_tout_compris:
+                    _logger.info('tarif au detail')
                     # si tarif tout compris, le tarif est porté par le SUJET, sinon par le PRODUIT
                     # TODO tarif eco : si service energie client type P.GP (particulier grand précaire) et devis Prime CEE
                     # à implémenter après avoir fait le service energie
