@@ -6,6 +6,7 @@
             <field name="model">groupe_cayla.ligne_chantier</field>
             <field name="arch" type="xml">
                 <tree>
+                    <field name="sujet_devis_id"/>
                     <field name="produit_id"/>
                     <field name="marque_produit_id"/>
                     <field name="modele_produit_id"/>
@@ -16,7 +17,7 @@
         </record>
 
 
-        <record id="view_form_ligne_devis" model="ir.ui.view">
+        <record id="view_form_ligne_chantier" model="ir.ui.view">
             <field name="name">Formulaire lignes chantier</field>
             <field name="model">groupe_cayla.ligne_chantier</field>
             <field name="arch" type="xml">

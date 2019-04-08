@@ -34,7 +34,6 @@ class Chantier(models.Model):
         required=True,
     )
 
-
     date_de_realisation = fields.Date(default=date.today(), required=True)
 
     reglement = fields.Float()
@@ -74,3 +73,29 @@ class Chantier(models.Model):
             _logger.info('le chantier n a pas été réalise')
             client.etat = 'annule_par_applicateur'
         return result
+
+    @api.model
+    def default_get(self, fields_list):
+        res = models.Model.default_get(self, fields_list)
+        if 'client_id' not in res:
+            return res
+        client = self.env['groupe_cayla.client'].search([('id', '=', res['client_id'])], limit=1)
+        lignes_devis = client.devis_id.lignes_devis
+        type_ligne_chantier = self.env['groupe_cayla.ligne_chantier']
+        lignes_chantier = []
+        for ligne_devis in lignes_devis:
+            lc = type_ligne_chantier.create({
+                'sujet_devis_id': ligne_devis.sujet_devis_id.id,
+                'produit_id': ligne_devis.produit_id.id,
+                'marque_produit_id': ligne_devis.marque_produit_id.id,
+                'modele_produit_id': ligne_devis.modele_produit_id.id,
+
+            })
+            lignes_chantier.append(lc.id)
+        res['lignes_chantier'] = lignes_chantier
+
+        planif_chantier = self.env['groupe_cayla.planif_chantier'].search([('client_id', '=', res['client_id'])], limit=1)
+        res['equipier_1_id'] = planif_chantier.equipier_1_id.id
+        res['equipier_2_id'] = planif_chantier.equipier_2_id.id
+
+        return res
