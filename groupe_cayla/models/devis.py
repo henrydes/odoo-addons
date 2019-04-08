@@ -124,9 +124,9 @@ class Devis(models.Model):
         # à implémenter après avoir fait le service energie
         for ligne in self.lignes_devis:
             if ligne.sujet_devis_id.tarif_tout_compris:
-                ligne.prix_unitaire = ligne.produit_id.tarif_pro if self.type_professionnel else ligne.produit_id.tarif_particulier
+                ligne.prix_unitaire = ligne.ligne_sujet_devis_id.tarif_pro if self.type_professionnel else ligne.ligne_sujet_devis_id.tarif_particulier
             else:
-                ligne.prix_unitaire = ligne.produit_id.tarif_pro if self.type_professionnel else ligne.produit_id.tarif_particulier
+                ligne.prix_unitaire = ligne.ligne_sujet_devis_id.tarif_pro if self.type_professionnel else ligne.ligne_sujet_devis_id.tarif_particulier
             ligne.prix_total = ligne.prix_unitaire * ligne.quantite
 
     @api.onchange('date_refus')

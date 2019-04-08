@@ -15,6 +15,7 @@
                     <field name="resistance_thermique"/>
 
                     <field name="produits_id" widget="many2many_tags"/>
+                    <field name="sujets_devis_id" widget="many2many_tags"/>
 
                 </tree>
             </field>
@@ -34,6 +35,8 @@
                             <field name="epaisseur"/>
                             <field name="resistance_thermique"/>
                             <field name="produits_id" widget="many2many" options="{'no_create': True}"/>
+
+                            <field name="sujets_devis_id" widget="many2many" options="{'no_create': True}"/>
                         </group>
                     </sheet>
                     <div class="oe_chatter">

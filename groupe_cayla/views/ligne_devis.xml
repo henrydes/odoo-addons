@@ -37,7 +37,7 @@
                             <field name="marque_produit_id" options="{'no_create': True, 'no_create_edit':True}"
                                    domain="[('produits_id','in',produit_id)]"/>
                             <field name="modele_produit_id" options="{'no_create': True, 'no_create_edit':True}"
-                                   domain="[('produits_id','in',[produit_id]),('marque_produit_id','in',[marque_produit_id])]"/>
+                                   domain="[('sujets_devis_id','in',[sujet_devis_id]),('produits_id','in',[produit_id]),('marque_produit_id','in',[marque_produit_id])]"/>
                             <field name="acermi"/>
                             <field name="epaisseur"/>
                             <field name="resistance_thermique"/>

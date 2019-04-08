@@ -91,6 +91,11 @@ class LigneDevis(models.Model):
             if record.marque_produit_id:
                 record.modele_produit_id = None
                 modeles = self.env['groupe_cayla.modele_produit'].search(
-                    [('produits_id', 'in', record.produit_id.id), ('marque_produit_id', '=', record.marque_produit_id.id)])
+                    [
+                        ('sujets_devis_id', 'in', record.sujet_devis_id.id),
+                        ('produits_id', 'in', record.produit_id.id),
+                        ('marque_produit_id', '=', record.marque_produit_id.id)
+                    ]
+                )
                 if modeles and len(modeles) == 1:
                     record.modele_produit_id = modeles[0]

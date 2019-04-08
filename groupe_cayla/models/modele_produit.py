@@ -14,6 +14,7 @@ class ModeleProduit(models.Model):
     ]
     marque_produit_id = fields.Many2one('groupe_cayla.marque_produit', required=True)
     produits_id = fields.Many2many('groupe_cayla.produit')
+    sujets_devis_id = fields.Many2many('groupe_cayla.sujet_devis')
     libelle = fields.Char(required=True)
     acermi = fields.Char(required=False)
     epaisseur = fields.Integer(required=True, string='Epaisseur (mm)')
@@ -28,7 +29,7 @@ class ModeleProduit(models.Model):
 
     @api.multi
     def write(self, values):
-        if values['resistance_thermique']:
+        if 'resistance_thermique' in values and values['resistance_thermique']:
             values['resistance_thermique'] = values['resistance_thermique'].replace('.', ',')
         super().write(values)
         return True
