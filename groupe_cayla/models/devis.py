@@ -140,3 +140,4 @@ class Devis(models.Model):
     def onchange_date_acceptation(self):
         if self.date_acceptation:
             self.date_refus = None
+            self.motif_refus = None
