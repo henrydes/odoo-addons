@@ -25,7 +25,7 @@ class LigneDevis(models.Model):
     prix_unitaire = fields.Float(required=True)
     quantite = fields.Integer(required=True)
     prix_total = fields.Float(required=True)
-    prime_cee=fields.Boolean(default=False)
+    prime_cee = fields.Boolean(default=False)
 
     @api.depends('modele_produit_id')
     def _compute_acermi(self):
@@ -43,7 +43,6 @@ class LigneDevis(models.Model):
     def on_change_quantite(self):
         for record in self:
             record.prix_total = record.quantite * record.prix_unitaire
-
 
     @api.onchange('sujet_devis_id')
     def on_change_sujet_devis_id(self):
@@ -99,3 +98,17 @@ class LigneDevis(models.Model):
                 )
                 if modeles and len(modeles) == 1:
                     record.modele_produit_id = modeles[0]
+
+    @api.model
+    def create(self, values):
+        values['prix_total'] = values['quantite'] * values['prix_unitaire']
+        rec = super(LigneDevis, self).create(values)
+        return rec
+
+    @api.multi
+    def write(self, values):
+        quantite = values['quantite'] if 'quantite' in values else self.quantite
+        prix_unitaire = values['prix_unitaire'] if 'prix_unitaire' in values else self.prix_unitaire
+        values['prix_total'] = quantite * prix_unitaire
+        super().write(values)
+        return True
