@@ -1,0 +1,44 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="view_tree_ligne_sujet_devis">
+            <field name="name">Liste des lignes sujet devis</field>
+            <field name="model">groupe_cayla.ligne_sujet_devis</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="produit_id"/>
+                    <field name="tarif_particulier"/>
+                    <field name="tarif_pro"/>
+                    <field name="tarif_solidarite_energetique"/>
+
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_form_ligne_sujet_devis" model="ir.ui.view">
+            <field name="name">Formulaire lignes sujet devis</field>
+            <field name="model">groupe_cayla.ligne_sujet_devis</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group col="2">
+                            <field name="produit_id" options="{'no_create': True, 'no_create_edit':True}"/>
+                            <field name="tarif_particulier" invisible="context.get('tarif_tout_compris',True)"/>
+                            <field name="tarif_pro" invisible="context.get('tarif_tout_compris',True)"/>
+                            <field name="tarif_solidarite_energetique" invisible="context.get('tarif_tout_compris',True)"/>
+
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>
