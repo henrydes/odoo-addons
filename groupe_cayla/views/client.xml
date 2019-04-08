@@ -127,7 +127,7 @@
                                             <field name="date_de_realisation_chantier"/>
                                             <field name="equipier_1_id_chantier"/>
                                             <field name="equipier_2_id_chantier"/>
-                                            <field name="type_produit_chantier"/>
+                                            <field name="produit_chantier"/>
                                             <field name="marque_produit_chantier"/>
                                             <field name="nb_sac_chantier"/>
                                             <field name="temps_passe_chantier"/>

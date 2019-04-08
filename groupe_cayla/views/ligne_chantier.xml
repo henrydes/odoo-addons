@@ -6,8 +6,9 @@
             <field name="model">groupe_cayla.ligne_chantier</field>
             <field name="arch" type="xml">
                 <tree>
-                    <field name="type_produit"/>
-                    <field name="marque_produit"/>
+                    <field name="produit_id"/>
+                    <field name="marque_produit_id"/>
+                    <field name="modele_produit_id"/>
                     <field name="nb_sacs"/>
                     <field name="temps_passe"/>
                 </tree>
@@ -22,8 +23,14 @@
                 <form>
                     <sheet>
                         <group col="2">
-                            <field name="type_produit"/>
-                            <field name="marque_produit"/>
+                           <field name="sujet_devis_id" options="{'no_create': True, 'no_create_edit':True}"/>
+                            <field name="produit_id" options="{'no_create': True, 'no_create_edit':True}"
+                                   domain="[('sujet_devis_id','in',[sujet_devis_id])]"/>
+                            <field name="marque_produit_id" options="{'no_create': True, 'no_create_edit':True}"
+                                   domain="[('produit_id','in',[produit_id])]"/>
+                            <field name="modele_produit_id" options="{'no_create': True, 'no_create_edit':True}"
+                                   domain="[('marque_produit_id','in',[marque_produit_id])]"/>
+
                             <field name="nb_sacs"/>
                             <field name="temps_passe"/>
                         </group>

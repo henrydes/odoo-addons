@@ -366,7 +366,7 @@ class Client(models.Model):
                                              string="Equipe", store=False)
     equipier_2_id_chantier = fields.Many2one('res.users', compute='_compute_equipier_2_id_chantier',
                                              string=" ", store=False)
-    type_produit_chantier = fields.Char(compute='_compute_type_produit_chantier',
+    produit_chantier = fields.Char(compute='_compute_produit_chantier',
                                         string='Type Produit', store=False)
     marque_produit_chantier = fields.Char(compute='_compute_marque_chantier',
                                   string='Marque', store=False)
@@ -402,12 +402,14 @@ class Client(models.Model):
                 record.equipier_2_id_chantier = record.chantier_id.equipier_2_id
 
     @api.depends('chantier_id')
-    def _compute_type_produit_chantier(self):
+    def _compute_produit_chantier(self):
         for record in self:
             if record.chantier_id is None or len(record.chantier_id.lignes_chantier) == 0:
-                record.type_produit_chantier = None
+                record.produit_chantier = None
             else:
-                record.type_produit_chantier = record.chantier_id.lignes_chantier[0].type_produit
+                record.produit_chantier = record.chantier_id.lignes_chantier[0].produit_id.libelle
+                if len(record.chantier_id.lignes_chantier) > 1:
+                    record.produit_chantier += ', ...'
 
     @api.depends('chantier_id')
     def _compute_marque_chantier(self):
@@ -415,7 +417,9 @@ class Client(models.Model):
             if record.chantier_id is None or len(record.chantier_id.lignes_chantier) == 0:
                 record.marque_produit_chantier = None
             else:
-                record.marque_produit_chantier = record.chantier_id.lignes_chantier[0].marque_produit
+                record.marque_produit_chantier = record.chantier_id.lignes_chantier[0].marque_produit_id.libelle
+                if len(record.chantier_id.lignes_chantier) > 1:
+                    record.marque_produit_chantier += ', ...'
 
     @api.depends('chantier_id')
     def _compute_nb_sac_chantier(self):
