@@ -33,11 +33,11 @@
                             <field name="ligne_sujet_devis_id" options="{'no_create': True, 'no_create_edit':True}"
                                    domain="[('sujet_devis_id','=',sujet_devis_id)]"/>
                             <field name="produit_id" options="{'no_create': True, 'no_create_edit':True}"
-                                   attrs="{'invisible': False}"/>
+                                   attrs="{'invisible': True}"/>
                             <field name="marque_produit_id" options="{'no_create': True, 'no_create_edit':True}"
                                    domain="[('produits_id','in',produit_id)]"/>
                             <field name="modele_produit_id" options="{'no_create': True, 'no_create_edit':True}"
-                                   domain="[('marque_produit_id','in',[marque_produit_id])]"/>
+                                   domain="[('produits_id','in',[produit_id]),('marque_produit_id','in',[marque_produit_id])]"/>
                             <field name="acermi"/>
                             <field name="epaisseur"/>
                             <field name="resistance_thermique"/>
