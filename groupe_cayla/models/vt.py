@@ -94,3 +94,12 @@ class VT(models.Model):
         elif vt.vt_validee and vt.documents_complets:
             client.etat = 'devis_a_editer'
         return result
+
+    @api.model
+    def default_get(self, fields_list):
+        res = models.Model.default_get(self, fields_list)
+        if 'client_id' not in res:
+            return res
+        planif_vt = self.env['groupe_cayla.planif_vt'].search([('client_id', '=', res['client_id'])], limit=1)
+        res['technicien_id'] = planif_vt.technicien_id.id
+        return res
