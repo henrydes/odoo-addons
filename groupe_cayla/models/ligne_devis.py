@@ -17,9 +17,14 @@ class LigneDevis(models.Model):
     marque_produit_id = fields.Many2one('groupe_cayla.marque_produit', required=True, string='Marque')
     modele_produit_id = fields.Many2one('groupe_cayla.modele_produit', required=True, string='Modèle')
 
-    acermi = fields.Char(compute='_compute_acermi', store=False)
-    epaisseur = fields.Integer(compute='_compute_epaisseur', string='Epaisseur (mm)', store=False)
-    resistance_thermique = fields.Char(compute='_compute_resistance_thermique', string='Res.Ther.', store=False)
+    # pas de couplage entre la ligne et les many2one
+    modele_libelle = fields.Char(string='Libellé')
+    marque_libelle = fields.Char(string='Marque')
+    produit_libelle = fields.Char(string='Produit')
+    sujet_libelle = fields.Char(string='Sujet')
+    acermi = fields.Char()
+    epaisseur = fields.Integer(string='Epaisseur (mm)')
+    resistance_thermique = fields.Char(string='Res.Ther.')
     detail = fields.Char()
 
     prix_unitaire = fields.Float(required=True)
@@ -27,17 +32,24 @@ class LigneDevis(models.Model):
     prix_total = fields.Float(required=True)
     prime_cee = fields.Boolean(default=False)
 
-    @api.depends('modele_produit_id')
-    def _compute_acermi(self):
-        for d in self:
-            if d.modele_produit_id:
-                d.acermi = d.modele_produit_id.acermi
-                d.epaisseur = d.modele_produit_id.epaisseur
-                d.resistance_thermique = d.modele_produit_id.resistance_thermique
-            else:
-                d.acermi = None
-                d.epaisseur = None
-                d.resistance_thermique = None
+    @api.onchange('modele_produit_id')
+    def onchange_modele(self):
+        if self.modele_produit_id:
+            self.acermi = self.modele_produit_id.acermi
+            self.epaisseur = self.modele_produit_id.epaisseur
+            self.resistance_thermique = self.modele_produit_id.resistance_thermique
+            self.modele_libelle = self.modele_produit_id.libelle
+            self.marque_libelle = self.marque_produit_id.libelle
+            self.produit_libelle = self.produit_id.libelle
+            self.sujet_libelle = self.sujet_devis_id.libelle
+        else:
+            self.acermi = None
+            self.epaisseur = None
+            self.resistance_thermique = None
+            self.modele_libelle = None
+            self.marque_libelle = None
+            self.produit_libelle = None
+            self.sujet_libelle = None
 
     @api.onchange('quantite', 'prix_unitaire')
     def on_change_quantite(self):
@@ -101,6 +113,7 @@ class LigneDevis(models.Model):
 
     @api.model
     def create(self, values):
+        _logger.info(self.modele_libelle)
         values['prix_total'] = values['quantite'] * values['prix_unitaire']
         rec = super(LigneDevis, self).create(values)
         return rec
@@ -110,5 +123,4 @@ class LigneDevis(models.Model):
         quantite = values['quantite'] if 'quantite' in values else self.quantite
         prix_unitaire = values['prix_unitaire'] if 'prix_unitaire' in values else self.prix_unitaire
         values['prix_total'] = quantite * prix_unitaire
-        super().write(values)
         return True
