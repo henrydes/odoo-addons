@@ -90,7 +90,8 @@ class Chantier(models.Model):
                 'produit_id': ligne_devis.produit_id.id,
                 'marque_produit_id': ligne_devis.marque_produit_id.id,
                 'modele_produit_id': ligne_devis.modele_produit_id.id,
-
+                'temps_passe': 0,
+                'nb_sacs': 0
             })
             lignes_chantier.append(lc.id)
         res['lignes_chantier'] = lignes_chantier
