@@ -14,8 +14,8 @@ class Devis(models.Model):
         ('client_id', 'unique (client_id)', 'Ce client a déjà un devis')
     ]
     etat = fields.Selection([
-        ('nouveau', 'Brouillon'),
-        ('valide', 'Validé')
+        ('nouveau', "En cours d'édition, non envoyé. Devis modifiable."),
+        ('valide', 'Devis envoyé. Non modifiable')
     ], default='nouveau'
     )
 
@@ -106,9 +106,8 @@ class Devis(models.Model):
 
     @api.model
     def create(self, values):
-        if 'date_envoi' in values:
+        if 'date_envoi' in values and values['date_envoi']:
             values['etat'] = 'valide'
-
         rec = super(Devis, self).create(values)
 
         client = self.env['groupe_cayla.client'].search([('id', '=', values['client_id'])], limit=1)
@@ -119,7 +118,7 @@ class Devis(models.Model):
     @api.multi
     def write(self, vals):
         client = self.client_id
-        if 'date_envoi' in vals:
+        if 'date_envoi' in vals and vals['date_envoi']:
             vals['etat'] = 'valide'
         super().write(vals)
         devis = self.env['groupe_cayla.devis'].search([('id', '=', self.id)], limit=1)
@@ -153,7 +152,7 @@ class Devis(models.Model):
             self.date_refus = None
             self.motif_refus = None
 
-    @api.onchange('date_envoi')
-    def onchange_date_envoi(self):
-        if self.date_envoi:pass
-            #self.etat = 'valide'
+    @api.one
+    def set_date_envoi_to_none(self):
+        self.date_envoi = None
+        self.etat = 'nouveau'
