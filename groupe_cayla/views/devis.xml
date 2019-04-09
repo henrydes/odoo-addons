@@ -20,11 +20,31 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <button attrs="{'invisible': [('etat','=','nouveau')]}" string="Rendre le devis à nouveau éditable" type="object" name="set_date_envoi_to_none"/>
+                        <button attrs="{'invisible': [('etat','=','nouveau')]}"
+                                string="Rendre le devis à nouveau éditable" type="object"
+                                name="set_date_envoi_to_none"/>
                     </header>
                     <sheet>
 
                         <group col="1">
+                            <group>
+                                <field name="etat" attrs="{'readonly': True}"/>
+                            </group>
+                            <group col="6">
+
+
+                                <field name="client_id" attrs="{'readonly': [('etat', '=', 'valide')]}"
+                                       options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
+                                <field name="user_id" attrs="{'readonly': [('etat', '=', 'valide')]}"
+                                       options="{'no_open': True}"/>
+                                <field name="numero" attrs="{'readonly': [('etat', '=', 'valide')]}"/>
+                                <field name="date_edition" attrs="{'readonly': [('etat', '=', 'valide')]}"/>
+                                <field name="date_envoi" attrs="{'readonly': [('etat', '=', 'valide')]}"/>
+                                <field name="date_acceptation"/>
+                                <field name="date_refus"/>
+                                <field name="motif_refus"/>
+                            </group>
+
                             <group string="Type de devis">
                                 <table style='width:100%;' border='0'>
                                     <tr>
@@ -73,11 +93,12 @@
                                 </table>
                             </group>
                             <group string="Edition devis">
-                                <field name="etat" attrs="{'readonly': True}"/>
 
-                                <field name="choix_tva" options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"
+                                <field name="choix_tva"
+                                       options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"
                                        attrs="{'readonly': [('etat', '=', 'valide')]}"/>
-                                <field name="objet" options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"
+                                <field name="objet"
+                                       options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"
                                        attrs="{'readonly': [('etat', '=', 'valide')]}"/>
                                 <field name="objet_autres" attrs="{'readonly': [('etat', '=', 'valide')]}"/>
                                 <field name="lignes_supplement_devis" widget="one2many"
@@ -85,17 +106,7 @@
                                 <field name="lignes_devis" widget="one2many"
                                        attrs="{'readonly': [('etat', '=', 'valide')]}"/>
                             </group>
-                            <group col="6">
-                                <field name="client_id" attrs="{'readonly': [('etat', '=', 'valide')]}"
-                                       options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
-                                <field name="user_id" attrs="{'readonly': [('etat', '=', 'valide')]}" options="{'no_open': True}"/>
-                                <field name="numero" attrs="{'readonly': [('etat', '=', 'valide')]}"/>
-                                <field name="date_edition" attrs="{'readonly': [('etat', '=', 'valide')]}"/>
-                                <field name="date_envoi" attrs="{'readonly': [('etat', '=', 'valide')]}"/>
-                                <field name="date_acceptation"/>
-                                <field name="date_refus"/>
-                                <field name="motif_refus"/>
-                            </group>
+
                             <group>
                                 <field name="entite_edition_id" attrs="{'readonly': [('etat', '=', 'valide')]}"
                                        options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
