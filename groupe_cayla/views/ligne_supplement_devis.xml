@@ -6,7 +6,7 @@
             <field name="model">groupe_cayla.ligne_supplement_devis</field>
             <field name="arch" type="xml">
                 <tree>
-                    <field name="supplement_devis_id"/>
+                    <field name="supplement_libelle"/>
                     <field name="quantite"/>
                     <field name="prix_unitaire"/>
                     <field name="tarif"/>
@@ -22,7 +22,12 @@
                 <form>
                     <sheet>
                         <group col="2">
-                            <field name="supplement_devis_id"  options="{'no_create': True, 'no_create_edit':True}"/>
+                            <field name="supplement_devis_id" attrs="{'invisible':[('id', '!=', False)]}" options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
+                            <field name="supplement_libelle"  attrs="{'readonly': True, 'invisible':[('id', '=', False)]}"/>
+                            <field name="supplement_libelle"  attrs="{'invisible': True}"/>
+
+
+
                             <field name="quantite"/>
                             <field name="prix_unitaire"/>
                             <field name="tarif"/>

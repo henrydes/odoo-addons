@@ -13,6 +13,7 @@ class LigneSupplementDevis(models.Model):
 
     supplement_devis_id = fields.Many2one('groupe_cayla.supplement_devis', required=True, string='Type')
 
+    supplement_libelle = fields.Char(string='Supplément')
     quantite = fields.Float(required=True)
     tarif = fields.Float(required=True)
     prix_unitaire = fields.Float(required=True)
@@ -22,9 +23,11 @@ class LigneSupplementDevis(models.Model):
         if self.supplement_devis_id:
             self.prix_unitaire = self.supplement_devis_id.prix_unitaire
             self.quantite = 1
+            self.supplement_libelle = self.supplement_devis_id.libelle
         else:
-            self.prix_unitaire_1 = 0
+            self.prix_unitaire = 0
             self.quantite = 0
+            self.supplement_libelle = None
 
     @api.onchange('prix_unitaire', 'quantite')
     def onchange_prix_unitaire(self):
