@@ -19,3 +19,10 @@ from . import modele_produit
 from . import ligne_devis
 from . import ligne_chantier
 from . import ligne_sujet_devis
+
+from . import type_chauffage
+from . import type_client
+from . import convention
+from . import zone_habitation
+from . import fiche
+from . import source_energie_chauffage

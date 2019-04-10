@@ -45,6 +45,12 @@
         'views/ligne_devis.xml',
         'views/ligne_chantier.xml',
         'views/ligne_sujet_devis.xml',
+        'views/type_client.xml',
+        'views/zone_habitation.xml',
+        'views/convention.xml',
+        'views/fiche.xml',
+        'views/type_chauffage.xml',
+        'views/source_energie_chauffage.xml',
     ],
     'application': True,
 }

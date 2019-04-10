@@ -65,6 +65,43 @@
                 view_mode="tree,form"/>
 
 
+        <act_window
+                id="action_cayla_type_client"
+                name="Types de clients"
+                res_model="groupe_cayla.type_client"
+                view_mode="tree,form"/>
+
+        <act_window
+                id="action_cayla_zone_habitation"
+                name="Zones d'habitation"
+                res_model="groupe_cayla.zone_habitation"
+                view_mode="tree,form"/>
+
+        <act_window
+                id="action_cayla_convention"
+                name="Conventions"
+                res_model="groupe_cayla.convention"
+                view_mode="tree,form"/>
+
+        <act_window
+                id="action_cayla_fiche"
+                name="Fiches"
+                res_model="groupe_cayla.fiche"
+                view_mode="tree,form"/>
+
+        <act_window
+                id="action_cayla_type_chauffage"
+                name="Types de chauffage"
+                res_model="groupe_cayla.type_chauffage"
+                view_mode="tree,form"/>
+
+        <act_window
+                id="action_cayla_source_energie_chauffage"
+                name="Source d'énergie chauffage"
+                res_model="groupe_cayla.source_energie_chauffage"
+                view_mode="tree,form"/>
+
+
         <!-- Top menu item -->
         <menuitem name="Groupe Cayla" id="groupe_cayla.menu_root"
                   web_icon="groupe_cayla,static/description/icon.png" sequence="6"/>
@@ -97,6 +134,21 @@
                   action="action_cayla_marque_produit"/>
         <menuitem name="Modèles produits" id="groupe_cayla.modele_produit" parent="groupe_cayla.param_produits"
                   action="action_cayla_modele_produit"/>
+
+        <menuitem name="Paramétrages CEE" id="groupe_cayla.param_cee"
+                  parent="groupe_cayla.administration"/>
+        <menuitem name="Types de client" id="groupe_cayla.type_client" parent="groupe_cayla.param_cee"
+                  action="action_cayla_type_client"/>
+        <menuitem name="Zones d'habitation" id="groupe_cayla.zone_habitation" parent="groupe_cayla.param_cee"
+                  action="action_cayla_zone_habitation"/>
+        <menuitem name="Conventions" id="groupe_cayla.convention" parent="groupe_cayla.param_cee"
+                  action="action_cayla_convention"/>
+        <menuitem name="Fiches" id="groupe_cayla.fiche" parent="groupe_cayla.param_cee"
+                  action="action_cayla_fiche"/>
+        <menuitem name="Sources d'énergie chauffage" id="groupe_cayla.source_energie_chauffage" parent="groupe_cayla.param_cee"
+                  action="action_cayla_source_energie_chauffage"/>
+        <menuitem name="Types chauffage" id="groupe_cayla.type_chauffage" parent="groupe_cayla.param_cee"
+                  action="action_cayla_type_chauffage"/>
 
     </data>
 </odoo>
