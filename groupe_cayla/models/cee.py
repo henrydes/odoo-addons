@@ -25,6 +25,7 @@ class CEE(models.Model):
         required=True,
     )
 
+    devis_id = fields.Many2one('groupe_cayla.devis', store=False, compute='_compute_devis')
     type_client_id = fields.Many2one('groupe_cayla.type_client', required=True)
     zone_habitation_id = fields.Many2one('groupe_cayla.zone_habitation', required=True)
     type_chauffage_id = fields.Many2one('groupe_cayla.type_chauffage', required=True)
@@ -33,6 +34,8 @@ class CEE(models.Model):
     convention_id = fields.Many2one('groupe_cayla.convention', required=True)
     fiche_1_id = fields.Many2one('groupe_cayla.fiche', required=True, string='Fiche')
     fiche_2_id = fields.Many2one('groupe_cayla.fiche', required=True, string='Fiche')
+
+    objet_devis = fields.Char(compute='_compute_devis_data', store=False)
 
     ref_fiscale = fields.Char(required=True)
     foyer = fields.Integer(required=True)
@@ -43,3 +46,20 @@ class CEE(models.Model):
         for c in self:
             if c.type_chauffage_id:
                 c.source_energie_chauffage = c.type_chauffage_id.source_energie_chauffage_id.libelle
+
+    @api.depends('client_id')
+    def _compute_devis(self):
+        for c in self:
+            if c.client_id:
+                if c.client_id.devis_id:
+                    c.devis_id = c.client_id.devis_id
+                else:
+                    c.devis_id = None
+
+    @api.depends('devis_id')
+    def _compute_devis_data(self):
+        for c in self:
+            if c.devis_id:
+                c.objet_devis = c.devis_id.objet.libelle
+            else:
+                c.objet_devis = None

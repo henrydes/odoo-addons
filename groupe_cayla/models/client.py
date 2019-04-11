@@ -301,17 +301,16 @@ class Client(models.Model):
                 record.nb_sac_chantier = None
                 record.temps_passe_chantier = None
                 record.chantier_realise_chantier = None
-
-
-
             else:
                 record.date_de_realisation_chantier = record.chantier_id.date_de_realisation
                 record.equipier_1_id_chantier = record.chantier_id.equipier_1_id
                 record.equipier_2_id_chantier = record.chantier_id.equipier_2_id
-                record.produit_chantier = record.chantier_id.lignes_chantier[0].produit_id.libelle
+                if len(record.chantier_id.lignes_chantier) > 0:
+                    record.produit_chantier = record.chantier_id.lignes_chantier[0].produit_id.libelle
                 if len(record.chantier_id.lignes_chantier) > 1:
                     record.produit_chantier += ', ...'
-                record.marque_produit_chantier = record.chantier_id.lignes_chantier[0].marque_produit_id.libelle
+                if len(record.chantier_id.lignes_chantier) > 0:
+                    record.marque_produit_chantier = record.chantier_id.lignes_chantier[0].marque_produit_id.libelle
                 if len(record.chantier_id.lignes_chantier) > 1:
                     record.marque_produit_chantier += ', ...'
                 for ligne in record.chantier_id.lignes_chantier:
