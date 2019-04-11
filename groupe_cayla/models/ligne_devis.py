@@ -159,7 +159,6 @@ class LigneDevis(models.Model):
         if ligne_devis.devis_id.client_id.cee_id:
             type_ligne_cee = self.env['groupe_cayla.ligne_cee']
             ligne_cee = type_ligne_cee.search([('ligne_devis_id', '=', ligne_devis.id)], limit=1)
-
             if ligne_cee:
                 cee = self.env['groupe_cayla.cee'].search([('client_id', '=', ligne_devis.devis_id.client_id.id)],
                                                           limit=1)
@@ -194,9 +193,7 @@ class LigneDevis(models.Model):
     def get_reversion_cee(self, montant_prime_total, ligne_devis, cee):
         if cee and ligne_devis.prime_cee and cee.type_client_id:
             if cee.type_client_id.donne_droit_reversion_taux_plein_prime_cee:
-                taux_reversion_id = self.env['groupe_cayla.taux_reversion'].search([], limit=1)
-                taux_reversion = taux_reversion_id.taux if taux_reversion_id else 1
-                ligne_devis.prix_total * taux_reversion - 1
+                ligne_devis.prix_total * 1.055 - 1
             else:
                 return montant_prime_total / 1.1
         else:

@@ -13,6 +13,12 @@
                 res_model="groupe_cayla.devis"
                 view_mode="tree,form"/>
 
+         <act_window
+                id="action_cayla_cee"
+                name="CEE"
+                res_model="groupe_cayla.cee"
+                view_mode="tree,form"/>
+
         <act_window
                 id="action_cayla_planif_vt"
                 name="Planif VT"
@@ -107,11 +113,6 @@
                 res_model="groupe_cayla.tarif_prime_cee"
                 view_mode="tree,form"/>
 
-        <act_window
-                id="action_cayla_taux_reversion"
-                name="Taux reversion"
-                res_model="groupe_cayla.taux_reversion"
-                view_mode="tree,form"/>
 
 
         <!-- Top menu item -->
@@ -122,6 +123,7 @@
         <menuitem name="Clients" id="groupe_cayla.clients" parent="groupe_cayla.menu_root"
                   action="action_cayla_clients"/>
         <menuitem name="Devis" id="groupe_cayla.devis" parent="groupe_cayla.menu_root" action="action_cayla_devis"/>
+        <menuitem name="CEE" id="groupe_cayla.cee" parent="groupe_cayla.menu_root" action="action_cayla_cee"/>
         <menuitem name="Administration" id="groupe_cayla.administration" parent="groupe_cayla.menu_root"/>
         <menuitem name="Taux TVA" id="groupe_cayla.taux_tva" parent="groupe_cayla.administration"
                   action="action_cayla_taux_tva"/>
@@ -164,8 +166,6 @@
                   action="action_cayla_type_chauffage"/>
         <menuitem name="Tarifs des primes CEE" id="groupe_cayla.tarif_prime_cee" parent="groupe_cayla.param_cee"
                   action="action_cayla_tarif_prime_cee"/>
-        <menuitem name="Taux Reversion" id="groupe_cayla.taux_reversion" parent="groupe_cayla.param_cee"
-                  action="action_cayla_taux_reversion"/>
 
     </data>
 </odoo>
