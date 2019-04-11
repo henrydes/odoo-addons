@@ -56,6 +56,26 @@ class LigneDevis(models.Model):
         for record in self:
             record.prix_total = record.quantite * record.prix_unitaire
 
+    @api.onchange('sujet_devis_id', 'prime_cee')
+    def onchange_sujet_devis_prime_cee(self):
+        for record in self:
+            record.prix_unitaire = None
+            if record.sujet_devis_id:
+                if record.sujet_devis_id.tarif_tout_compris:
+                    if record.devis_id.type_professionnel:
+                        record.prix_unitaire = record.sujet_devis_id.tarif_pro
+                    elif record.devis_id.client_id.cee_id and record.devis_id.client_id.cee_id.type_client_id.donne_droit_tarif_solidarite_energetique == True and record.prime_cee == True:
+                        record.prix_unitaire = record.sujet_devis_id.tarif_solidarite_energetique
+                    else:
+                        record.prix_unitaire = record.sujet_devis_id.tarif_particulier
+                else:
+                    if record.devis_id.type_professionnel:
+                        record.prix_unitaire = record.ligne_sujet_devis_id.tarif_pro
+                    elif record.devis_id.client_id.cee_id and record.devis_id.client_id.cee_id.type_client_id.donne_droit_tarif_solidarite_energetique == True and record.prime_cee == True:
+                        record.prix_unitaire = record.ligne_sujet_devis_id.tarif_solidarite_energetique
+                    else:
+                        record.prix_unitaire = record.ligne_sujet_devis_id.tarif_particulier
+
     @api.onchange('sujet_devis_id')
     def on_change_sujet_devis_id(self):
         for record in self:
@@ -64,16 +84,7 @@ class LigneDevis(models.Model):
                 record.ligne_sujet_devis_id = None
                 record.marque_produit_id = None
                 record.modele_produit_id = None
-                if record.sujet_devis_id.tarif_tout_compris:
-                    # si tarif tout compris, le tarif est porté par le SUJET, sinon par le PRODUIT
-                    # TODO tarif eco : si service energie client type P.GP (particulier grand précaire) et devis Prime CEE
-                    # à implémenter après avoir fait le service energie
-                    if record.devis_id.type_professionnel:
-                        record.prix_unitaire = record.sujet_devis_id.tarif_pro
-                    else:
-                        record.prix_unitaire = record.sujet_devis_id.tarif_particulier
-                else:
-                    record.prix_unitaire = None
+
 
     @api.onchange('ligne_sujet_devis_id')
     def on_change_ligne_sujet_devis_id(self):

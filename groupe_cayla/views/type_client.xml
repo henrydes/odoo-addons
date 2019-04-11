@@ -22,6 +22,7 @@
                         <group>
                             <field name="code"/>
                             <field name="libelle"/>
+                            <field name="donne_droit_tarif_solidarite_energetique"/>
                         </group>
                     </sheet>
                     <div class="oe_chatter">

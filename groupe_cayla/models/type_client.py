@@ -13,3 +13,5 @@ class TypeClient(models.Model):
 
     code = fields.Char(required=True)
     libelle = fields.Char(required=True)
+
+    donne_droit_tarif_solidarite_energetique = fields.Boolean(default=False, string='Donne droit au tarif Solidarité Energétique')
