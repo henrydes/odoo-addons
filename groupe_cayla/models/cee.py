@@ -96,6 +96,10 @@ class CEE(models.Model):
                         l.montant_prime_unitaire = None
                 else:
                     l.montant_prime_unitaire = None
+                if l.montant_prime_unitaire:
+                    l.montant_prime_total = l.montant_prime_unitaire * l.ligne_devis_id.quantite
+                else:
+                    l.montant_prime_total = None
 
 
     @api.model
