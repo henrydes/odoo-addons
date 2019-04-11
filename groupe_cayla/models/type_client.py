@@ -15,3 +15,4 @@ class TypeClient(models.Model):
     libelle = fields.Char(required=True)
 
     donne_droit_tarif_solidarite_energetique = fields.Boolean(default=False, string='Donne droit au tarif Solidarité Energétique')
+    donne_droit_reversion_prime_cee = fields.Boolean(default=False, string='Donne droit à la reversion de la prime CEE')

@@ -6,7 +6,6 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
-
 class Devis(models.Model):
     _name = 'groupe_cayla.devis'
     _description = 'Un devis'
@@ -26,7 +25,6 @@ class Devis(models.Model):
         required=True,
         ondelete='cascade'
     )
-
 
     user_id = fields.Many2one(
         'res.users',
@@ -72,24 +70,19 @@ class Devis(models.Model):
     _rec_name = 'combination'
     combination = fields.Char(string='Combination', compute='_compute_fields_combination')
 
-
     @api.depends('numero')
     def _compute_fields_combination(self):
         for d in self:
             d.combination = 'Devis numéro ' + d.numero
-
-
 
     @api.depends('type_eco_cheque')
     def _compute_montant_eco_cheque(self):
         for d in self:
             d.montant_eco_cheque = 1500 if d.type_eco_cheque else 0
 
-    @api.depends('lignes_supplement_devis', 'lignes_devis')
+    @api.depends('lignes_devis')
     def _compute_superficie(self):
         for d in self:
-            for ligne_supplement in d.lignes_supplement_devis:
-                d.superficie += ligne_supplement.quantite
             for ligne in d.lignes_devis:
                 d.superficie += ligne.quantite
 
@@ -123,15 +116,18 @@ class Devis(models.Model):
 
     @api.multi
     def write(self, vals):
-        client = self.client_id
         if 'date_envoi' in vals and vals['date_envoi']:
             vals['etat'] = 'valide'
         super().write(vals)
+
+        client = self.client_id
+
         devis = self.env['groupe_cayla.devis'].search([('id', '=', self.id)], limit=1)
         if devis.date_acceptation:
             client.etat = 'chantier_a_planifier'
         elif devis.date_refus:
             client.etat = 'annule_par_client'
+
         return True
 
     @api.onchange('type_professionnel')
@@ -171,5 +167,3 @@ class Devis(models.Model):
     def set_date_envoi_to_none(self):
         self.date_envoi = None
         self.etat = 'nouveau'
-
-

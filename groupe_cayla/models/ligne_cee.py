@@ -18,6 +18,7 @@ class LigneCEE(models.Model):
 
     montant_prime_unitaire = fields.Float(required=True)
     montant_prime_total = fields.Float()
+    montant_reversion=fields.Float()
 
     _rec_name = 'combination'
     combination = fields.Char(string='Combination', compute='_compute_fields_combination')
@@ -39,5 +40,4 @@ class LigneCEE(models.Model):
 
     @api.onchange('montant_prime_unitaire')
     def onchange_primeunitaire(self):
-        for l in self:
-            l.montant_prime_total = l.montant_prime_unitaire * l.quantite_ligne_devis
+        self.montant_prime_total = self.montant_prime_unitaire * self.quantite_ligne_devis

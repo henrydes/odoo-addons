@@ -27,7 +27,7 @@ class CEE(models.Model):
 
     lignes_cee = fields.One2many('groupe_cayla.ligne_cee', 'cee_id', string='Lignes')
 
-    devis_id = fields.Many2one('groupe_cayla.devis', store=False, compute='_compute_devis')
+    devis_id = fields.Many2one('groupe_cayla.devis', store=False, compute='_compute_devis', ondelete='cascade')
     type_client_id = fields.Many2one('groupe_cayla.type_client', required=True)
     zone_habitation_id = fields.Many2one('groupe_cayla.zone_habitation', required=True)
     type_chauffage_id = fields.Many2one('groupe_cayla.type_chauffage', required=True)
@@ -45,6 +45,19 @@ class CEE(models.Model):
 
     _rec_name = 'combination'
     combination = fields.Char(string='Combination', compute='_compute_fields_combination')
+
+    somme_reversion = fields.Float(string='Prime client', compute='_compute_sommes', store=True)
+    somme_primes = fields.Float(string='Montant HT', compute='_compute_sommes', store=True)
+
+    @api.depends('lignes_cee')
+    def _compute_sommes(self):
+        for d in self:
+            if d.lignes_cee:
+                d.somme_primes = 0
+                d.somme_reversion = 0
+                for l in d.lignes_cee:
+                    d.somme_primes += l.montant_prime_total
+                    d.somme_reversion += l.montant_reversion
 
     @api.depends('convention_id', 'type_client_id')
     def _compute_fields_combination(self):
@@ -74,8 +87,25 @@ class CEE(models.Model):
             else:
                 c.objet_devis = None
 
+    @api.onchange('type_client_id')
+    def onchange_type_client(self):
+        somme_reversion = 0
+        if self.type_client_id and self.type_client_id.donne_droit_reversion_prime_cee and self.lignes_cee:
+            taux_reversion_id = self.env['groupe_cayla.taux_reversion'].search([], limit=1)
+            taux_reversion = taux_reversion_id.taux if taux_reversion_id else 1
+            for l in self.lignes_cee:
+                prime_cee = l.ligne_devis_id.prime_cee
+                if prime_cee:
+                    l.montant_reversion = l.ligne_devis_id.prix_total * taux_reversion - 1
+                    somme_reversion += l.montant_reversion
+                else:
+                    l.montant_reversion = 0
+        self.somme_reversion = somme_reversion
+
+
     @api.onchange('type_client_id', 'zone_habitation_id', 'convention_id', 'type_chauffage_id')
     def onchange_cee_data(self):
+        somme_primes = 0
         if self.type_client_id and self.zone_habitation_id and self.convention_id and self.lignes_cee:
             for l in self.lignes_cee:
                 if l.ligne_devis_id:
@@ -107,8 +137,10 @@ class CEE(models.Model):
                     l.montant_prime_unitaire = None
                 if l.montant_prime_unitaire:
                     l.montant_prime_total = l.montant_prime_unitaire * l.ligne_devis_id.quantite
+                    somme_primes += l.montant_prime_total
                 else:
                     l.montant_prime_total = None
+        self.somme_primes = somme_primes
 
     @api.model
     def default_get(self, fields_list):

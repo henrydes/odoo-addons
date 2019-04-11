@@ -10,6 +10,7 @@
                     <field name="montant_prime_unitaire"/>
                     <field name="quantite_ligne_devis"/>
                     <field name="montant_prime_total"/>
+                    <field name="montant_reversion"/>
                 </tree>
             </field>
         </record>
@@ -22,11 +23,12 @@
                 <form>
                     <sheet>
                         <group col="2">
+                            <field name="ligne_devis_id" attrs="{'invisible': True}"/>
                             <field name="sujet_ligne_devis"/>
                             <field name="montant_prime_unitaire"/>
                             <field name="quantite_ligne_devis"/>
-
                             <field name="montant_prime_total"/>
+                            <field name="montant_reversion"/>
 
                         </group>
                     </sheet>

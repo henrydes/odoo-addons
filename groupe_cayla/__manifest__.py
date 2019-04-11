@@ -54,6 +54,7 @@
         'views/tarif_prime_cee.xml',
         'views/cee.xml',
         'views/ligne_cee.xml',
+        'views/taux_reversion.xml',
     ],
     'application': True,
 }

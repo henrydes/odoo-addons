@@ -1,29 +1,25 @@
 <odoo>
     <data>
 
-        <record model="ir.ui.view" id="view_tree_type_client">
-            <field name="name">Liste des types client</field>
-            <field name="model">groupe_cayla.type_client</field>
+        <record model="ir.ui.view" id="view_tree_taux_reversion">
+            <field name="name">Liste des taux_reversion</field>
+            <field name="model">groupe_cayla.taux_reversion</field>
             <field name="arch" type="xml">
                 <tree>
-                    <field name="code"/>
-                    <field name="libelle"/>
+                    <field name="taux_as_char"/>
                 </tree>
             </field>
         </record>
 
 
-        <record id="view_form_type_client" model="ir.ui.view">
-            <field name="name">Formulaire type_client</field>
-            <field name="model">groupe_cayla.type_client</field>
+        <record id="view_form_taux_reversion" model="ir.ui.view">
+            <field name="name">Formulaire taux_reversion</field>
+            <field name="model">groupe_cayla.taux_reversion</field>
             <field name="arch" type="xml">
                 <form>
                     <sheet>
                         <group>
-                            <field name="code"/>
-                            <field name="libelle"/>
-                            <field name="donne_droit_tarif_solidarite_energetique"/>
-                            <field name="donne_droit_reversion_prime_cee"/>
+                            <field name="taux"/>
                         </group>
                     </sheet>
                     <div class="oe_chatter">

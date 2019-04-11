@@ -107,6 +107,12 @@
                 res_model="groupe_cayla.tarif_prime_cee"
                 view_mode="tree,form"/>
 
+        <act_window
+                id="action_cayla_taux_reversion"
+                name="Taux reversion"
+                res_model="groupe_cayla.taux_reversion"
+                view_mode="tree,form"/>
+
 
         <!-- Top menu item -->
         <menuitem name="Groupe Cayla" id="groupe_cayla.menu_root"
@@ -151,12 +157,15 @@
                   action="action_cayla_convention"/>
         <menuitem name="Fiches" id="groupe_cayla.fiche" parent="groupe_cayla.param_cee"
                   action="action_cayla_fiche"/>
-        <menuitem name="Sources d'énergie chauffage" id="groupe_cayla.source_energie_chauffage" parent="groupe_cayla.param_cee"
+        <menuitem name="Sources d'énergie chauffage" id="groupe_cayla.source_energie_chauffage"
+                  parent="groupe_cayla.param_cee"
                   action="action_cayla_source_energie_chauffage"/>
         <menuitem name="Types chauffage" id="groupe_cayla.type_chauffage" parent="groupe_cayla.param_cee"
                   action="action_cayla_type_chauffage"/>
         <menuitem name="Tarifs des primes CEE" id="groupe_cayla.tarif_prime_cee" parent="groupe_cayla.param_cee"
                   action="action_cayla_tarif_prime_cee"/>
+        <menuitem name="Taux Reversion" id="groupe_cayla.taux_reversion" parent="groupe_cayla.param_cee"
+                  action="action_cayla_taux_reversion"/>
 
     </data>
 </odoo>
