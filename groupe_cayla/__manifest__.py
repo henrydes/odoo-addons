@@ -51,6 +51,7 @@
         'views/fiche.xml',
         'views/type_chauffage.xml',
         'views/source_energie_chauffage.xml',
+        'views/tarif_prime_cee.xml',
     ],
     'application': True,
 }

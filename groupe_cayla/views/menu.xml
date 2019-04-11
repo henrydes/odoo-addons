@@ -101,6 +101,12 @@
                 res_model="groupe_cayla.source_energie_chauffage"
                 view_mode="tree,form"/>
 
+        <act_window
+                id="action_cayla_tarif_prime_cee"
+                name="Tarifs des primes CEE"
+                res_model="groupe_cayla.tarif_prime_cee"
+                view_mode="tree,form"/>
+
 
         <!-- Top menu item -->
         <menuitem name="Groupe Cayla" id="groupe_cayla.menu_root"
@@ -149,6 +155,8 @@
                   action="action_cayla_source_energie_chauffage"/>
         <menuitem name="Types chauffage" id="groupe_cayla.type_chauffage" parent="groupe_cayla.param_cee"
                   action="action_cayla_type_chauffage"/>
+        <menuitem name="Tarifs des primes CEE" id="groupe_cayla.tarif_prime_cee" parent="groupe_cayla.param_cee"
+                  action="action_cayla_tarif_prime_cee"/>
 
     </data>
 </odoo>
