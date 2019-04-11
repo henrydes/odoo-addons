@@ -21,14 +21,17 @@
                     <sheet>
                         <div name="button_box" class="oe_button_box">
 
-                            <span style="font-weight: bold">Solde client : <field string="Solde client" name="solde_client" /> €</span>
+                            <span style="font-weight: bold">Solde client :
+                                <field string="Solde client" name="solde_client"/>
+                                €
+                            </span>
                         </div>
                         <group col="6">
                             <field name="etat" attrs="{'readonly': True}"/>
                             <field name="ref" position="attributes">
                                 <attribute name="string">Réf.</attribute>
                             </field>
-                             <field name="type_client_cee"/>
+                            <field name="type_client_cee"/>
                         </group>
                         <group col="6">
                             <field name="title" options="{'no_create': True, 'no_create_edit':True, 'no_open':True}"/>
@@ -37,7 +40,8 @@
                             <field name="street2"/>
                             <field name="zip"/>
                             <field name="city"/>
-                            <field name="country_id" options="{'no_create': True, 'no_create_edit':True, 'no_open':True}"/>
+                            <field name="country_id"
+                                   options="{'no_create': True, 'no_create_edit':True, 'no_open':True}"/>
                             <field name="comment"/>
                         </group>
                         <notebook>
@@ -142,17 +146,23 @@
                             <page string="Service énergie">
                                 <sheet>
                                     <group col="1">
-                                        <group string="5.2 - CEE contribution"
-                                               attrs="{'invisible':[('active_id', '=', False)]}">
+                                        <group string="5.2 - CEE contribution">
+                                            <group attrs="{'invisible':[('etat_devis', '!=', 'valide')]}">
+                                                <field name="etat_devis" attrs="{'invisible': True}"/>
 
-                                            <field name="cee_id"
-                                                   domain="[('client_id', '=', active_id)]"
-                                                   context="{'default_client_id': active_id, 'default_user_id': uid}"/>
-                                            <field name="convention_cee" options="{'no_open': True}"/>
-                                            <field name="fiche_1_cee" options="{'no_open': True}"/>
-                                            <field name="fiche_2_cee" options="{'no_open': True}"/>
-                                            <field name="somme_primes_cee"/>
-                                            <field name="somme_reversion_cee"/>
+                                                <field name="cee_id"
+                                                       domain="[('client_id', '=', active_id)]"
+                                                       context="{'default_client_id': active_id, 'default_user_id': uid}"/>
+                                                <field name="convention_cee" options="{'no_open': True}"/>
+                                                <field name="fiche_1_cee" options="{'no_open': True}"/>
+                                                <field name="fiche_2_cee" options="{'no_open': True}"/>
+                                                <field name="somme_primes_cee"/>
+                                                <field name="somme_reversion_cee"/>
+                                            </group>
+                                            <group attrs="{'invisible':[('etat_devis', '=', 'valide')]}">
+                                                <span>Veuillez d'abord valider (envoyer) le devis.</span>
+                                            </group>
+
                                         </group>
                                     </group>
                                 </sheet>

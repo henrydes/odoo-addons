@@ -127,7 +127,7 @@ class LigneDevis(models.Model):
         _logger.info(self.modele_libelle)
         values['prix_total'] = values['quantite'] * values['prix_unitaire']
         rec = super(LigneDevis, self).create(values)
-        self.create_ligne_cee(rec)
+        #self.create_ligne_cee(rec)
         return rec
 
     @api.multi
@@ -136,7 +136,7 @@ class LigneDevis(models.Model):
         prix_unitaire = values['prix_unitaire'] if 'prix_unitaire' in values else self.prix_unitaire
         values['prix_total'] = quantite * prix_unitaire
         super().write(values)
-        self.edit_ligne_cee(self.env['groupe_cayla.ligne_devis'].search([('id', '=', self.id)], limit=1))
+        #self.edit_ligne_cee(self.env['groupe_cayla.ligne_devis'].search([('id', '=', self.id)], limit=1))
         return True
 
     def create_ligne_cee(self, ligne_devis):

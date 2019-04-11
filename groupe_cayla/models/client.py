@@ -154,6 +154,8 @@ class Client(models.Model):
                                string="N° Devis", store=False)
     montant_ttc_devis = fields.Float(compute='_compute_devis',
                                      string="Montant TTC", store=False)
+    etat_devis = fields.Char(compute='_compute_devis',
+                               string="Etat devis", store=False)
 
     @api.onchange('date_acceptation_devis')
     def on_change_date_acceptation_devis(self):
@@ -177,6 +179,7 @@ class Client(models.Model):
     def _compute_devis(self):
         for record in self:
             if record.devis_id is None:
+                record.etat_devis = None
                 record.numero_devis = None
                 record.montant_ttc_devis = None
                 record.date_edition_devis = None
@@ -193,6 +196,7 @@ class Client(models.Model):
                 record.date_acceptation_devis = record.devis_id.date_acceptation
                 record.date_refus_devis = record.devis_id.date_refus
                 record.utilisateur_devis = record.devis_id.user_id
+                record.etat_devis = record.devis_id.etat
 
     # 5.2 Saisie CEE
     cee_id = fields.Many2one(
