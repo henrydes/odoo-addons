@@ -116,6 +116,7 @@ class LigneDevis(models.Model):
         _logger.info(self.modele_libelle)
         values['prix_total'] = values['quantite'] * values['prix_unitaire']
         rec = super(LigneDevis, self).create(values)
+        self.create_ligne_cee(rec)
         return rec
 
     @api.multi
@@ -123,4 +124,52 @@ class LigneDevis(models.Model):
         quantite = values['quantite'] if 'quantite' in values else self.quantite
         prix_unitaire = values['prix_unitaire'] if 'prix_unitaire' in values else self.prix_unitaire
         values['prix_total'] = quantite * prix_unitaire
+        super().write(values)
+        self.edit_ligne_cee(self.env['groupe_cayla.ligne_devis'].search([('id', '=', self.id)], limit=1))
         return True
+
+    def create_ligne_cee(self, ligne_devis):
+        if ligne_devis.devis_id.client_id.cee_id:
+            cee = self.env['groupe_cayla.cee'].search([('client_id', '=', ligne_devis.devis_id.client_id.id)], limit=1)
+            type_ligne_cee = self.env['groupe_cayla.ligne_cee']
+            montant_prime_unitaire = self.get_prime_cee(ligne_devis, cee)
+            montant_prime_total = montant_prime_unitaire * ligne_devis.quantite
+            type_ligne_cee.create({
+                'cee_id': cee.id,
+                'ligne_devis_id': ligne_devis.id,
+                'montant_prime_unitaire': montant_prime_unitaire,
+                'montant_prime_total': montant_prime_total
+            })
+
+    def edit_ligne_cee(self, ligne_devis):
+        if ligne_devis.devis_id.client_id.cee_id:
+            type_ligne_cee = self.env['groupe_cayla.ligne_cee']
+            ligne_cee = type_ligne_cee.search([('ligne_devis_id', '=', ligne_devis.id)], limit=1)
+
+            if ligne_cee:
+                cee = self.env['groupe_cayla.cee'].search([('client_id', '=', ligne_devis.devis_id.client_id.id)],
+                                                          limit=1)
+                montant_prime_unitaire = self.get_prime_cee(ligne_devis, cee)
+                montant_prime_total = montant_prime_unitaire * ligne_devis.quantite
+                ligne_cee.write({
+                    'montant_prime_unitaire': montant_prime_unitaire,
+                    'montant_prime_total': montant_prime_total
+                })
+
+    def get_prime_cee(self, ligne_devis, cee):
+        montant_prime_unitaire = 0
+        primes = self.env['groupe_cayla.tarif_prime_cee'].search([
+            ('sujet_devis_id', '=', ligne_devis.sujet_devis_id.id),
+            ('convention_id', '=', cee.convention_id.id),
+            ('zone_habitation_id', '=', cee.zone_habitation_id.id),
+            ('type_client_id', '=', cee.type_client_id.id),
+        ])
+        if primes:
+            if len(primes) == 1:
+                montant_prime_unitaire = primes[0].prix_unitaire
+            elif len(primes) == 2:
+                prime = primes[0] if primes[
+                                         0].source_energie_chauffage_id.id == cee.type_chauffage_id.source_energie_chauffage_id.id else \
+                    primes[1]
+                montant_prime_unitaire = prime.prix_unitaire
+        return montant_prime_unitaire

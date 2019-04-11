@@ -11,7 +11,7 @@ class LigneCEE(models.Model):
 
     cee_id = fields.Many2one('groupe_cayla.cee')
 
-    ligne_devis_id = fields.Many2one('groupe_cayla.ligne_devis', ondelete='restrict')
+    ligne_devis_id = fields.Many2one('groupe_cayla.ligne_devis', ondelete='cascade')
 
     sujet_ligne_devis = fields.Char(compute='_compute_ligne_devis_data', store=False)
     quantite_ligne_devis = fields.Integer(compute='_compute_ligne_devis_data', store=False)

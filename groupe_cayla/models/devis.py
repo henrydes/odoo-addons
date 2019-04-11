@@ -114,7 +114,6 @@ class Devis(models.Model):
         client = self.env['groupe_cayla.client'].search([('id', '=', values['client_id'])], limit=1)
         client.etat = 'attente_commande'
         client.devis_id = rec
-        self.edit_cee(client, rec)
         return rec
 
     @api.multi
@@ -128,7 +127,6 @@ class Devis(models.Model):
             client.etat = 'chantier_a_planifier'
         elif devis.date_refus:
             client.etat = 'annule_par_client'
-        self.edit_cee(client, devis)
         return True
 
     @api.onchange('type_professionnel')
@@ -159,34 +157,4 @@ class Devis(models.Model):
         self.date_envoi = None
         self.etat = 'nouveau'
 
-
-    def edit_cee(self, client, devis):
-        if client.cee_id:
-            cee = self.env['groupe_cayla.cee'].search([('client_id', '=', client.id)], limit=1)
-            self.env['groupe_cayla.ligne_cee'].search([('cee_id', '=', cee.id)]).unlink()
-            lignes_devis = devis.lignes_devis
-            type_ligne_cee = self.env['groupe_cayla.ligne_cee']
-            for ligne_devis in lignes_devis:
-
-                montant_prime_unitaire = 0
-                primes = self.env['groupe_cayla.tarif_prime_cee'].search([
-                    ('sujet_devis_id', '=', ligne_devis.sujet_devis_id.id),
-                    ('convention_id', '=', cee.convention_id.id),
-                    ('zone_habitation_id', '=', cee.zone_habitation_id.id),
-                    ('type_client_id', '=', cee.type_client_id.id),
-                ])
-                if primes:
-                    if len(primes) == 1:
-                        montant_prime_unitaire = primes[0].prix_unitaire
-                    elif len(primes) == 2:
-                        prime = primes[0] if primes[0].source_energie_chauffage_id.id == cee.type_chauffage_id.source_energie_chauffage_id.id else primes[1]
-                        montant_prime_unitaire = prime.prix_unitaire
-                montant_prime_total = montant_prime_unitaire * ligne_devis.quantite
-
-                type_ligne_cee.create({
-                    'cee_id': cee.id,
-                    'ligne_devis_id': ligne_devis.id,
-                    'montant_prime_unitaire': montant_prime_unitaire,
-                    'montant_prime_total': montant_prime_total
-                })
 
