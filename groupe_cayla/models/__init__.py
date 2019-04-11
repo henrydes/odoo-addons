@@ -27,3 +27,4 @@ from . import zone_habitation
 from . import fiche
 from . import source_energie_chauffage
 from . import tarif_prime_cee
+from . import cee

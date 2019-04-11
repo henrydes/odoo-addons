@@ -160,7 +160,7 @@ class Client(models.Model):
             else:
                 record.date_de_realisation_vt = record.vt_id.date_de_realisation
 
-    # 5 Edition devis
+    # 5.1 Edition devis
     devis_id = fields.Many2one(
         'groupe_cayla.devis',
         delegate=False,
@@ -255,6 +255,37 @@ class Client(models.Model):
                 record.utilisateur_devis = None
             else:
                 record.utilisateur_devis = record.devis_id.user_id
+
+    # 5.2 Saisie CEE
+    cee_id = fields.Many2one(
+        'groupe_cayla.cee',
+        delegate=False,
+        required=False,
+        ondelete='set null'
+    )
+    type_client_cee = fields.Many2one('groupe_cayla.type_client', compute='_compute_cee',
+                                      string="Type client", store=False)
+    convention_cee = fields.Many2one('groupe_cayla.convention', compute='_compute_cee',
+                                      string="Délégataire", store=False)
+    fiche_1_cee = fields.Many2one('groupe_cayla.fiche', compute='_compute_cee',
+                                  string="Fiche", store=False)
+    fiche_2_cee = fields.Many2one('groupe_cayla.fiche', compute='_compute_cee',
+                                  string=".", store=False)
+
+    @api.depends('cee_id')
+    def _compute_cee(self):
+        for record in self:
+            if record.cee_id is None:
+                record.type_client_cee = None
+                record.convention_cee = None
+                record.fiche_1_cee = None
+                record.fiche_2_cee = None
+
+            else:
+                record.type_client_cee = record.cee_id.type_client_id
+                record.convention_cee = record.cee_id.convention_id
+                record.fiche_1_cee = record.cee_id.fiche_1_id
+                record.fiche_2_cee = record.cee_id.fiche_2_id
 
     # 6 Planif Chantier
     planif_chantier_id = fields.Many2one(

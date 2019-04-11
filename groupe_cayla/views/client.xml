@@ -23,11 +23,12 @@
 
                             <span style="font-weight: bold">Solde client : <field string="Solde client" name="montant_ttc_devis" /> €</span>
                         </div>
-                        <group col="4" colspan="6">
+                        <group col="6">
                             <field name="etat" attrs="{'readonly': True}"/>
                             <field name="ref" position="attributes">
                                 <attribute name="string">Réf.</attribute>
                             </field>
+                             <field name="type_client_cee"/>
                         </group>
                         <group col="6">
                             <field name="title" options="{'no_create': True, 'no_create_edit':True, 'no_open':True}"/>
@@ -138,9 +139,19 @@
                                     </group>
                                 </sheet>
                             </page>
-                            <page string="Service energie">
+                            <page string="Service énergie">
                                 <sheet>
                                     <group col="3">
+                                        <group string="5.2 - CEE contribution"
+                                               attrs="{'invisible':[('active_id', '=', False)]}">
+
+                                            <field name="cee_id"
+                                                   domain="[('client_id', '=', active_id)]"
+                                                   context="{'default_client_id': active_id, 'default_user_id': uid}"/>
+                                            <field name="convention_cee" options="{'no_open': True}"/>
+                                            <field name="fiche_1_cee" options="{'no_open': True}"/>
+                                            <field name="fiche_2_cee" options="{'no_open': True}"/>
+                                        </group>
                                     </group>
                                 </sheet>
                             </page>

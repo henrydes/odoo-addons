@@ -1,0 +1,61 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="view_tree_cee">
+            <field name="name">Liste des cee</field>
+            <field name="model">groupe_cayla.cee</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="client_id" attrs="{'invisible': True}"/>
+                    <field name="type_client_id"/>
+                    <field name="zone_habitation_id"/>
+
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_form_cee" model="ir.ui.view">
+            <field name="name">Formulaire cee</field>
+            <field name="model">groupe_cayla.cee</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+
+                        <group col="2">
+
+
+                            <field name="client_id"
+                                   options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
+                            <field name="type_client_id"
+                                   options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
+                            <field name="zone_habitation_id"
+                                   options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
+                            <field name="source_energie_chauffage"/>
+                            <field name="type_chauffage_id"
+                                   options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
+                            <field name="convention_id"
+                                   options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
+                            <field name="fiche_1_id"
+                                   options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
+                            <field name="fiche_2_id"
+                                   options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
+                            <field name="ref_fiscale"/>
+                            <field name="foyer"/>
+                            <field name="locataire"/>
+                        </group>
+
+
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>
