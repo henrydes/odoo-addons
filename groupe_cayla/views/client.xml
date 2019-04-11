@@ -21,7 +21,7 @@
                     <sheet>
                         <div name="button_box" class="oe_button_box">
 
-                            <span style="font-weight: bold">Solde client : <field string="Solde client" name="montant_ttc_devis" /> €</span>
+                            <span style="font-weight: bold">Solde client : <field string="Solde client" name="solde_client" /> €</span>
                         </div>
                         <group col="6">
                             <field name="etat" attrs="{'readonly': True}"/>
@@ -151,6 +151,8 @@
                                             <field name="convention_cee" options="{'no_open': True}"/>
                                             <field name="fiche_1_cee" options="{'no_open': True}"/>
                                             <field name="fiche_2_cee" options="{'no_open': True}"/>
+                                            <field name="somme_primes_cee"/>
+                                            <field name="somme_reversion_cee"/>
                                         </group>
                                     </group>
                                 </sheet>

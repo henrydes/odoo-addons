@@ -25,6 +25,21 @@ class Client(models.Model):
     ], default='nouveau'
     )
 
+    solde_client = fields.Float(compute='_compute_solde_client', store=True)
+
+    @api.depends('cee_id', 'devis_id')
+    def _compute_solde_client(self):
+        for record in self:
+            montant_ttc_devis = 0
+            somme_reversions_cee = 0
+            if record.devis_id:
+                montant_ttc_devis = record.devis_id.montant_ttc
+            if record.cee_id:
+                somme_reversions_cee = record.cee_id.somme_reversion
+            record.solde_client = montant_ttc_devis - somme_reversions_cee
+
+
+
     # 1 Source apporteur
     date_entree = fields.Date()
     utilisateur_id = fields.Many2one('res.users')
@@ -194,6 +209,8 @@ class Client(models.Model):
                                   string="Fiche", store=False)
     fiche_2_cee = fields.Many2one('groupe_cayla.fiche', compute='_compute_cee',
                                   string=" ", store=False)
+    somme_reversion_cee = fields.Float(compute='_compute_cee', string='Prime client');
+    somme_primes_cee = fields.Float(compute='_compute_cee', string='Montant HT');
 
     @api.depends('cee_id')
     def _compute_cee(self):
@@ -203,12 +220,16 @@ class Client(models.Model):
                 record.convention_cee = None
                 record.fiche_1_cee = None
                 record.fiche_2_cee = None
+                record.somme_primes_cee = None
+                record.somme_reversion_cee = None
 
             else:
                 record.type_client_cee = record.cee_id.type_client_id
                 record.convention_cee = record.cee_id.convention_id
                 record.fiche_1_cee = record.cee_id.fiche_1_id
                 record.fiche_2_cee = record.cee_id.fiche_2_id
+                record.somme_primes_cee = record.cee_id.somme_primes
+                record.somme_reversion_cee = record.cee_id.somme_reversion
 
     # 6 Planif Chantier
     planif_chantier_id = fields.Many2one(

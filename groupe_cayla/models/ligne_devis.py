@@ -145,7 +145,7 @@ class LigneDevis(models.Model):
             type_ligne_cee = self.env['groupe_cayla.ligne_cee']
             montant_prime_unitaire = self.get_prime_cee(ligne_devis, cee)
             montant_prime_total = montant_prime_unitaire * ligne_devis.quantite
-            montant_reversion = self.get_reversion_cee(ligne_devis, cee)
+            montant_reversion = self.get_reversion_cee(montant_prime_total, ligne_devis, cee)
             type_ligne_cee.create({
                 'cee_id': cee.id,
                 'ligne_devis_id': ligne_devis.id,
@@ -168,10 +168,12 @@ class LigneDevis(models.Model):
                 ligne_cee.write({
                     'montant_prime_unitaire': montant_prime_unitaire,
                     'montant_prime_total': montant_prime_total,
-                    'montant_reversion': self.get_reversion_cee(ligne_devis, cee)
+                    'montant_reversion': self.get_reversion_cee(montant_prime_total, ligne_devis, cee)
                 })
 
     def get_prime_cee(self, ligne_devis, cee):
+        if not ligne_devis.prime_cee:
+            return 0
         montant_prime_unitaire = 0
         primes = self.env['groupe_cayla.tarif_prime_cee'].search([
             ('sujet_devis_id', '=', ligne_devis.sujet_devis_id.id),
@@ -189,10 +191,13 @@ class LigneDevis(models.Model):
                 montant_prime_unitaire = prime.prix_unitaire
         return montant_prime_unitaire
 
-    def get_reversion_cee(self, ligne_devis, cee):
-        if cee and ligne_devis.prime_cee and cee.type_client_id and cee.type_client_id.donne_droit_reversion_prime_cee:
-            taux_reversion_id = self.env['groupe_cayla.taux_reversion'].search([], limit=1)
-            taux_reversion = taux_reversion_id.taux if taux_reversion_id else 1
-            return ligne_devis.prix_total * taux_reversion - 1
+    def get_reversion_cee(self, montant_prime_total, ligne_devis, cee):
+        if cee and ligne_devis.prime_cee and cee.type_client_id:
+            if cee.type_client_id.donne_droit_reversion_taux_plein_prime_cee:
+                taux_reversion_id = self.env['groupe_cayla.taux_reversion'].search([], limit=1)
+                taux_reversion = taux_reversion_id.taux if taux_reversion_id else 1
+                ligne_devis.prix_total * taux_reversion - 1
+            else:
+                return montant_prime_total / 1.1
         else:
             return 0

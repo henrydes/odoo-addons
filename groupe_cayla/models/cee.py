@@ -90,13 +90,18 @@ class CEE(models.Model):
     @api.onchange('type_client_id')
     def onchange_type_client(self):
         somme_reversion = 0
-        if self.type_client_id and self.type_client_id.donne_droit_reversion_prime_cee and self.lignes_cee:
+        if self.type_client_id and self.lignes_cee:
             taux_reversion_id = self.env['groupe_cayla.taux_reversion'].search([], limit=1)
             taux_reversion = taux_reversion_id.taux if taux_reversion_id else 1
+
             for l in self.lignes_cee:
                 prime_cee = l.ligne_devis_id.prime_cee
                 if prime_cee:
-                    l.montant_reversion = l.ligne_devis_id.prix_total * taux_reversion - 1
+                    _logger.info(self.type_client_id.donne_droit_reversion_taux_plein_prime_cee)
+                    if self.type_client_id.donne_droit_reversion_taux_plein_prime_cee:
+                        l.montant_reversion = l.ligne_devis_id.prix_total * taux_reversion - 1
+                    else:
+                        l.montant_reversion = l.montant_prime_total / 1.1
                     somme_reversion += l.montant_reversion
                 else:
                     l.montant_reversion = 0
@@ -108,7 +113,7 @@ class CEE(models.Model):
         somme_primes = 0
         if self.type_client_id and self.zone_habitation_id and self.convention_id and self.lignes_cee:
             for l in self.lignes_cee:
-                if l.ligne_devis_id:
+                if l.ligne_devis_id and l.ligne_devis_id.prime_cee:
                     sujet = l.ligne_devis_id.sujet_devis_id
                     if l.cee_id.type_chauffage_id:
                         source_energie_chauffage = self.type_chauffage_id.source_energie_chauffage_id
