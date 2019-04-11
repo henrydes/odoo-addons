@@ -27,7 +27,6 @@ class CEE(models.Model):
 
     lignes_cee = fields.One2many('groupe_cayla.ligne_cee', 'cee_id', string='Lignes')
 
-
     devis_id = fields.Many2one('groupe_cayla.devis', store=False, compute='_compute_devis')
     type_client_id = fields.Many2one('groupe_cayla.type_client', required=True)
     zone_habitation_id = fields.Many2one('groupe_cayla.zone_habitation', required=True)
@@ -43,6 +42,14 @@ class CEE(models.Model):
     ref_fiscale = fields.Char(required=True)
     foyer = fields.Integer(required=True)
     locataire = fields.Boolean(string='Locataire ?', required=True)
+
+    _rec_name = 'combination'
+    combination = fields.Char(string='Combination', compute='_compute_fields_combination')
+
+    @api.depends('convention_id', 'type_client_id')
+    def _compute_fields_combination(self):
+        for d in self:
+            d.combination = d.convention_id.libelle + ' * ' + d.type_client_id.libelle
 
     @api.depends('type_chauffage_id')
     def _compute_source_energie_chauffage(self):
@@ -86,7 +93,9 @@ class CEE(models.Model):
                                 if len(primes) == 1:
                                     l.montant_prime_unitaire = primes[0].prix_unitaire
                                 elif len(primes) == 2:
-                                    prime = primes[0] if primes[0].source_energie_chauffage_id.id == source_energie_chauffage.id else primes[1]
+                                    prime = primes[0] if primes[
+                                                             0].source_energie_chauffage_id.id == source_energie_chauffage.id else \
+                                    primes[1]
                                     l.montant_prime_unitaire = prime.prix_unitaire
                             else:
                                 l.montant_prime_unitaire = None
@@ -100,7 +109,6 @@ class CEE(models.Model):
                     l.montant_prime_total = l.montant_prime_unitaire * l.ligne_devis_id.quantite
                 else:
                     l.montant_prime_total = None
-
 
     @api.model
     def default_get(self, fields_list):
@@ -122,4 +130,3 @@ class CEE(models.Model):
         res['lignes_cee'] = lignes_cee
 
         return res
-

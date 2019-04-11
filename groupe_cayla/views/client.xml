@@ -141,7 +141,7 @@
                             </page>
                             <page string="Service énergie">
                                 <sheet>
-                                    <group col="3">
+                                    <group col="1">
                                         <group string="5.2 - CEE contribution"
                                                attrs="{'invisible':[('active_id', '=', False)]}">
 

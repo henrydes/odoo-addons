@@ -193,7 +193,7 @@ class Client(models.Model):
     fiche_1_cee = fields.Many2one('groupe_cayla.fiche', compute='_compute_cee',
                                   string="Fiche", store=False)
     fiche_2_cee = fields.Many2one('groupe_cayla.fiche', compute='_compute_cee',
-                                  string=".", store=False)
+                                  string=" ", store=False)
 
     @api.depends('cee_id')
     def _compute_cee(self):

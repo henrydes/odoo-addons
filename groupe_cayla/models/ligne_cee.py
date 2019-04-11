@@ -19,6 +19,14 @@ class LigneCEE(models.Model):
     montant_prime_unitaire = fields.Float(required=True)
     montant_prime_total = fields.Float()
 
+    _rec_name = 'combination'
+    combination = fields.Char(string='Combination', compute='_compute_fields_combination')
+
+    @api.depends('sujet_ligne_devis')
+    def _compute_fields_combination(self):
+        for d in self:
+            d.combination = d.sujet_ligne_devis
+
     @api.depends('ligne_devis_id')
     def _compute_ligne_devis_data(self):
         for l in self:
