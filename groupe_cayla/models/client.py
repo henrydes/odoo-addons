@@ -158,7 +158,7 @@ class Client(models.Model):
             if record.devis_id:
                 record.etat = 'attente_commande'
 
-    @api.depends('devis_id')
+    @api.depends('devis_id', 'cee_id')
     def _compute_devis(self):
         for record in self:
             if record.devis_id is None:

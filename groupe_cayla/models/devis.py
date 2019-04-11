@@ -26,6 +26,8 @@ class Devis(models.Model):
         required=True,
         ondelete='cascade'
     )
+
+
     user_id = fields.Many2one(
         'res.users',
         delegate=False,
@@ -70,10 +72,13 @@ class Devis(models.Model):
     _rec_name = 'combination'
     combination = fields.Char(string='Combination', compute='_compute_fields_combination')
 
+
     @api.depends('numero')
     def _compute_fields_combination(self):
         for d in self:
             d.combination = 'Devis numéro ' + d.numero
+
+
 
     @api.depends('type_eco_cheque')
     def _compute_montant_eco_cheque(self):

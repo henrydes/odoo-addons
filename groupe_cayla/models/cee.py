@@ -95,7 +95,7 @@ class CEE(models.Model):
                                 elif len(primes) == 2:
                                     prime = primes[0] if primes[
                                                              0].source_energie_chauffage_id.id == source_energie_chauffage.id else \
-                                    primes[1]
+                                        primes[1]
                                     l.montant_prime_unitaire = prime.prix_unitaire
                             else:
                                 l.montant_prime_unitaire = None
@@ -130,3 +130,53 @@ class CEE(models.Model):
         res['lignes_cee'] = lignes_cee
 
         return res
+
+    @api.model
+    def create(self, values):
+        rec = super(CEE, self).create(values)
+        client = self.env['groupe_cayla.client'].search([('id', '=', values['client_id'])], limit=1)
+        self.modification_tarifs_lignes_devis(client)
+        return rec
+
+    @api.multi
+    def write(self, vals):
+        client = self.client_id
+        super().write(vals)
+        self.modification_tarifs_lignes_devis(client)
+        return True
+
+    def modification_tarifs_lignes_devis(self, client):
+        if client.devis_id and client.devis_id.etat != 'valide' and client.devis_id.lignes_devis:
+            montant_ht = 0
+            for record in client.devis_id.lignes_devis:
+                record.prix_unitaire = 0
+                record.prix_total = 0
+                if record.sujet_devis_id:
+                    if record.sujet_devis_id.tarif_tout_compris:
+                        if record.devis_id.type_professionnel:
+                            record.prix_unitaire = record.sujet_devis_id.tarif_pro
+                        elif record.devis_id.client_id.cee_id and record.devis_id.client_id.cee_id.type_client_id.donne_droit_tarif_solidarite_energetique == True and record.prime_cee == True:
+                            record.prix_unitaire = record.sujet_devis_id.tarif_solidarite_energetique
+                        else:
+                            record.prix_unitaire = record.sujet_devis_id.tarif_particulier
+                    else:
+                        if record.devis_id.type_professionnel:
+                            record.prix_unitaire = record.ligne_sujet_devis_id.tarif_pro
+                        elif record.devis_id.client_id.cee_id and record.devis_id.client_id.cee_id.type_client_id.donne_droit_tarif_solidarite_energetique == True and record.prime_cee == True:
+                            record.prix_unitaire = record.ligne_sujet_devis_id.tarif_solidarite_energetique
+                        else:
+                            record.prix_unitaire = record.ligne_sujet_devis_id.tarif_particulier
+                record.prix_total = record.prix_unitaire * record.quantite
+            if client.devis_id.lignes_supplement_devis:
+                for ligne_supplement in client.devis_id.lignes_supplement_devis:
+                    montant_ht += ligne_supplement.tarif
+            for ligne in client.devis_id.lignes_devis:
+                montant_ht += ligne.prix_total
+            client.devis_id.montant_ht = montant_ht
+            if client.devis_id.remise:
+                client.devis_id.montant_remise = client.devis_id.montant_ht * client.devis_id.remise / 100
+                client.devis_id.montant_ht = client.devis_id.montant_ht - client.devis_id.montant_remise
+            client.devis_id.montant_tva = client.devis_id.montant_ht * client.devis_id.choix_tva.taux / 100
+            client.devis_id.montant_ttc = client.devis_id.montant_ht + client.devis_id.montant_tva
+            client.montant_ttc_devis = client.devis_id.montant_ttc
+
