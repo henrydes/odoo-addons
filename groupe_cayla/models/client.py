@@ -41,13 +41,13 @@ class Client(models.Model):
         required=False,
         ondelete='set null'
     )
-    date_appel_planif_vt = fields.Date(compute='_compute_date_appel_planif_vt',
+    date_appel_planif_vt = fields.Date(compute='_compute_planif_vt',
                                        string="Date appel", store=False)
-    date_time_planif_planif_vt = fields.Datetime(compute='_compute_date_time_planif_planif_vt',
+    date_time_planif_planif_vt = fields.Datetime(compute='_compute_planif_vt',
                                                  string="VT planifiée", store=False)
-    utilisateur_planif_vt = fields.Many2one('res.users', compute='_compute_utilisateur_planif_vt',
+    utilisateur_planif_vt = fields.Many2one('res.users', compute='_compute_planif_vt',
                                             string="Utilisateur", store=False)
-    technicien_planif_vt = fields.Many2one('res.users', compute='_compute_technicien_planif_vt',
+    technicien_planif_vt = fields.Many2one('res.users', compute='_compute_planif_vt',
                                            string="Technicien", store=False)
 
     @api.onchange('planif_vt_id')
@@ -59,35 +59,17 @@ class Client(models.Model):
                 record.etat = 'nouveau'
 
     @api.depends('planif_vt_id')
-    def _compute_date_appel_planif_vt(self):
+    def _compute_planif_vt(self):
         for record in self:
             if record.planif_vt_id is None:
                 record.date_appel_planif_vt = None
-            else:
-                record.date_appel_planif_vt = record.planif_vt_id.date_appel
-
-    @api.depends('planif_vt_id')
-    def _compute_date_time_planif_planif_vt(self):
-        for record in self:
-            if record.planif_vt_id is None:
                 record.date_time_planif_planif_vt = None
-            else:
-                record.date_time_planif_planif_vt = record.planif_vt_id.date_time_planif
-
-    @api.depends('planif_vt_id')
-    def _compute_utilisateur_planif_vt(self):
-        for record in self:
-            if record.planif_vt_id is None:
                 record.utilisateur_planif_vt = None
-            else:
-                record.utilisateur_planif_vt = record.planif_vt_id.utilisateur_id
-
-    @api.depends('planif_vt_id')
-    def _compute_technicien_planif_vt(self):
-        for record in self:
-            if record.planif_vt_id is None:
                 record.technicien_planif_vt = None
             else:
+                record.date_appel_planif_vt = record.planif_vt_id.date_appel
+                record.date_time_planif_planif_vt = record.planif_vt_id.date_time_planif
+                record.utilisateur_planif_vt = record.planif_vt_id.utilisateur_id
                 record.technicien_planif_vt = record.planif_vt_id.technicien_id
 
     # 4 Saisie VT
@@ -97,16 +79,16 @@ class Client(models.Model):
         required=False,
         ondelete='set null'
     )
-    date_de_realisation_vt = fields.Date(compute='_compute_date_de_realisation_vt',
+    date_de_realisation_vt = fields.Date(compute='_compute_vt',
                                          string="Date de réalisation", store=False)
-    vt_validee_vt = fields.Boolean(compute='_compute_vt_validee_vt',
+    vt_validee_vt = fields.Boolean(compute='_compute_vt',
                                    string="VT validée", store=False)
-    documents_complets_vt = fields.Boolean(compute='_compute_documents_complets_vt',
+    documents_complets_vt = fields.Boolean(compute='_compute_vt',
                                            string="Documents complets", store=False)
 
-    utilisateur_vt = fields.Many2one('res.users', compute='_compute_utilisateur_vt',
+    utilisateur_vt = fields.Many2one('res.users', compute='_compute_vt',
                                      string="Utilisateur", store=False)
-    technicien_vt = fields.Many2one('res.users', compute='_compute_technicien_vt',
+    technicien_vt = fields.Many2one('res.users', compute='_compute_vt',
                                     string="Technicien", store=False)
 
     @api.onchange('vt_validee_vt', 'documents_complets_vt')
@@ -121,43 +103,19 @@ class Client(models.Model):
                     record.etat = 'devis_a_editer'
 
     @api.depends('vt_id')
-    def _compute_utilisateur_vt(self):
+    def _compute_vt(self):
         for record in self:
             if record.vt_id is None:
                 record.utilisateur_vt = None
-            else:
-                record.utilisateur_vt = record.vt_id.utilisateur_id
-
-    @api.depends('vt_id')
-    def _compute_vt_validee_vt(self):
-        for record in self:
-            if record.vt_id is None:
                 record.vt_validee_vt = None
-            else:
-                record.vt_validee_vt = record.vt_id.vt_validee
-
-    @api.depends('vt_id')
-    def _compute_documents_complets_vt(self):
-        for record in self:
-            if record.vt_id is None:
                 record.documents_complets_vt = None
-            else:
-                record.documents_complets_vt = record.vt_id.documents_complets
-
-    @api.depends('vt_id')
-    def _compute_technicien_vt(self):
-        for record in self:
-            if record.vt_id is None:
                 record.technicien_vt = None
-            else:
-                record.technicien_vt = record.vt_id.technicien_id
-
-    @api.depends('vt_id')
-    def _compute_date_de_realisation_vt(self):
-        for record in self:
-            if record.vt_id is None:
                 record.date_de_realisation_vt = None
             else:
+                record.utilisateur_vt = record.vt_id.utilisateur_id
+                record.vt_validee_vt = record.vt_id.vt_validee
+                record.documents_complets_vt = record.vt_id.documents_complets
+                record.technicien_vt = record.vt_id.technicien_id
                 record.date_de_realisation_vt = record.vt_id.date_de_realisation
 
     # 5.1 Edition devis
@@ -167,19 +125,19 @@ class Client(models.Model):
         required=False,
         ondelete='set null'
     )
-    date_edition_devis = fields.Date(compute='_compute_date_edition_devis',
+    date_edition_devis = fields.Date(compute='_compute_devis',
                                      string="Edition", store=False)
-    date_envoi_devis = fields.Date(compute='_compute_date_envoi_devis',
+    date_envoi_devis = fields.Date(compute='_compute_devis',
                                    string="Envoyé le", store=False)
-    date_acceptation_devis = fields.Date(compute='_compute_date_acceptation_devis',
+    date_acceptation_devis = fields.Date(compute='_compute_devis',
                                          string="Accepté le", store=False)
-    date_refus_devis = fields.Date(compute='_compute_date_refus_devis',
+    date_refus_devis = fields.Date(compute='_compute_devis',
                                    string="Refusé le", store=False)
-    utilisateur_devis = fields.Many2one('res.users', compute='_compute_utilisateur_devis',
+    utilisateur_devis = fields.Many2one('res.users', compute='_compute_devis',
                                         string="Utilisateur", store=False)
-    numero_devis = fields.Char(compute='_compute_numero_devis',
+    numero_devis = fields.Char(compute='_compute_devis',
                                string="N° Devis", store=False)
-    montant_ttc_devis = fields.Float(compute='_compute_montant_ttc_devis',
+    montant_ttc_devis = fields.Float(compute='_compute_devis',
                                      string="Montant TTC", store=False)
 
     @api.onchange('date_acceptation_devis')
@@ -201,59 +159,24 @@ class Client(models.Model):
                 record.etat = 'attente_commande'
 
     @api.depends('devis_id')
-    def _compute_numero_devis(self):
+    def _compute_devis(self):
         for record in self:
             if record.devis_id is None:
                 record.numero_devis = None
+                record.montant_ttc_devis = None
+                record.date_edition_devis = None
+                record.date_envoi_devis = None
+                record.date_acceptation_devis = None
+                record.date_refus_devis = None
+                record.utilisateur_devis = None
+
             else:
                 record.numero_devis = record.devis_id.numero
-
-    @api.depends('devis_id')
-    def _compute_montant_ttc_devis(self):
-        for record in self:
-            if record.devis_id is None:
-                record.montant_ttc_devis = None
-            else:
                 record.montant_ttc_devis = record.devis_id.montant_ttc
-
-    @api.depends('devis_id')
-    def _compute_date_edition_devis(self):
-        for record in self:
-            if record.devis_id is None:
-                record.date_edition_devis = None
-            else:
                 record.date_edition_devis = record.devis_id.date_edition
-
-    @api.depends('devis_id')
-    def _compute_date_envoi_devis(self):
-        for record in self:
-            if record.devis_id is None:
-                record.date_envoi_devis = None
-            else:
                 record.date_envoi_devis = record.devis_id.date_envoi
-
-    @api.depends('devis_id')
-    def _compute_date_acceptation_devis(self):
-        for record in self:
-            if record.devis_id is None:
-                record.date_acceptation_devis = None
-            else:
                 record.date_acceptation_devis = record.devis_id.date_acceptation
-
-    @api.depends('devis_id')
-    def _compute_date_refus_devis(self):
-        for record in self:
-            if record.devis_id is None:
-                record.date_refus_devis = None
-            else:
                 record.date_refus_devis = record.devis_id.date_refus
-
-    @api.depends('devis_id')
-    def _compute_utilisateur_devis(self):
-        for record in self:
-            if record.devis_id is None:
-                record.utilisateur_devis = None
-            else:
                 record.utilisateur_devis = record.devis_id.user_id
 
     # 5.2 Saisie CEE
@@ -266,7 +189,7 @@ class Client(models.Model):
     type_client_cee = fields.Many2one('groupe_cayla.type_client', compute='_compute_cee',
                                       string="Type client", store=False)
     convention_cee = fields.Many2one('groupe_cayla.convention', compute='_compute_cee',
-                                      string="Délégataire", store=False)
+                                     string="Délégataire", store=False)
     fiche_1_cee = fields.Many2one('groupe_cayla.fiche', compute='_compute_cee',
                                   string="Fiche", store=False)
     fiche_2_cee = fields.Many2one('groupe_cayla.fiche', compute='_compute_cee',
@@ -294,22 +217,22 @@ class Client(models.Model):
         required=False,
         ondelete='set null'
     )
-    date_appel_planif_chantier = fields.Date(compute='_compute_date_appel_planif_chantier',
+    date_appel_planif_chantier = fields.Date(compute='_compute_planif_chantier',
                                              string="Date appel", store=False)
-    date_time_planif_planif_chantier = fields.Datetime(compute='_compute_date_time_planif_planif_chantier',
+    date_time_planif_planif_chantier = fields.Datetime(compute='_compute_planif_chantier',
                                                        string="Chantier planifié", store=False)
-    utilisateur_id_planif_chantier = fields.Many2one('res.users', compute='_compute_utilisateur_id_planif_chantier',
+    utilisateur_id_planif_chantier = fields.Many2one('res.users', compute='_compute_planif_chantier',
                                                      string="Utilisateur", store=False)
-    equipier_1_id_planif_chantier = fields.Many2one('res.users', compute='_compute_equipier_1_id_planif_chantier',
+    equipier_1_id_planif_chantier = fields.Many2one('res.users', compute='_compute_planif_chantier',
                                                     string="Equipe", store=False)
-    equipier_2_id_planif_chantier = fields.Many2one('res.users', compute='_compute_equipier_2_id_planif_chantier',
+    equipier_2_id_planif_chantier = fields.Many2one('res.users', compute='_compute_planif_chantier',
                                                     string=" ", store=False)
-    entreprise_planif_chantier = fields.Char(compute='_compute_entreprise_planif_chantier',
+    entreprise_planif_chantier = fields.Char(compute='_compute_planif_chantier',
                                              string="Entreprise", store=False)
     entite_edition_devis_id_planif_chantier = fields.Many2one('groupe_cayla.entite_edition_devis',
-                                                              compute='_compute_entite_edition_devis_id_planif_chantier',
+                                                              compute='_compute_planif_chantier',
                                                               string="Entité devis", store=False)
-    entreprise_planif_chantier = fields.Char(compute='_compute_entreprise_planif_chantier',
+    entreprise_planif_chantier = fields.Char(compute='_compute_planif_chantier',
                                              string="Entreprise", store=False)
 
     @api.onchange('planif_chantier_id')
@@ -321,67 +244,25 @@ class Client(models.Model):
                 record.etat = 'chantier_a_planifier'
 
     @api.depends('planif_chantier_id')
-    def _compute_entreprise_planif_chantier(self):
+    def _compute_planif_chantier(self):
         for record in self:
             if record.planif_chantier_id is None:
                 record.entreprise_planif_chantier = None
-            else:
-                record.entreprise_planif_chantier = record.planif_chantier_id.entreprise
-
-    @api.depends('planif_chantier_id')
-    def _compute_date_appel_planif_chantier(self):
-        for record in self:
-            if record.planif_chantier_id is None:
                 record.date_appel_planif_chantier = None
-            else:
-                record.date_appel_planif_chantier = record.planif_chantier_id.date_appel
-
-    @api.depends('planif_chantier_id')
-    def _compute_date_time_planif_planif_chantier(self):
-        for record in self:
-            if record.planif_chantier_id is None:
                 record.date_time_planif_planif_chantier = None
-            else:
-                record.date_time_planif_planif_chantier = record.planif_chantier_id.date_time_planif
-
-    @api.depends('planif_chantier_id')
-    def _compute_utilisateur_id_planif_chantier(self):
-        for record in self:
-            if record.planif_chantier_id is None:
                 record.utilisateur_id_planif_chantier = None
-            else:
-                record.utilisateur_id_planif_chantier = record.planif_chantier_id.utilisateur_id
-
-    @api.depends('planif_chantier_id')
-    def _compute_equipier_1_id_planif_chantier(self):
-        for record in self:
-            if record.planif_chantier_id is None:
                 record.equipier_1_id_planif_chantier = None
-            else:
-                record.equipier_1_id_planif_chantier = record.planif_chantier_id.equipier_1_id
-
-    @api.depends('planif_chantier_id')
-    def _compute_equipier_2_id_planif_chantier(self):
-        for record in self:
-            if record.planif_chantier_id is None:
                 record.equipier_2_id_planif_chantier = None
-            else:
-                record.equipier_2_id_planif_chantier = record.planif_chantier_id.equipier_2_id
-
-    @api.depends('planif_chantier_id')
-    def _compute_entreprise_planif_chantier(self):
-        for record in self:
-            if record.planif_chantier_id is None:
                 record.entreprise_planif_chantier = None
-            else:
-                record.entreprise_planif_chantier = record.planif_chantier_id.entreprise
-
-    @api.depends('planif_chantier_id')
-    def _compute_entite_edition_devis_id_planif_chantier(self):
-        for record in self:
-            if record.planif_chantier_id is None:
                 record.entite_edition_devis_id_planif_chantier = None
             else:
+                record.entreprise_planif_chantier = record.planif_chantier_id.entreprise
+                record.date_appel_planif_chantier = record.planif_chantier_id.date_appel
+                record.date_time_planif_planif_chantier = record.planif_chantier_id.date_time_planif
+                record.utilisateur_id_planif_chantier = record.planif_chantier_id.utilisateur_id
+                record.equipier_1_id_planif_chantier = record.planif_chantier_id.equipier_1_id
+                record.equipier_2_id_planif_chantier = record.planif_chantier_id.equipier_2_id
+                record.entreprise_planif_chantier = record.planif_chantier_id.entreprise
                 record.entite_edition_devis_id_planif_chantier = record.planif_chantier_id.entite_devis_id
 
     # 4 Saisie Chantier
@@ -391,91 +272,52 @@ class Client(models.Model):
         required=False,
         ondelete='set null'
     )
-    date_de_realisation_chantier = fields.Date(compute='_compute_date_de_realisation_chantier',
+    date_de_realisation_chantier = fields.Date(compute='_compute_chantier',
                                                string="Date de réalisation", store=False)
-    equipier_1_id_chantier = fields.Many2one('res.users', compute='_compute_equipier_1_id_chantier',
+    equipier_1_id_chantier = fields.Many2one('res.users', compute='_compute_chantier',
                                              string="Equipe", store=False)
-    equipier_2_id_chantier = fields.Many2one('res.users', compute='_compute_equipier_2_id_chantier',
+    equipier_2_id_chantier = fields.Many2one('res.users', compute='_compute_chantier',
                                              string=" ", store=False)
-    produit_chantier = fields.Char(compute='_compute_produit_chantier',
-                                        string='Type Produit', store=False)
-    marque_produit_chantier = fields.Char(compute='_compute_marque_chantier',
-                                  string='Marque', store=False)
-    nb_sac_chantier = fields.Integer(compute='_compute_nb_sac_chantier',
-                                  string='Nb sac', store=False)
-    temps_passe_chantier = fields.Integer(compute='_compute_temps_passe_chantier',
-                                       string='Temps passé', store=False)
-    chantier_realise_chantier = fields.Boolean(compute='_compute_chantier_realise_chantier',
+    produit_chantier = fields.Char(compute='_compute_chantier',
+                                   string='Type Produit', store=False)
+    marque_produit_chantier = fields.Char(compute='_compute_chantier',
+                                          string='Marque', store=False)
+    nb_sac_chantier = fields.Integer(compute='_compute_chantier',
+                                     string='Nb sac', store=False)
+    temps_passe_chantier = fields.Integer(compute='_compute_chantier',
+                                          string='Temps passé', store=False)
+    chantier_realise_chantier = fields.Boolean(compute='_compute_chantier',
                                                string='Chantier réalisé', store=False)
 
     @api.depends('chantier_id')
-    def _compute_date_de_realisation_chantier(self):
+    def _compute_chantier(self):
         for record in self:
             if record.chantier_id is None:
                 record.date_de_realisation_chantier = None
+                record.equipier_1_id_chantier = None
+                record.equipier_2_id_chantier = None
+                record.produit_chantier = None
+                record.marque_produit_chantier = None
+                record.nb_sac_chantier = None
+                record.temps_passe_chantier = None
+                record.chantier_realise_chantier = None
+
+
+
             else:
                 record.date_de_realisation_chantier = record.chantier_id.date_de_realisation
-
-    @api.depends('chantier_id')
-    def _compute_equipier_1_id_chantier(self):
-        for record in self:
-            if record.chantier_id is None:
-                record.equipier_1_id_chantier = None
-            else:
                 record.equipier_1_id_chantier = record.chantier_id.equipier_1_id
-
-    @api.depends('chantier_id')
-    def _compute_equipier_2_id_chantier(self):
-        for record in self:
-            if record.chantier_id is None:
-                record.equipier_2_id_chantier = None
-            else:
                 record.equipier_2_id_chantier = record.chantier_id.equipier_2_id
-
-    @api.depends('chantier_id')
-    def _compute_produit_chantier(self):
-        for record in self:
-            if record.chantier_id is None or len(record.chantier_id.lignes_chantier) == 0:
-                record.produit_chantier = None
-            else:
                 record.produit_chantier = record.chantier_id.lignes_chantier[0].produit_id.libelle
                 if len(record.chantier_id.lignes_chantier) > 1:
                     record.produit_chantier += ', ...'
-
-    @api.depends('chantier_id')
-    def _compute_marque_chantier(self):
-        for record in self:
-            if record.chantier_id is None or len(record.chantier_id.lignes_chantier) == 0:
-                record.marque_produit_chantier = None
-            else:
                 record.marque_produit_chantier = record.chantier_id.lignes_chantier[0].marque_produit_id.libelle
                 if len(record.chantier_id.lignes_chantier) > 1:
                     record.marque_produit_chantier += ', ...'
-
-    @api.depends('chantier_id')
-    def _compute_nb_sac_chantier(self):
-        for record in self:
-            if record.chantier_id is None or len(record.chantier_id.lignes_chantier) == 0:
-                record.nb_sac_chantier = None
-            else:
                 for ligne in record.chantier_id.lignes_chantier:
                     record.nb_sac_chantier += ligne.nb_sacs
-
-    @api.depends('chantier_id')
-    def _compute_temps_passe_chantier(self):
-        for record in self:
-            if record.chantier_id is None or len(record.chantier_id.lignes_chantier) == 0:
-                record.temps_passe_chantier = None
-            else:
                 for ligne in record.chantier_id.lignes_chantier:
                     record.temps_passe_chantier += ligne.temps_passe
-
-    @api.depends('chantier_id')
-    def _compute_chantier_realise_chantier(self):
-        for record in self:
-            if record.chantier_id is None:
-                record.chantier_realise_chantier = None
-            else:
                 record.chantier_realise_chantier = record.chantier_id.chantier_realise
 
     @api.onchange('chantier_realise_chantier')
