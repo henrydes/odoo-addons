@@ -53,6 +53,7 @@
         'views/source_energie_chauffage.xml',
         'views/tarif_prime_cee.xml',
         'views/cee.xml',
+        'views/ligne_cee.xml',
     ],
     'application': True,
 }

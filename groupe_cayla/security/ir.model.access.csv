@@ -29,3 +29,4 @@ access_source_energie_chauffage_resp_admin,Accès pour source_energie_chauffage 
 access_tarif_prime_cee_resp_admin,Accès pour tarif_prime_cee Responsable Administratif,model_groupe_cayla_tarif_prime_cee,groupe_cayla_group_resp_admin,1,1,1,1
 
 access_cee_resp_admin,Accès pour cee Responsable Administratif,model_groupe_cayla_cee,groupe_cayla_group_resp_admin,1,1,1,1
+access_ligne_cee_resp_admin,Accès pour ligne_cee Responsable Administratif,model_groupe_cayla_ligne_cee,groupe_cayla_group_resp_admin,1,1,1,1

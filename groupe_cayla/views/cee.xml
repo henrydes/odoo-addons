@@ -25,6 +25,7 @@
                         <group col="2">
 
                             <group string="Situation client">
+                                <field name="client_id" attrs="{'invisible': True}"/>
                                 <field name="type_client_id"
                                        options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
                                 <field name="zone_habitation_id"
@@ -45,11 +46,12 @@
                                        options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
 
                             </group>
-                            <group string="Primes">
-                                <field name="objet_devis"/>
-                            </group>
-                        </group>
 
+                        </group>
+                        <group string="Primes">
+                            <field name="objet_devis"/>
+                            <field name="lignes_cee" widget="one2many"/>
+                        </group>
 
                     </sheet>
                     <div class="oe_chatter">
