@@ -10,6 +10,7 @@ class Client(models.Model):
 
     etat = fields.Selection([
         ('nouveau', 'Nouveau prospect à contacter'),
+        ('annule_telephone', 'Annulé par téléphone'),
         ('annule_client', 'Annulé par le client'),
         ('vt_a_planifier', 'VT à planifier'),
         ('vt_a_saisir', 'VT à mettre à jour'),
@@ -27,8 +28,82 @@ class Client(models.Model):
         ('dossier_depose', 'Dossier déposé PNCE'),
         ('dossier_valide', 'Clôturé / Facture délégataire à éditer'),
         ('dossier_refuse', 'Dossier déposé PNCE / Refusé')
-    ], default='nouveau'
+    ], default='nouveau', compute='_compute_etat_client'
     )
+
+    prospect_qualifie=fields.Selection([
+        ('oui', 'OUI'),
+        ('non', 'NON')
+    ], default=None, string='Prospect qualifié')
+
+    @api.depends('devis_id', 'chantier_id', 'vt_id', 'planif_chantier_id', 'planif_vt_id', 'cee_id')
+    def _compute_etat_client(self):
+        for c in self:
+            cee = c.cee_id
+            if cee:
+                if cee.refus:
+                    c.etat = 'dossier_refuse'
+                    return
+                if cee.date_validation:
+                    c.etat = 'dossier_valide'
+                    return
+                if cee.date_depot:
+                    c.etat = 'dossier_depose'
+                    return
+                if cee.dossier_valide:
+                    c.etat = 'dossier_a_deposer'
+                    return
+                if not cee.dossier_valide and cee.date_controle:
+                    c.etat = 'dossier_incomplet'
+                    return
+            chantier = c.chantier_id
+            if chantier:
+                if chantier.chantier_realise:
+                    c.etat = 'facture_client_a_editer'
+                    return
+                else:
+                    c.etat = 'annule_par_applicateur'
+                    return
+            planif_chantier = c.planif_chantier_id
+            if planif_chantier and planif_chantier.date_time_planif:
+                c.etat = 'chantier_a_saisir'
+                return
+            devis = c.devis_id
+            if devis:
+                if devis.date_refus:
+                    c.etat = 'annule_par_client'
+                    return
+                if devis.date_acceptation:
+                    c.etat = 'chantier_a_planifier'
+                    return
+                if devis.date_envoi:
+                    c.etat = 'attente_commande'
+                    return
+            vt = c.vt_id
+            if vt and vt.date_de_realisation:
+                if vt.documents_complets and vt.vt_validee:
+                    c.etat = 'devis_a_editer'
+                    return
+                if not vt.documents_complets:
+                    c.etat = 'vt_incomplete'
+                    return
+                if not vt.vt_validee:
+                    c.etat = 'annule_par_vt'
+                    return
+            planif_vt = c.planif_vt_id
+            if planif_vt:
+                if planif_vt.date_time_planif:
+                    c.etat = 'vt_a_saisir'
+                    return
+            if c.prospect_qualifie is not None:
+                if c.prospect_qualifie == 'oui':
+                    c.etat = 'vt_a_planifier'
+                    return
+                if c.prospect_qualifie == 'non':
+                    c.etat = 'annule_telephone'
+                    return
+            c.etat='nouveau'
+
 
     solde_client = fields.Float(compute='_compute_solde_client', store=True)
 
@@ -70,13 +145,7 @@ class Client(models.Model):
     technicien_planif_vt = fields.Many2one('res.users', compute='_compute_planif_vt',
                                            string="Technicien", store=False)
 
-    @api.onchange('planif_vt_id')
-    def on_change_state(self):
-        for record in self:
-            if record.planif_vt_id:
-                record.etat = 'vt_a_saisir'
-            else:
-                record.etat = 'nouveau'
+
 
     @api.depends('planif_vt_id')
     def _compute_planif_vt(self):
@@ -111,16 +180,7 @@ class Client(models.Model):
     technicien_vt = fields.Many2one('res.users', compute='_compute_vt',
                                     string="Technicien", store=False)
 
-    @api.onchange('vt_validee_vt', 'documents_complets_vt')
-    def on_change_vt_state(self):
-        for record in self:
-            if record.vt_id:
-                if record.vt_validee_vt is False:
-                    record.etat = 'annule_par_vt'
-                elif record.documents_complets_vt is False:
-                    record.etat = 'vt_incomplete'
-                else:
-                    record.etat = 'devis_a_editer'
+
 
     @api.depends('vt_id')
     def _compute_vt(self):
@@ -162,23 +222,7 @@ class Client(models.Model):
     etat_devis = fields.Char(compute='_compute_devis',
                                string="Etat devis", store=False)
 
-    @api.onchange('date_acceptation_devis')
-    def on_change_date_acceptation_devis(self):
-        for record in self:
-            if record.date_acceptation_devis:
-                record.etat = 'chantier_a_planifier'
 
-    @api.onchange('date_refus_devis')
-    def on_change_date_refus_devis(self):
-        for record in self:
-            if record.date_refus_devis:
-                record.etat = 'annule_par_client'
-
-    @api.onchange('devis_id')
-    def on_change_devis_id(self):
-        for record in self:
-            if record.devis_id:
-                record.etat = 'attente_commande'
 
     @api.depends('devis_id', 'cee_id')
     def _compute_devis(self):
@@ -300,14 +344,6 @@ class Client(models.Model):
     entreprise_planif_chantier = fields.Char(compute='_compute_planif_chantier',
                                              string="Entreprise", store=False)
 
-    @api.onchange('planif_chantier_id')
-    def on_change_state_chantier_id(self):
-        for record in self:
-            if record.planif_chantier_id:
-                record.etat = 'chantier_a_saisir'
-            else:
-                record.etat = 'chantier_a_planifier'
-
     @api.depends('planif_chantier_id')
     def _compute_planif_chantier(self):
         for record in self:
@@ -384,14 +420,6 @@ class Client(models.Model):
                     record.temps_passe_chantier += ligne.temps_passe
                 record.chantier_realise_chantier = record.chantier_id.chantier_realise
 
-    @api.onchange('chantier_realise_chantier')
-    def on_change_chantier_state(self):
-        for record in self:
-            if record.chantier_id:
-                if record.chantier_realise_chantier is False:
-                    record.etat = 'annule_par_applicateur'
-                else:
-                    record.etat = 'facture_client_a_editer'
 
     @api.model
     def default_get(self, fields_list):

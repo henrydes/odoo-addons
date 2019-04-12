@@ -73,12 +73,6 @@ class VT(models.Model):
     def create(self, values):
         rec = super(VT, self).create(values)
         client = self.env['groupe_cayla.client'].search([('id', '=', values['client_id'])], limit=1)
-        if values['vt_validee'] is False:
-            client.etat = 'annule_par_vt'
-        elif values['documents_complets'] is False:
-            client.etat = 'vt_incomplete'
-        else:
-            client.etat = 'devis_a_editer'
 
         client.vt_id = rec
         return rec
@@ -88,12 +82,7 @@ class VT(models.Model):
         client = self.client_id
         result = super().write(values)
         vt = self.env['groupe_cayla.vt'].search([('id', '=', self.id)], limit=1)
-        if vt.vt_validee is False:
-            client.etat = 'annule_par_vt'
-        elif vt.documents_complets is False:
-            client.etat = 'vt_incomplete'
-        elif vt.vt_validee and vt.documents_complets:
-            client.etat = 'devis_a_editer'
+
         return result
 
     @api.model

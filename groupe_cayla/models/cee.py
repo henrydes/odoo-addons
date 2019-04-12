@@ -217,17 +217,7 @@ class CEE(models.Model):
     def create(self, values):
         rec = super(CEE, self).create(values)
         client = self.env['groupe_cayla.client'].search([('id', '=', values['client_id'])], limit=1)
-        if 'dossier_valide' in values:
-            if values['dossier_valide']:
-                client.etat = 'dossier_a_deposer'
-            else:
-                client.etat = 'dossier_incomplet'
-        if 'date_depot' in values and values['date_depot']:
-            client.etat = 'dossier_depose'
-        if 'date_validation' in values and values['date_validation']:
-            client.etat = 'dossier_valide'
-        if 'refus' in values and values['refus']:
-            client.etat = 'dossier_refuse'
+
 
         self.modification_tarifs_lignes_devis(client)
         return rec
@@ -235,17 +225,7 @@ class CEE(models.Model):
     @api.multi
     def write(self, vals):
         client = self.client_id
-        if 'dossier_valide' in vals:
-            if vals['dossier_valide']:
-                client.etat = 'dossier_a_deposer'
-            else:
-                client.etat = 'dossier_incomplet'
-        if 'date_depot' in vals and vals['date_depot']:
-            client.etat = 'dossier_depose'
-        if 'date_validation' in vals and vals['date_validation']:
-            client.etat = 'dossier_valide'
-        if 'refus' in vals and vals['refus']:
-            client.etat = 'dossier_refuse'
+
         super().write(vals)
         self.modification_tarifs_lignes_devis(client)
         return True

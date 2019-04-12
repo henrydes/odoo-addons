@@ -29,6 +29,3 @@ from . import source_energie_chauffage
 from . import tarif_prime_cee
 from . import cee
 from . import ligne_cee
-from . import edition_contribution_cee
-from . import edition_ah_cee
-from . import controle_cee

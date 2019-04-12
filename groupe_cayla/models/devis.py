@@ -110,7 +110,7 @@ class Devis(models.Model):
         rec = super(Devis, self).create(values)
 
         client = self.env['groupe_cayla.client'].search([('id', '=', values['client_id'])], limit=1)
-        client.etat = 'attente_commande'
+
         client.devis_id = rec
         return rec
 
@@ -123,10 +123,7 @@ class Devis(models.Model):
         client = self.client_id
 
         devis = self.env['groupe_cayla.devis'].search([('id', '=', self.id)], limit=1)
-        if devis.date_acceptation:
-            client.etat = 'chantier_a_planifier'
-        elif devis.date_refus:
-            client.etat = 'annule_par_client'
+
 
         return True
 
@@ -167,7 +164,6 @@ class Devis(models.Model):
     def invalider_devis(self):
         self.date_envoi = None
         self.etat = 'nouveau'
-        self.client_id.etat = 'devis_a_editer'
         if self.client_id.cee_id:
             if self.client_id.cee_id.lignes_cee:
                 for l in self.client_id.cee_id.lignes_cee:

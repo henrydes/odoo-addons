@@ -44,6 +44,9 @@
                                    options="{'no_create': True, 'no_create_edit':True, 'no_open':True}"/>
                             <field name="comment"/>
                         </group>
+                        <group col="2">
+                            <field name="prospect_qualifie"/>
+                        </group>
                         <notebook>
                             <page string="Service commercial">
                                 <sheet>

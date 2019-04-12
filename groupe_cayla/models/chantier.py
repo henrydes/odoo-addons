@@ -55,10 +55,7 @@ class Chantier(models.Model):
     def create(self, values):
         rec = super(Chantier, self).create(values)
         client = self.env['groupe_cayla.client'].search([('id', '=', values['client_id'])], limit=1)
-        if values['chantier_realise'] is False:
-            client.etat = 'annule_par_applicateur'
-        else:
-            client.etat = 'facture_client_a_editer'
+
         client.chantier_id = rec
         return rec
 
@@ -67,12 +64,7 @@ class Chantier(models.Model):
         client = self.client_id
         result = super().write(values)
         chantier = self.env['groupe_cayla.chantier'].search([('id', '=', self.id)], limit=1)
-        if chantier.chantier_realise:
-            _logger.info('le chantier a été réalisé')
-            client.etat = 'facture_client_a_editer'
-        else:
-            _logger.info('le chantier n a pas été réalise')
-            client.etat = 'annule_par_applicateur'
+
         return result
 
     @api.model

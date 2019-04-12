@@ -31,7 +31,7 @@ class PlanifVT(models.Model):
     )
 
     date_appel = fields.Date(default=date.today(), required=True)
-    date_time_planif = fields.Datetime()
+    date_time_planif = fields.Datetime(required=True)
 
     _rec_name = 'combination'
     combination = fields.Char(string='Combination', compute='_compute_fields_combination')
@@ -46,6 +46,6 @@ class PlanifVT(models.Model):
     def create(self, values):
         rec = super(PlanifVT, self).create(values)
         client = self.env['groupe_cayla.client'].search([('id', '=', values['client_id'])], limit=1)
-        client.etat = 'vt_a_saisir'
+
         client.planif_vt_id = rec
         return rec

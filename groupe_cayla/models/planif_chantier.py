@@ -36,7 +36,7 @@ class PlanifChantier(models.Model):
     )
 
     date_appel = fields.Date(default=date.today(), required=True)
-    date_time_planif = fields.Datetime()
+    date_time_planif = fields.Datetime(required=True)
 
     entreprise = fields.Char(compute='_compute_entreprise')
     entite_devis_id = fields.Many2one('groupe_cayla.entite_edition_devis', compute='_compute_entite_edition_devis', required=True)
@@ -64,6 +64,6 @@ class PlanifChantier(models.Model):
     def create(self, values):
         rec = super(PlanifChantier, self).create(values)
         client = self.env['groupe_cayla.client'].search([('id', '=', values['client_id'])], limit=1)
-        client.etat = 'chantier_a_saisir'
+
         client.planif_chantier_id = rec
         return rec
