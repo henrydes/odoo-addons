@@ -164,6 +164,13 @@ class Devis(models.Model):
             self.motif_refus = None
 
     @api.one
-    def set_date_envoi_to_none(self):
+    def invalider_devis(self):
         self.date_envoi = None
         self.etat = 'nouveau'
+        if self.client_id.cee_id:
+            if self.client_id.cee_id.lignes_cee:
+                for l in self.client_id.cee_id.lignes_cee:
+                    l.unlink()
+            self.client_id.cee_id.unlink()
+            self.client_id.solde_client = self.montant_ttc
+        self.client_id.cee_id = None

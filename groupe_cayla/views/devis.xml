@@ -21,8 +21,8 @@
                 <form>
                     <header>
                         <button attrs="{'invisible': [('etat','=','nouveau')]}"
-                                string="Rendre le devis à nouveau éditable" type="object"
-                                name="set_date_envoi_to_none"/>
+                                string="Rendre le devis à nouveau éditable (le dossier CEE sera supprimé)" type="object"
+                                name="invalider_devis"/>
                     </header>
                     <sheet>
 
