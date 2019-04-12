@@ -1,3 +1,5 @@
+from datetime import date
+
 from odoo import models, fields, api
 
 
@@ -13,12 +15,14 @@ class Client(models.Model):
         ('annule_telephone', 'Annulé par téléphone'),
         ('annule_client', 'Annulé par le client'),
         ('vt_a_planifier', 'VT à planifier'),
+        ('vt_planifiee', 'VT planifiée'),
         ('vt_a_saisir', 'VT à mettre à jour'),
         ('annule_par_vt', 'Annulé par VT'),
         ('vt_incomplete', 'VT incomplète'),
         ('devis_a_editer', 'Devis à éditer'),
         ('attente_commande', 'Devis en attente de commande'),
         ('chantier_a_planifier', 'Chantier à planifier'),
+        ('chantier_planifie', 'Chantier planifié'),
         ('annule_par_client', 'Annulé par client'),
         ('chantier_a_saisir', 'Chantier à saisir'),
         ('annule_par_applicateur', 'Annulé par applicateur'),
@@ -31,7 +35,7 @@ class Client(models.Model):
     ], default='nouveau', compute='_compute_etat_client'
     )
 
-    prospect_qualifie=fields.Selection([
+    prospect_qualifie = fields.Selection([
         ('oui', 'OUI'),
         ('non', 'NON')
     ], default=None, string='Prospect qualifié')
@@ -65,9 +69,14 @@ class Client(models.Model):
                     c.etat = 'annule_par_applicateur'
                     return
             planif_chantier = c.planif_chantier_id
-            if planif_chantier and planif_chantier.date_time_planif:
-                c.etat = 'chantier_a_saisir'
-                return
+            if planif_chantier:
+                if planif_chantier.date_time_planif:
+                    if planif_chantier.date_time_planif.date() > date.today():
+                        c.etat = 'chantier_planifie'
+                        return
+                    else:
+                        c.etat = 'chantier_a_saisir'
+                        return
             devis = c.devis_id
             if devis:
                 if devis.date_refus:
@@ -93,8 +102,13 @@ class Client(models.Model):
             planif_vt = c.planif_vt_id
             if planif_vt:
                 if planif_vt.date_time_planif:
-                    c.etat = 'vt_a_saisir'
-                    return
+                    if planif_vt.date_time_planif.date() > date.today():
+                        c.etat = 'vt_planifiee'
+                        return
+                    else:
+                        c.etat = 'vt_a_saisir'
+                        return
+
             if c.prospect_qualifie is not None:
                 if c.prospect_qualifie == 'oui':
                     c.etat = 'vt_a_planifier'
@@ -102,8 +116,7 @@ class Client(models.Model):
                 if c.prospect_qualifie == 'non':
                     c.etat = 'annule_telephone'
                     return
-            c.etat='nouveau'
-
+            c.etat = 'nouveau'
 
     solde_client = fields.Float(compute='_compute_solde_client', store=True)
 
@@ -117,8 +130,6 @@ class Client(models.Model):
             if record.cee_id:
                 somme_reversions_cee = record.cee_id.somme_reversion
             record.solde_client = montant_ttc_devis - somme_reversions_cee
-
-
 
     # 1 Source apporteur
     date_entree = fields.Date()
@@ -144,8 +155,6 @@ class Client(models.Model):
                                             string="Utilisateur", store=False)
     technicien_planif_vt = fields.Many2one('res.users', compute='_compute_planif_vt',
                                            string="Technicien", store=False)
-
-
 
     @api.depends('planif_vt_id')
     def _compute_planif_vt(self):
@@ -179,8 +188,6 @@ class Client(models.Model):
                                      string="Utilisateur", store=False)
     technicien_vt = fields.Many2one('res.users', compute='_compute_vt',
                                     string="Technicien", store=False)
-
-
 
     @api.depends('vt_id')
     def _compute_vt(self):
@@ -220,9 +227,7 @@ class Client(models.Model):
     montant_ttc_devis = fields.Float(compute='_compute_devis',
                                      string="Montant TTC", store=False)
     etat_devis = fields.Char(compute='_compute_devis',
-                               string="Etat devis", store=False)
-
-
+                             string="Etat devis", store=False)
 
     @api.depends('devis_id', 'cee_id')
     def _compute_devis(self):
@@ -267,11 +272,11 @@ class Client(models.Model):
     somme_primes_cee = fields.Float(compute='_compute_cee', string='Montant HT');
 
     date_edition_contribution_cee = fields.Date(compute='_compute_cee', string='Edition', store=False)
-    utilisateur_edition_contribution_cee = fields.Many2one('res.users', compute='_compute_cee', string='Utilisateur', store=False)
+    utilisateur_edition_contribution_cee = fields.Many2one('res.users', compute='_compute_cee', string='Utilisateur',
+                                                           store=False)
 
     date_edition_ah_cee = fields.Date(compute='_compute_cee', string='Edition', store=False)
     utilisateur_edition_ah_cee = fields.Many2one('res.users', compute='_compute_cee', string='Utilisateur', store=False)
-
 
     date_reception_controle_cee = fields.Date(compute='_compute_cee', string='Réception', store=False)
     utilisateur_controle_cee = fields.Many2one('res.users', compute='_compute_cee', string='Utilisateur', store=False)
@@ -419,7 +424,6 @@ class Client(models.Model):
                 for ligne in record.chantier_id.lignes_chantier:
                     record.temps_passe_chantier += ligne.temps_passe
                 record.chantier_realise_chantier = record.chantier_id.chantier_realise
-
 
     @api.model
     def default_get(self, fields_list):
