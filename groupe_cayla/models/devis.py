@@ -167,6 +167,7 @@ class Devis(models.Model):
     def invalider_devis(self):
         self.date_envoi = None
         self.etat = 'nouveau'
+        self.client_id.etat = 'devis_a_editer'
         if self.client_id.cee_id:
             if self.client_id.cee_id.lignes_cee:
                 for l in self.client_id.cee_id.lignes_cee:

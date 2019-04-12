@@ -23,32 +23,46 @@
                     <sheet>
 
                         <group col="2">
-
-                            <group string="Situation client">
-                                <field name="client_id" attrs="{'invisible': True}"/>
-                                <field name="type_client_id"
-                                       options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
-                                <field name="zone_habitation_id"
-                                       options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
-                                <field name="source_energie_chauffage"/>
-                                <field name="type_chauffage_id"
-                                       options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
-                                <field name="ref_fiscale"/>
-                                <field name="foyer"/>
-                                <field name="locataire"/>
+                            <group col="1">
+                                <group string="Situation client">
+                                    <field name="client_id" attrs="{'invisible': True}"/>
+                                    <field name="type_client_id"
+                                           options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
+                                    <field name="zone_habitation_id"
+                                           options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
+                                    <field name="source_energie_chauffage"/>
+                                    <field name="type_chauffage_id"
+                                           options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
+                                    <field name="ref_fiscale"/>
+                                    <field name="foyer"/>
+                                    <field name="locataire"/>
+                                </group>
+                                <group string="Contrat CEE">
+                                    <field name="convention_id"
+                                           options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
+                                    <field name="fiche_1_id"
+                                           options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
+                                    <field name="fiche_2_id"
+                                           options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
+                                </group>
                             </group>
-                            <group string="Contrat CEE">
-                                <field name="convention_id"
-                                       options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
-                                <field name="fiche_1_id"
-                                       options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
-                                <field name="fiche_2_id"
-                                       options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
-                                <field name="somme_reversion"/>
-                                <field name="somme_primes"/>
+                            <group col="1">
 
+                                <group string="Edition fiche contribution"
+                                       attrs="{'invisible':[('active_id', '=', False)]}">
+                                    <field name="edition_contribution_cee_id" domain="[('cee_id', '=', 'active_id')]"
+                                           context="{'default_user_id': uid, 'default_cee_id': active_id}"/>
+                                </group>
+                                 <group string="Edition Attestation sur l'honneur"
+                                       attrs="{'invisible':[('active_id', '=', False)]}">
+                                    <field name="edition_ah_cee_id" domain="[('cee_id', '=', 'active_id')]"
+                                           context="{'default_user_id': uid, 'default_cee_id': active_id}"/>
+                                </group>
+                                <group>
+                                    <field name="somme_reversion"/>
+                                    <field name="somme_primes"/>
+                                </group>
                             </group>
-
                         </group>
                         <group string="Primes">
                             <field name="objet_devis"/>

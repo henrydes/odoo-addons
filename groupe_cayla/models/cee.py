@@ -23,7 +23,11 @@ class CEE(models.Model):
         'res.users',
         delegate=False,
         required=True,
+        string='Utilisateur'
     )
+
+    edition_contribution_cee_id = fields.Many2one('groupe_cayla.edition_contribution_cee', string='Fiche contribution')
+    edition_ah_cee_id = fields.Many2one('groupe_cayla.edition_ah_cee', string='AH')
 
     lignes_cee = fields.One2many('groupe_cayla.ligne_cee', 'cee_id', string='Lignes')
 
@@ -34,8 +38,8 @@ class CEE(models.Model):
     source_energie_chauffage = fields.Char(compute='_compute_source_energie_chauffage', store=False)
 
     convention_id = fields.Many2one('groupe_cayla.convention', required=True)
-    fiche_1_id = fields.Many2one('groupe_cayla.fiche', required=True, string='Fiche')
-    fiche_2_id = fields.Many2one('groupe_cayla.fiche', required=True, string='Fiche')
+    fiche_1_id = fields.Many2one('groupe_cayla.fiche', required=True, string='Fiches')
+    fiche_2_id = fields.Many2one('groupe_cayla.fiche', required=False, string=' ')
 
     objet_devis = fields.Char(compute='_compute_devis_data', store=False)
 
