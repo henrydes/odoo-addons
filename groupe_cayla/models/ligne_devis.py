@@ -192,9 +192,9 @@ class LigneDevis(models.Model):
 
     def get_reversion_cee(self, montant_prime_total, ligne_devis, cee):
         if cee and ligne_devis.prime_cee and cee.type_client_id:
-            if cee.type_client_id.donne_droit_reversion_taux_plein_prime_cee:
-                ligne_devis.prix_total * 1.055 - 1
+            if cee.type_client_id.mode_calcul_reversion == 'multiplication':
+                ligne_devis.prix_total * cee.type_client_id.taux_reversion - 1
             else:
-                return montant_prime_total / 1.1
+                return montant_prime_total / cee.type_client_id.taux_reversion
         else:
             return 0

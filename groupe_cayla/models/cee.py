@@ -95,11 +95,10 @@ class CEE(models.Model):
             for l in self.lignes_cee:
                 prime_cee = l.ligne_devis_id.prime_cee
                 if prime_cee:
-                    _logger.info(self.type_client_id.donne_droit_reversion_taux_plein_prime_cee)
-                    if self.type_client_id.donne_droit_reversion_taux_plein_prime_cee:
-                        l.montant_reversion = l.ligne_devis_id.prix_total * 1.055 - 1
+                    if self.type_client_id.mode_calcul_reversion == 'multiplication':
+                        l.montant_reversion = l.ligne_devis_id.prix_total * self.type_client_id.taux_reversion - 1
                     else:
-                        l.montant_reversion = l.montant_prime_total / 1.1
+                        l.montant_reversion = l.montant_prime_total / self.type_client_id.taux_reversion
                     somme_reversion += l.montant_reversion
                 else:
                     l.montant_reversion = 0
@@ -139,10 +138,10 @@ class CEE(models.Model):
                 else:
                     l.montant_prime_total = None
 
-                if self.type_client_id.donne_droit_reversion_taux_plein_prime_cee:
-                    l.montant_reversion = l.ligne_devis_id.prix_total * 1.055 - 1
+                if self.type_client_id.mode_calcul_reversion == 'multiplication':
+                    l.montant_reversion = l.ligne_devis_id.prix_total * self.type_client_id.taux_reversion  - 1
                 else:
-                    l.montant_reversion = l.montant_prime_total / 1.1
+                    l.montant_reversion = l.montant_prime_total / self.type_client_id.taux_reversion
                 somme_reversion += l.montant_reversion
 
         self.somme_primes = somme_primes
