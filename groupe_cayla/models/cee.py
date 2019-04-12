@@ -26,8 +26,28 @@ class CEE(models.Model):
         string='Utilisateur'
     )
 
-    edition_contribution_cee_id = fields.Many2one('groupe_cayla.edition_contribution_cee', string='Fiche contribution')
-    edition_ah_cee_id = fields.Many2one('groupe_cayla.edition_ah_cee', string='AH')
+    # controle
+    controle_user_id = fields.Many2one(
+        'res.users',
+        delegate=False,
+        required=False,
+        string='Utilisateur'
+    )
+    date_reception = fields.Date()
+    date_controle = fields.Date()
+    fiche_vt = fields.Boolean(default=False, string='Fiche de VT')
+    devis = fields.Boolean(default=False, string='Devis')
+    ah = fields.Boolean(default=False, string='AH')
+    fiche_chantier = fields.Boolean(default=False, string='Fiche de CH')
+    dossier_valide = fields.Boolean(default=False, string='DOSS. VALIDE')
+
+    # edition contribution
+    contribution_user_id = fields.Many2one('res.users', required=False, string='Utilisateur')
+    contribution_date_edition = fields.Date(default=date.today())
+
+    # edition ah
+    ah_user_id = fields.Many2one('res.users', required=False, string='Utilisateur')
+    ah_date_edition = fields.Date()
 
     lignes_cee = fields.One2many('groupe_cayla.ligne_cee', 'cee_id', string='Lignes')
 
@@ -52,6 +72,7 @@ class CEE(models.Model):
 
     somme_reversion = fields.Float(string='Prime client', compute='_compute_sommes', store=True)
     somme_primes = fields.Float(string='Montant HT', compute='_compute_sommes', store=True)
+
 
     @api.depends('lignes_cee')
     def _compute_sommes(self):

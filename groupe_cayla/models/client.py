@@ -21,7 +21,9 @@ class Client(models.Model):
         ('annule_par_client', 'Annulé par client'),
         ('chantier_a_saisir', 'Chantier à saisir'),
         ('annule_par_applicateur', 'Annulé par applicateur'),
-        ('facture_client_a_editer', 'Facture client à éditer')
+        ('facture_client_a_editer', 'Facture client à éditer'),
+        ('dossier_incomplet', 'Dossier incomplet'),
+        ('dossier_a_deposer', 'Dossier à déposer')
     ], default='nouveau'
     )
 
@@ -198,23 +200,36 @@ class Client(models.Model):
                 record.utilisateur_devis = record.devis_id.user_id
                 record.etat_devis = record.devis_id.etat
 
-    # 5.2 Saisie CEE
+    # 5.2 Saisie CEE, 6.2 CEE AH,  8.1 contrôle CEE
     cee_id = fields.Many2one(
         'groupe_cayla.cee',
         delegate=False,
         required=False,
         ondelete='set null'
     )
+
     type_client_cee = fields.Many2one('groupe_cayla.type_client', compute='_compute_cee',
                                       string="Type client", store=False)
     convention_cee = fields.Many2one('groupe_cayla.convention', compute='_compute_cee',
                                      string="Délégataire", store=False)
     fiche_1_cee = fields.Many2one('groupe_cayla.fiche', compute='_compute_cee',
-                                  string="Fiche", store=False)
+                                  string="Type d'opération", store=False)
     fiche_2_cee = fields.Many2one('groupe_cayla.fiche', compute='_compute_cee',
                                   string=" ", store=False)
-    somme_reversion_cee = fields.Float(compute='_compute_cee', string='Prime client');
+    somme_reversion_cee = fields.Float(compute='_compute_cee', string='Montant');
     somme_primes_cee = fields.Float(compute='_compute_cee', string='Montant HT');
+
+    date_edition_contribution_cee = fields.Date(compute='_compute_cee', string='Edition', store=False)
+    utilisateur_edition_contribution_cee = fields.Many2one('res.users', compute='_compute_cee', string='Utilisateur', store=False)
+
+    date_edition_ah_cee = fields.Date(compute='_compute_cee', string='Edition', store=False)
+    utilisateur_edition_ah_cee = fields.Many2one('res.users', compute='_compute_cee', string='Utilisateur', store=False)
+
+
+    date_reception_controle_cee = fields.Date(compute='_compute_cee', string='Réception', store=False)
+    utilisateur_controle_cee = fields.Many2one('res.users', compute='_compute_cee', string='Utilisateur', store=False)
+    date_controle_cee = fields.Date(compute='_compute_cee', string='Contrôle', store=False)
+    dossier_valide_controle = fields.Boolean(string='Validé', compute='_compute_cee', store=False)
 
     @api.depends('cee_id')
     def _compute_cee(self):
@@ -226,6 +241,14 @@ class Client(models.Model):
                 record.fiche_2_cee = None
                 record.somme_primes_cee = None
                 record.somme_reversion_cee = None
+                record.date_edition_contribution_cee = None
+                record.utilisateur_edition_contribution_cee = None
+                record.date_edition_ah_cee = None
+                record.utilisateur_edition_ah_cee = None
+                record.date_reception_controle_cee = None
+                record.utilisateur_controle_cee = None
+                record.date_controle_cee = None
+                record.dossier_valide_controle = None
 
             else:
                 record.type_client_cee = record.cee_id.type_client_id
@@ -234,6 +257,14 @@ class Client(models.Model):
                 record.fiche_2_cee = record.cee_id.fiche_2_id
                 record.somme_primes_cee = record.cee_id.somme_primes
                 record.somme_reversion_cee = record.cee_id.somme_reversion
+                record.date_edition_contribution_cee = record.cee_id.contribution_date_edition
+                record.utilisateur_edition_contribution_cee = record.cee_id.contribution_user_id
+                record.date_edition_ah_cee = record.cee_id.ah_date_edition
+                record.utilisateur_edition_ah_cee = record.cee_id.ah_user_id
+                record.date_reception_controle_cee = record.cee_id.date_reception
+                record.utilisateur_controle_cee = record.cee_id.controle_user_id
+                record.date_controle_cee = record.cee_id.date_controle
+                record.dossier_valide_controle = record.cee_id.dossier_valide
 
     # 6 Planif Chantier
     planif_chantier_id = fields.Many2one(

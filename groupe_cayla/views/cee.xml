@@ -50,26 +50,48 @@
 
                                 <group string="Edition fiche contribution"
                                        attrs="{'invisible':[('active_id', '=', False)]}">
-                                    <field name="edition_contribution_cee_id" domain="[('cee_id', '=', 'active_id')]"
-                                           context="{'default_user_id': uid, 'default_cee_id': active_id}"/>
+                                    <field name="contribution_user_id"/>
+                                    <field name="contribution_date_edition" />
                                 </group>
-                                 <group string="Edition Attestation sur l'honneur"
+                                <group string="Edition Attestation sur l'honneur"
                                        attrs="{'invisible':[('active_id', '=', False)]}">
-                                    <field name="edition_ah_cee_id" domain="[('cee_id', '=', 'active_id')]"
-                                           context="{'default_user_id': uid, 'default_cee_id': active_id}"/>
+                                    <field name="ah_user_id"/>
+                                    <field name="ah_date_edition" />
                                 </group>
+
                                 <group>
                                     <field name="somme_reversion"/>
                                     <field name="somme_primes"/>
                                 </group>
                             </group>
                         </group>
-                        <group string="Primes">
-                            <field name="objet_devis"/>
-                            <field name="lignes_cee" widget="one2many"/>
-                        </group>
+                        <notebook>
+                            <page string="Primes">
+                                <sheet>
+                                    <group>
+                                        <field name="objet_devis"/>
+                                        <field name="lignes_cee" widget="one2many"/>
+                                    </group>
+                                </sheet>
+                            </page>
+                            <page string="Contrôle" attrs="{'invisible':[('active_id', '=', False)]}">
+                                <sheet>
+                                    <group>
+                                        <field name="controle_user_id"/>
+                                        <field name="date_reception"/>
+                                        <field name="date_controle"/>
 
+                                        <field name="fiche_vt"/>
+                                        <field name="devis"/>
+                                        <field name="ah"/>
+                                        <field name="fiche_chantier"/>
+                                        <field name="dossier_valide"/>
+                                    </group>
+                                </sheet>
+                            </page>
+                        </notebook>
                     </sheet>
+
                     <div class="oe_chatter">
                         <field name="message_follower_ids" widget="mail_followers"/>
                         <field name="activity_ids" widget="mail_activity"/>

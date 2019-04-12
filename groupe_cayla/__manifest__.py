@@ -56,6 +56,7 @@
         'views/ligne_cee.xml',
         'views/edition_contribution_cee.xml',
         'views/edition_ah_cee.xml',
+        'views/controle_cee.xml',
     ],
     'application': True,
 }

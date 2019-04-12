@@ -145,19 +145,53 @@
                             </page>
                             <page string="Service énergie">
                                 <sheet>
-                                    <group col="1">
-                                        <group string="5.2 - CEE contribution">
+                                    <group col="3">
+                                        <group col="2" >
+                                            <field name="cee_id"
+                                                       domain="[('client_id', '=', active_id)]"
+                                                       context="{'default_client_id': active_id, 'default_user_id': uid}"/>
+                                        </group>
+                                        <group col="1" ></group>
+
+                                        <group string="5.2 - CEE contribution" col="1">
                                             <group attrs="{'invisible':[('etat_devis', '!=', 'valide')]}">
                                                 <field name="etat_devis" attrs="{'invisible': True}"/>
 
-                                                <field name="cee_id"
-                                                       domain="[('client_id', '=', active_id)]"
-                                                       context="{'default_client_id': active_id, 'default_user_id': uid}"/>
-                                                <field name="convention_cee" options="{'no_open': True}"/>
+
                                                 <field name="fiche_1_cee" options="{'no_open': True}"/>
                                                 <field name="fiche_2_cee" options="{'no_open': True}"/>
-                                                <field name="somme_primes_cee"/>
+                                                <field name="convention_cee" options="{'no_open': True}"/>
+                                                <field name="utilisateur_edition_contribution_cee"/>
+                                                <field name="date_edition_contribution_cee"/>
                                                 <field name="somme_reversion_cee"/>
+
+
+                                            </group>
+                                            <group attrs="{'invisible':[('etat_devis', '=', 'valide')]}">
+                                                <span>Veuillez d'abord valider (envoyer) le devis.</span>
+                                            </group>
+
+                                        </group>
+                                         <group string="6.2 - CEE AH" col="1">
+                                            <group attrs="{'invisible':[('etat_devis', '!=', 'valide')]}">
+
+                                                <field name="date_edition_ah_cee"/>
+                                                <field name="utilisateur_edition_ah_cee"/>
+
+
+                                            </group>
+                                            <group attrs="{'invisible':[('etat_devis', '=', 'valide')]}">
+                                                <span>Veuillez d'abord valider (envoyer) le devis.</span>
+                                            </group>
+
+                                        </group>
+                                        <group string="8.1 - Contrôle" col="1">
+                                            <group attrs="{'invisible':[('etat_devis', '!=', 'valide')]}">
+
+                                                <field name="date_reception_controle_cee" />
+                                                <field name="utilisateur_controle_cee" />
+                                                <field name="date_controle_cee" />
+                                                <field name="dossier_valide_controle" />
                                             </group>
                                             <group attrs="{'invisible':[('etat_devis', '=', 'valide')]}">
                                                 <span>Veuillez d'abord valider (envoyer) le devis.</span>
