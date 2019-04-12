@@ -77,15 +77,26 @@
                             <page string="Contrôle" attrs="{'invisible':[('active_id', '=', False)]}">
                                 <sheet>
                                     <group>
-                                        <field name="controle_user_id"/>
-                                        <field name="date_reception"/>
-                                        <field name="date_controle"/>
+                                        <field name="saisie_controle"/>
+                                        <field name="controle_user_id" attrs="{'readonly':[('saisie_controle', '=', False)]}"/>
+                                        <field name="date_reception" attrs="{'readonly':[('saisie_controle', '=', False)]}"/>
+                                        <field name="date_controle" attrs="{'readonly':[('saisie_controle', '=', False)]}"/>
 
-                                        <field name="fiche_vt"/>
-                                        <field name="devis"/>
-                                        <field name="ah"/>
-                                        <field name="fiche_chantier"/>
-                                        <field name="dossier_valide"/>
+                                        <field name="fiche_vt" attrs="{'readonly':[('saisie_controle', '=', False)]}"/>
+                                        <field name="devis" attrs="{'readonly':[('saisie_controle', '=', False)]}"/>
+                                        <field name="ah" attrs="{'readonly':[('saisie_controle', '=', False)]}"/>
+                                        <field name="fiche_chantier" attrs="{'readonly':[('saisie_controle', '=', False)]}"/>
+                                        <field name="dossier_valide" attrs="{'readonly':[('saisie_controle', '=', False)]}"/>
+                                    </group>
+                                </sheet>
+                            </page>
+                            <page string="Dépôt" attrs="{'invisible':[('active_id', '=', False)]}">
+                                <sheet>
+                                    <group>
+                                        <field name="date_depot"/>
+                                        <field name="date_validation"/>
+                                        <field name="refus"/>
+                                        <field name="reference_cee"/>
                                     </group>
                                 </sheet>
                             </page>

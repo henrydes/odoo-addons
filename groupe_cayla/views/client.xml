@@ -146,13 +146,12 @@
                             <page string="Service énergie">
                                 <sheet>
                                     <group col="3">
-                                        <group col="2" >
+                                        <group col="2" colspan="2">
                                             <field name="cee_id"
-                                                       domain="[('client_id', '=', active_id)]"
-                                                       context="{'default_client_id': active_id, 'default_user_id': uid}"/>
+                                                   domain="[('client_id', '=', active_id)]"
+                                                   context="{'default_client_id': active_id, 'default_user_id': uid}"/>
                                         </group>
-                                        <group col="1" ></group>
-
+                                        <group col="1"></group>
                                         <group string="5.2 - CEE contribution" col="1">
                                             <group attrs="{'invisible':[('etat_devis', '!=', 'valide')]}">
                                                 <field name="etat_devis" attrs="{'invisible': True}"/>
@@ -172,7 +171,7 @@
                                             </group>
 
                                         </group>
-                                         <group string="6.2 - CEE AH" col="1">
+                                        <group string="6.2 - CEE AH" col="1">
                                             <group attrs="{'invisible':[('etat_devis', '!=', 'valide')]}">
 
                                                 <field name="date_edition_ah_cee"/>
@@ -188,10 +187,11 @@
                                         <group string="8.1 - Contrôle" col="1">
                                             <group attrs="{'invisible':[('etat_devis', '!=', 'valide')]}">
 
-                                                <field name="date_reception_controle_cee" />
-                                                <field name="utilisateur_controle_cee" />
-                                                <field name="date_controle_cee" />
-                                                <field name="dossier_valide_controle" />
+                                                <field name="date_reception_controle_cee"/>
+                                                <field name="utilisateur_controle_cee"/>
+                                                <field name="date_controle_cee"/>
+                                                <field name="date_depot_cee"/>
+                                                <field name="date_validation_cee"/>
                                             </group>
                                             <group attrs="{'invisible':[('etat_devis', '=', 'valide')]}">
                                                 <span>Veuillez d'abord valider (envoyer) le devis.</span>

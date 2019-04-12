@@ -27,6 +27,7 @@ class CEE(models.Model):
     )
 
     # controle
+    saisie_controle = fields.Boolean(string='Saisir le contrôle',store=False, default=False)
     controle_user_id = fields.Many2one(
         'res.users',
         delegate=False,
@@ -48,6 +49,12 @@ class CEE(models.Model):
     # edition ah
     ah_user_id = fields.Many2one('res.users', required=False, string='Utilisateur')
     ah_date_edition = fields.Date()
+
+    # depot
+    date_depot = fields.Date()
+    date_validation = fields.Date()
+    refus = fields.Boolean(default=False)
+    reference_cee=fields.Char(string='Ref CEE')
 
     lignes_cee = fields.One2many('groupe_cayla.ligne_cee', 'cee_id', string='Lignes')
 
@@ -197,6 +204,8 @@ class CEE(models.Model):
     def create(self, values):
         rec = super(CEE, self).create(values)
         client = self.env['groupe_cayla.client'].search([('id', '=', values['client_id'])], limit=1)
+        if 'dossier_valide' in values:
+            pass
         self.modification_tarifs_lignes_devis(client)
         return rec
 

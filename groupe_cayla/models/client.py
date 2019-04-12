@@ -230,6 +230,8 @@ class Client(models.Model):
     utilisateur_controle_cee = fields.Many2one('res.users', compute='_compute_cee', string='Utilisateur', store=False)
     date_controle_cee = fields.Date(compute='_compute_cee', string='Contrôle', store=False)
     dossier_valide_controle = fields.Boolean(string='Validé', compute='_compute_cee', store=False)
+    date_depot_cee = fields.Date(compute='_compute_cee', string='Dépôt', store=False)
+    date_validation_cee = fields.Date(compute='_compute_cee', string='Date de valid.', store=False)
 
     @api.depends('cee_id')
     def _compute_cee(self):
@@ -249,6 +251,8 @@ class Client(models.Model):
                 record.utilisateur_controle_cee = None
                 record.date_controle_cee = None
                 record.dossier_valide_controle = None
+                record.date_depot_cee = None
+                record.date_validation_cee = None
 
             else:
                 record.type_client_cee = record.cee_id.type_client_id
@@ -265,6 +269,8 @@ class Client(models.Model):
                 record.utilisateur_controle_cee = record.cee_id.controle_user_id
                 record.date_controle_cee = record.cee_id.date_controle
                 record.dossier_valide_controle = record.cee_id.dossier_valide
+                record.date_depot_cee = record.cee_id.date_depot
+                record.date_validation_cee = record.cee_id.date_validation
 
     # 6 Planif Chantier
     planif_chantier_id = fields.Many2one(
