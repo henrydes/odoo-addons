@@ -205,13 +205,21 @@ class CEE(models.Model):
         rec = super(CEE, self).create(values)
         client = self.env['groupe_cayla.client'].search([('id', '=', values['client_id'])], limit=1)
         if 'dossier_valide' in values:
-            pass
+            if values['dossier_valide']:
+                client.etat='dossier_a_deposer'
+            else:
+                client.etat='dossier_incomplet'
         self.modification_tarifs_lignes_devis(client)
         return rec
 
     @api.multi
     def write(self, vals):
         client = self.client_id
+        if 'dossier_valide' in vals:
+            if vals['dossier_valide']:
+                client.etat='dossier_a_deposer'
+            else:
+                client.etat='dossier_incomplet'
         super().write(vals)
         self.modification_tarifs_lignes_devis(client)
         return True
