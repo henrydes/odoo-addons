@@ -27,7 +27,7 @@ class CEE(models.Model):
     )
 
     # controle
-    saisie_controle = fields.Boolean(string='Saisir le contrôle',store=False, default=False)
+    saisie_controle = fields.Boolean(string='Saisir le contrôle', store=False, default=False)
     controle_user_id = fields.Many2one(
         'res.users',
         delegate=False,
@@ -51,10 +51,12 @@ class CEE(models.Model):
     ah_date_edition = fields.Date()
 
     # depot
+
+    saisie_depot = fields.Boolean(string='Saisir le dépôt', store=False, default=False)
     date_depot = fields.Date()
     date_validation = fields.Date()
     refus = fields.Boolean(default=False)
-    reference_cee=fields.Char(string='Ref CEE')
+    reference_cee = fields.Char(string='Ref CEE')
 
     lignes_cee = fields.One2many('groupe_cayla.ligne_cee', 'cee_id', string='Lignes')
 
@@ -79,7 +81,6 @@ class CEE(models.Model):
 
     somme_reversion = fields.Float(string='Prime client', compute='_compute_sommes', store=True)
     somme_primes = fields.Float(string='Montant HT', compute='_compute_sommes', store=True)
-
 
     @api.depends('lignes_cee')
     def _compute_sommes(self):
@@ -171,7 +172,7 @@ class CEE(models.Model):
                     l.montant_prime_total = None
 
                 if self.type_client_id.mode_calcul_reversion == 'multiplication':
-                    l.montant_reversion = l.ligne_devis_id.prix_total * self.type_client_id.taux_reversion  - 1
+                    l.montant_reversion = l.ligne_devis_id.prix_total * self.type_client_id.taux_reversion - 1
                 else:
                     l.montant_reversion = l.montant_prime_total / self.type_client_id.taux_reversion
                 somme_reversion += l.montant_reversion
@@ -200,15 +201,34 @@ class CEE(models.Model):
 
         return res
 
+    @api.onchange('refus')
+    def onchange_refus(self):
+        for record in self:
+            if record.refus:
+                record.date_validation = None
+
+    @api.onchange('date_validation')
+    def onchange_date_validation(self):
+        for record in self:
+            if record.date_validation:
+                record.refus = False
+
     @api.model
     def create(self, values):
         rec = super(CEE, self).create(values)
         client = self.env['groupe_cayla.client'].search([('id', '=', values['client_id'])], limit=1)
         if 'dossier_valide' in values:
             if values['dossier_valide']:
-                client.etat='dossier_a_deposer'
+                client.etat = 'dossier_a_deposer'
             else:
-                client.etat='dossier_incomplet'
+                client.etat = 'dossier_incomplet'
+        if 'date_depot' in values and values['date_depot']:
+            client.etat = 'dossier_depose'
+        if 'date_validation' in values and values['date_validation']:
+            client.etat = 'dossier_valide'
+        if 'refus' in values and values['refus']:
+            client.etat = 'dossier_refuse'
+
         self.modification_tarifs_lignes_devis(client)
         return rec
 
@@ -217,9 +237,15 @@ class CEE(models.Model):
         client = self.client_id
         if 'dossier_valide' in vals:
             if vals['dossier_valide']:
-                client.etat='dossier_a_deposer'
+                client.etat = 'dossier_a_deposer'
             else:
-                client.etat='dossier_incomplet'
+                client.etat = 'dossier_incomplet'
+        if 'date_depot' in vals and vals['date_depot']:
+            client.etat = 'dossier_depose'
+        if 'date_validation' in vals and vals['date_validation']:
+            client.etat = 'dossier_valide'
+        if 'refus' in vals and vals['refus']:
+            client.etat = 'dossier_refuse'
         super().write(vals)
         self.modification_tarifs_lignes_devis(client)
         return True

@@ -22,8 +22,11 @@ class Client(models.Model):
         ('chantier_a_saisir', 'Chantier à saisir'),
         ('annule_par_applicateur', 'Annulé par applicateur'),
         ('facture_client_a_editer', 'Facture client à éditer'),
-        ('dossier_incomplet', 'Dossier incomplet'),
-        ('dossier_a_deposer', 'Dossier à déposer')
+        ('dossier_incomplet', 'Dossier contrôlé incomplet'),
+        ('dossier_a_deposer', 'Dossier à déposer'),
+        ('dossier_depose', 'Dossier déposé PNCE'),
+        ('dossier_valide', 'Clôturé / Facture délégataire à éditer'),
+        ('dossier_refuse', 'Dossier déposé PNCE / Refusé')
     ], default='nouveau'
     )
 

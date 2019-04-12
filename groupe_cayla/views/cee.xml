@@ -51,12 +51,12 @@
                                 <group string="Edition fiche contribution"
                                        attrs="{'invisible':[('active_id', '=', False)]}">
                                     <field name="contribution_user_id"/>
-                                    <field name="contribution_date_edition" />
+                                    <field name="contribution_date_edition"/>
                                 </group>
                                 <group string="Edition Attestation sur l'honneur"
                                        attrs="{'invisible':[('active_id', '=', False)]}">
                                     <field name="ah_user_id"/>
-                                    <field name="ah_date_edition" />
+                                    <field name="ah_date_edition"/>
                                 </group>
 
                                 <group>
@@ -78,25 +78,31 @@
                                 <sheet>
                                     <group>
                                         <field name="saisie_controle"/>
-                                        <field name="controle_user_id" attrs="{'readonly':[('saisie_controle', '=', False)]}"/>
-                                        <field name="date_reception" attrs="{'readonly':[('saisie_controle', '=', False)]}"/>
-                                        <field name="date_controle" attrs="{'readonly':[('saisie_controle', '=', False)]}"/>
+                                        <field name="controle_user_id"
+                                               attrs="{'readonly':[('saisie_controle', '=', False)]}"/>
+                                        <field name="date_reception"
+                                               attrs="{'readonly':[('saisie_controle', '=', False)]}"/>
+                                        <field name="date_controle"
+                                               attrs="{'readonly':[('saisie_controle', '=', False)]}"/>
 
                                         <field name="fiche_vt" attrs="{'readonly':[('saisie_controle', '=', False)]}"/>
                                         <field name="devis" attrs="{'readonly':[('saisie_controle', '=', False)]}"/>
                                         <field name="ah" attrs="{'readonly':[('saisie_controle', '=', False)]}"/>
-                                        <field name="fiche_chantier" attrs="{'readonly':[('saisie_controle', '=', False)]}"/>
-                                        <field name="dossier_valide" attrs="{'readonly':[('saisie_controle', '=', False)]}"/>
+                                        <field name="fiche_chantier"
+                                               attrs="{'readonly':[('saisie_controle', '=', False)]}"/>
+                                        <field name="dossier_valide"
+                                               attrs="{'readonly':[('saisie_controle', '=', False)]}"/>
                                     </group>
                                 </sheet>
                             </page>
                             <page string="Dépôt" attrs="{'invisible':[('active_id', '=', False)]}">
                                 <sheet>
                                     <group>
-                                        <field name="date_depot"/>
-                                        <field name="date_validation"/>
-                                        <field name="refus"/>
-                                        <field name="reference_cee"/>
+                                        <field name="saisie_depot"/>
+                                        <field name="date_depot" attrs="{'readonly':[('saisie_depot', '=', False)]}"/>
+                                        <field name="date_validation" attrs="{'readonly':[('saisie_depot', '=', False)]}"/>
+                                        <field name="refus" attrs="{'readonly':[('saisie_depot', '=', False)]}"/>
+                                        <field name="reference_cee" attrs="{'readonly':[('saisie_depot', '=', False)]}"/>
                                     </group>
                                 </sheet>
                             </page>
