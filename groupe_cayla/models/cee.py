@@ -82,15 +82,7 @@ class CEE(models.Model):
     somme_reversion = fields.Float(string='Prime client', compute='_compute_sommes', store=True)
     somme_primes = fields.Float(string='Montant HT', compute='_compute_sommes', store=True)
 
-    @api.depends('lignes_cee')
-    def _compute_sommes(self):
-        for d in self:
-            if d.lignes_cee:
-                d.somme_primes = 0
-                d.somme_reversion = 0
-                for l in d.lignes_cee:
-                    d.somme_primes += l.montant_prime_total
-                    d.somme_reversion += l.montant_reversion
+
 
     @api.depends('convention_id', 'type_client_id')
     def _compute_fields_combination(self):
@@ -120,50 +112,22 @@ class CEE(models.Model):
             else:
                 c.objet_devis = None
 
+    @api.depends('lignes_cee', 'lignes_cee.montant_reversion', 'lignes_cee.montant_prime_total')
+    def _compute_sommes(self):
+        for d in self:
+            if d.lignes_cee:
+                d.somme_primes = 0
+                d.somme_reversion = 0
+                for l in d.lignes_cee:
+                    d.somme_primes += l.montant_prime_total
+                    d.somme_reversion += l.montant_reversion
 
-
-    @api.onchange('type_client_id', 'zone_habitation_id', 'convention_id', 'type_chauffage_id')
-    def onchange_cee_data(self):
-        somme_primes = 0
-        somme_reversion = 0
-        if self.type_client_id and self.zone_habitation_id and self.convention_id and self.lignes_cee:
-            for l in self.lignes_cee:
-                l.montant_prime_unitaire = 0
-                l.montant_reversion = 0
-                if l.ligne_devis_id and l.ligne_devis_id.prime_cee:
-                    sujet = l.ligne_devis_id.sujet_devis_id
-                    if l.cee_id.type_chauffage_id:
-                        source_energie_chauffage = self.type_chauffage_id.source_energie_chauffage_id
-                        if sujet:
-                            primes = self.env['groupe_cayla.tarif_prime_cee'].search([
-                                ('sujet_devis_id', '=', sujet.id),
-                                ('convention_id', '=', self.convention_id.id),
-                                ('zone_habitation_id', '=', self.zone_habitation_id.id),
-                                ('type_client_id', '=', self.type_client_id.id),
-                            ])
-                            if primes:
-                                if len(primes) == 1:
-                                    l.montant_prime_unitaire = primes[0].prix_unitaire
-                                elif len(primes) == 2:
-                                    prime = primes[0] if primes[
-                                                             0].source_energie_chauffage_id.id == source_energie_chauffage.id else \
-                                        primes[1]
-                                    l.montant_prime_unitaire = prime.prix_unitaire
-
-                if l.montant_prime_unitaire:
-                    l.montant_prime_total = l.montant_prime_unitaire * l.ligne_devis_id.quantite
-                    somme_primes += l.montant_prime_total
-                else:
-                    l.montant_prime_total = None
-
-                if self.type_client_id.mode_calcul_reversion == 'multiplication':
-                    l.montant_reversion = l.ligne_devis_id.prix_total * self.type_client_id.taux_reversion - 1
-                else:
-                    l.montant_reversion = l.montant_prime_total / self.type_client_id.taux_reversion
-                somme_reversion += l.montant_reversion
-
-        self.somme_primes = somme_primes
-        self.somme_reversion = somme_reversion
+    @api.onchange('convention_id', 'type_client_id', 'zone_habitation_id', 'type_chauffage_id')
+    def update_lignes(self):
+        for d in self:
+            if d.lignes_cee:
+                for l in d.lignes_cee:
+                    l._compute_ligne()
 
     @api.model
     def default_get(self, fields_list):
@@ -202,7 +166,6 @@ class CEE(models.Model):
     def create(self, values):
         rec = super(CEE, self).create(values)
         client = self.env['groupe_cayla.client'].search([('id', '=', values['client_id'])], limit=1)
-
 
         self.modification_tarifs_lignes_devis(client)
         return rec
@@ -244,10 +207,10 @@ class CEE(models.Model):
                     montant_ht += ligne_supplement.tarif
             for ligne in client.devis_id.lignes_devis:
                 montant_ht += ligne.prix_total
-            #client.devis_id.montant_ht = montant_ht
+            # client.devis_id.montant_ht = montant_ht
             if False or client.devis_id.remise:
                 client.devis_id.montant_remise = client.devis_id.montant_ht * client.devis_id.remise / 100
                 client.devis_id.montant_ht = client.devis_id.montant_ht - client.devis_id.montant_remise
-            #client.devis_id.montant_tva = client.devis_id.montant_ht * client.devis_id.choix_tva.taux / 100
-            #client.devis_id.montant_ttc = client.devis_id.montant_ht + client.devis_id.montant_tva
-            #client.montant_ttc_devis = client.devis_id.montant_ttc
+            # client.devis_id.montant_tva = client.devis_id.montant_ht * client.devis_id.choix_tva.taux / 100
+            # client.devis_id.montant_ttc = client.devis_id.montant_ht + client.devis_id.montant_tva
+            # client.montant_ttc_devis = client.devis_id.montant_ttc

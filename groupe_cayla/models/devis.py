@@ -121,34 +121,10 @@ class Devis(models.Model):
             vals['etat'] = 'valide'
         super().write(vals)
 
-        client = self.client_id
-
-        devis = self.env['groupe_cayla.devis'].search([('id', '=', self.id)], limit=1)
-
 
         return True
 
-    @api.onchange('type_professionnel')
-    def onchange_type_professionnel(self):
-        # si tarif tout compris, le tarif est porté par le SUJET, sinon par le PRODUIT
-        # tarif eco : si service energie client type P.GP (particulier grand précaire) et ligne devis Prime CEE
-        # à implémenter après avoir fait le service energie
-        for ligne in self.lignes_devis:
-            if ligne.sujet_devis_id.tarif_tout_compris:
-                if self.type_professionnel:
-                    ligne.prix_unitaire = ligne.sujet_devis_id.tarif_pro
-                elif self.client_id.cee_id and self.client_id.cee_id.type_client_id.donne_droit_tarif_solidarite_energetique == True and ligne.prime_cee == True:
-                    ligne.prix_unitaire = ligne.sujet_devis_id.tarif_solidarite_energetique
-                else:
-                    ligne.prix_unitaire = ligne.sujet_devis_id.tarif_particulier
-            else:
-                if self.type_professionnel:
-                    ligne.prix_unitaire = ligne.ligne_sujet_devis_id.tarif_pro
-                elif self.client_id.cee_id and self.client_id.cee_id.type_client_id.donne_droit_tarif_solidarite_energetique == True and ligne.prime_cee == True:
-                    ligne.prix_unitaire = ligne.ligne_sujet_devis_id.tarif_solidarite_energetique
-                else:
-                    ligne.prix_unitaire = ligne.ligne_sujet_devis_id.tarif_particulier
-            ligne.prix_total = ligne.prix_unitaire * ligne.quantite
+
 
     @api.onchange('date_refus')
     def onchange_date_refus(self):
