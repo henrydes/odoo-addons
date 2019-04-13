@@ -1,6 +1,9 @@
+import logging
 from datetime import date
 
 from odoo import models, fields, api
+
+_logger = logging.getLogger(__name__)
 
 
 class Client(models.Model):
@@ -32,7 +35,7 @@ class Client(models.Model):
         ('dossier_depose', 'Dossier déposé PNCE'),
         ('dossier_valide', 'Clôturé / Facture délégataire à éditer'),
         ('dossier_refuse', 'Dossier déposé PNCE / Refusé')
-    ], default='nouveau', compute='_compute_etat_client'
+    ], default='nouveau', compute='_compute_etat_client', store=True
     )
 
     prospect_qualifie = fields.Selection([
@@ -40,7 +43,11 @@ class Client(models.Model):
         ('non', 'NON')
     ], default=None, string='Prospect qualifié')
 
-    @api.depends('devis_id', 'chantier_id', 'vt_id', 'planif_chantier_id', 'planif_vt_id', 'cee_id')
+    @api.depends('devis_id', 'chantier_id', 'vt_id', 'planif_chantier_id', 'planif_vt_id', 'cee_id',
+                 'prospect_qualifie', 'planif_vt_id.date_time_planif', 'planif_chantier_id.date_time_planif',
+                 'vt_id.documents_complets', 'vt_id.vt_validee', 'vt_id.date_de_realisation',
+                 'devis_id.date_envoi', 'devis_id.date_refus', 'devis_id.date_acceptation', 'chantier_id.chantier_realise',
+                 'cee_id.refus', 'cee_id.date_validation', 'cee_id.date_depot', 'cee_id.dossier_valide', 'cee_id.date_controle')
     def _compute_etat_client(self):
         for c in self:
             cee = c.cee_id
@@ -117,19 +124,25 @@ class Client(models.Model):
                     c.etat = 'annule_telephone'
                     return
             c.etat = 'nouveau'
+            _logger.info('NOUVEAU CLIENT')
 
-    solde_client = fields.Float(compute='_compute_solde_client', store=True)
+    solde_client = fields.Float(compute='_compute_solde_client', store=False)
 
     @api.depends('cee_id', 'devis_id')
     def _compute_solde_client(self):
         for record in self:
             montant_ttc_devis = 0
             somme_reversions_cee = 0
+            acompte = 0
             if record.devis_id:
                 montant_ttc_devis = record.devis_id.montant_ttc
+                if record.devis_id.acompte:
+                    acompte = record.devis_id.acompte
             if record.cee_id:
                 somme_reversions_cee = record.cee_id.somme_reversion
-            record.solde_client = montant_ttc_devis - somme_reversions_cee
+
+            record.solde_client = montant_ttc_devis - somme_reversions_cee - acompte
+            _logger.info(record.solde_client)
 
     # 1 Source apporteur
     date_entree = fields.Date()
@@ -431,3 +444,25 @@ class Client(models.Model):
         france = self.env['res.country'].search([('name', '=', 'France')], limit=1)
         res['country_id'] = france.id
         return res
+
+
+    def onchange_etat(self):
+        if self.prospect_qualifie == 'oui':
+            self.etat = 'vt_a_planifier'
+        else:
+            self.etat = 'annule_telephone'
+
+    @api.model
+    def create(self, values):
+        #if 'prospect_qualifie' in values :
+        #    values['etat'] = 'vt_a_planifier' if values['prospect_qualifie'] == 'oui' else 'annule_telephone'
+        rec = super(Client, self).create(values)
+        return rec
+
+    @api.multi
+    def write(self, vals):
+        #if 'prospect_qualifie' in vals and self.etat in('nouveau', 'annule_telephone', 'vt_a_planifier'):
+        #    vals['etat'] = 'vt_a_planifier' if vals['prospect_qualifie'] == 'oui' else 'annule_telephone'
+
+        super().write(vals)
+        return True

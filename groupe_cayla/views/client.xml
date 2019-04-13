@@ -63,10 +63,10 @@
                                         </group>
                                         <group string="5.1 - Edition devis"
                                                attrs="{'invisible':[('active_id', '=', False)]}">
-
-                                            <field name="devis_id"
-                                                   domain="[('client_id', '=', active_id)]"
-                                                   context="{'default_client_id': active_id, 'default_user_id': uid}"/>
+                                                <field name="devis_id"
+                                                       domain="[('client_id', '=', active_id)]"
+                                                       context="{'default_client_id': active_id, 'default_user_id': uid}"
+                                                />
                                             <field name="utilisateur_devis"/>
                                             <field name="date_edition_devis"/>
                                             <field name="date_envoi_devis"/>
@@ -79,11 +79,13 @@
                             </page>
                             <page string="Service planning">
                                 <sheet>
-                                    <group col="3">
-                                        <group string="3 - Planif VT" attrs="{'invisible':[('active_id', '=', False)]}">
-                                            <field name="planif_vt_id"
-                                                   domain="[('client_id', '=', active_id)]"
-                                                   context="{'default_client_id': active_id, 'default_utilisateur_id': uid}"/>
+                                    <group col="3"  attrs="{'invisible':[('active_id', '=', False)]}">
+                                        <group string="3 - Planif VT" >
+
+                                                <field name="planif_vt_id"
+                                                       domain="[('client_id', '=', active_id)]"
+                                                       context="{'default_client_id': active_id, 'default_utilisateur_id': uid}"/>
+
 
                                             <field name="date_time_planif_planif_vt"/>
                                             <field name="utilisateur_planif_vt"/>
@@ -91,10 +93,11 @@
 
 
                                         </group>
-                                        <group string="6.1 - Planif chantier">
-                                            <field name="planif_chantier_id"
-                                                   domain="[('client_id', '=', active_id)]"
-                                                   context="{'default_client_id': active_id, 'default_utilisateur_id': uid}"/>
+                                        <group string="6.1 - Planif chantier"  >
+                                                <field name="planif_chantier_id"
+                                                       domain="[('client_id', '=', active_id)]"
+                                                       context="{'default_client_id': active_id, 'default_utilisateur_id': uid}"/>
+
                                             <field name="date_appel_planif_chantier"/>
                                             <field name="date_time_planif_planif_chantier"/>
                                             <field name="utilisateur_id_planif_chantier"/>
@@ -114,9 +117,11 @@
                                     <group col="2">
                                         <group string="4 - Visite technique"
                                                attrs="{'invisible':[('active_id', '=', False)]}">
-                                            <field name="vt_id"
-                                                   domain="[('client_id', '=', active_id)]"
-                                                   context="{'default_client_id': active_id, 'default_utilisateur_id': uid}"/>
+
+
+                                                <field name="vt_id"
+                                                       domain="[('client_id', '=', active_id)]"
+                                                       context="{'default_client_id': active_id, 'default_utilisateur_id': uid}"/>
                                             <field name="utilisateur_vt"/>
                                             <field name="technicien_vt"/>
                                             <field name="vt_validee_vt"/>
@@ -126,12 +131,15 @@
                                         </group>
                                         <group string="7 - Chantier"
                                                attrs="{'invisible':[('active_id', '=', False)]}">
-                                            <field name="chantier_id"
-                                                   domain="[('client_id', '=', active_id)]"
-                                                   context="{'default_client_id': active_id,
+
+                                                <field name="chantier_id"
+                                                       domain="[('client_id', '=', active_id)]"
+                                                       context="{'default_client_id': active_id,
                                                     'default_utilisateur_id': uid,
                                                     'default_equipier_1_id': equipier_1_id_planif_chantier,
                                                     'default_equipier_2_id': equipier_2_id_planif_chantier}"/>
+
+
                                             <field name="date_de_realisation_chantier"/>
                                             <field name="equipier_1_id_chantier"/>
                                             <field name="equipier_2_id_chantier"/>
@@ -148,14 +156,16 @@
                             </page>
                             <page string="Service énergie">
                                 <sheet>
-                                    <group col="3">
-                                        <group col="2" colspan="2">
-                                            <field name="cee_id"
-                                                   domain="[('client_id', '=', active_id)]"
-                                                   context="{'default_client_id': active_id, 'default_user_id': uid}"/>
+                                    <group col="3"  attrs="{'invisible':[('active_id', '=', False)]}">
+                                        <group col="2" colspan="2" >
+                                                <field name="cee_id"
+                                                       domain="[('client_id', '=', active_id)]"
+                                                       context="{'default_client_id': active_id, 'default_user_id': uid}"/>
+
+
                                         </group>
                                         <group col="1"></group>
-                                        <group string="5.2 - CEE contribution" col="1">
+                                        <group string="5.2 - CEE contribution" col="1"  >
                                             <group attrs="{'invisible':[('etat_devis', '!=', 'valide')]}">
                                                 <field name="etat_devis" attrs="{'invisible': True}"/>
 
@@ -174,7 +184,7 @@
                                             </group>
 
                                         </group>
-                                        <group string="6.2 - CEE AH" col="1">
+                                        <group string="6.2 - CEE AH" col="1" >
                                             <group attrs="{'invisible':[('etat_devis', '!=', 'valide')]}">
 
                                                 <field name="date_edition_ah_cee"/>
@@ -187,7 +197,7 @@
                                             </group>
 
                                         </group>
-                                        <group string="8.1 - Contrôle" col="1">
+                                        <group string="8.1 - Contrôle" col="1"  >
                                             <group attrs="{'invisible':[('etat_devis', '!=', 'valide')]}">
 
                                                 <field name="date_reception_controle_cee"/>

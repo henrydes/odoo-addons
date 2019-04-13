@@ -37,6 +37,7 @@ class Devis(models.Model):
     date_acceptation = fields.Date()
     date_envoi = fields.Date()
     date_refus = fields.Date()
+    acompte = fields.Float(default=0)
 
     # champs en lecture seuls
     montant_ht = fields.Float(compute='_compute_montant_ht_montant_remise', store=True)

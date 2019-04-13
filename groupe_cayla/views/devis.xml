@@ -15,6 +15,7 @@
 
 
         <record id="view_form_devis" model="ir.ui.view">
+
             <field name="name">Formulaire devis</field>
             <field name="model">groupe_cayla.devis</field>
             <field name="arch" type="xml">
@@ -44,7 +45,22 @@
                                 <field name="date_refus"/>
                                 <field name="motif_refus"/>
                             </group>
+                            <group>
+                                <field name="entite_edition_id" attrs="{'readonly': [('etat', '=', 'valide')]}"
+                                       options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
 
+
+
+                            </group>
+                            <group col="4">
+                                <field name="montant_ht"/>
+                                <field name="montant_remise"/>
+                                <field name="montant_tva"/>
+                                <field name="superficie"/>
+                                <field name="montant_ttc"/>
+                                <field name="montant_eco_cheque"/>
+                                <field name="acompte"/>
+                            </group>
                             <group string="Type de devis">
                                 <table style='width:100%;' border='0'>
                                     <tr>
@@ -107,18 +123,7 @@
                                        attrs="{'readonly': [('etat', '=', 'valide')]}"/>
                             </group>
 
-                            <group>
-                                <field name="entite_edition_id" attrs="{'readonly': [('etat', '=', 'valide')]}"
-                                       options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
-                            </group>
-                            <group col="4">
-                                <field name="montant_ht"/>
-                                <field name="montant_remise"/>
-                                <field name="montant_tva"/>
-                                <field name="superficie"/>
-                                <field name="montant_ttc"/>
-                                <field name="montant_eco_cheque"/>
-                            </group>
+
                         </group>
                     </sheet>
                     <div class="oe_chatter">
