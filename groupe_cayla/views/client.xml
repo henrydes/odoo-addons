@@ -166,48 +166,31 @@
                                         </group>
                                         <group col="1"></group>
                                         <group string="5.2 - CEE contribution" col="1"  >
-                                            <group attrs="{'invisible':[('etat_devis', '!=', 'valide')]}">
+                                            <group>
                                                 <field name="etat_devis" attrs="{'invisible': True}"/>
-
-
                                                 <field name="fiche_1_cee" options="{'no_open': True}"/>
                                                 <field name="fiche_2_cee" options="{'no_open': True}"/>
                                                 <field name="convention_cee" options="{'no_open': True}"/>
                                                 <field name="utilisateur_edition_contribution_cee"/>
                                                 <field name="date_edition_contribution_cee"/>
                                                 <field name="somme_reversion_cee"/>
-
-
-                                            </group>
-                                            <group attrs="{'invisible':[('etat_devis', '=', 'valide')]}">
-                                                <span>Veuillez d'abord valider (envoyer) le devis.</span>
                                             </group>
 
                                         </group>
                                         <group string="6.2 - CEE AH" col="1" >
-                                            <group attrs="{'invisible':[('etat_devis', '!=', 'valide')]}">
-
+                                            <group >
                                                 <field name="date_edition_ah_cee"/>
                                                 <field name="utilisateur_edition_ah_cee"/>
-
-
-                                            </group>
-                                            <group attrs="{'invisible':[('etat_devis', '=', 'valide')]}">
-                                                <span>Veuillez d'abord valider (envoyer) le devis.</span>
                                             </group>
 
                                         </group>
                                         <group string="8.1 - Contrôle" col="1"  >
-                                            <group attrs="{'invisible':[('etat_devis', '!=', 'valide')]}">
-
+                                            <group>
                                                 <field name="date_reception_controle_cee"/>
                                                 <field name="utilisateur_controle_cee"/>
                                                 <field name="date_controle_cee"/>
                                                 <field name="date_depot_cee"/>
                                                 <field name="date_validation_cee"/>
-                                            </group>
-                                            <group attrs="{'invisible':[('etat_devis', '=', 'valide')]}">
-                                                <span>Veuillez d'abord valider (envoyer) le devis.</span>
                                             </group>
 
                                         </group>

@@ -87,7 +87,7 @@ class Devis(models.Model):
             for ligne in d.lignes_devis:
                 d.superficie += ligne.quantite
 
-    @api.depends('lignes_supplement_devis', 'lignes_devis', 'remise')
+    @api.depends('lignes_supplement_devis', 'lignes_devis', 'remise', 'lignes_devis.prix_unitaire', 'lignes_devis.prix_total')
     def _compute_montant_ht_montant_remise(self):
         for d in self:
             for ligne_supplement in d.lignes_supplement_devis:
@@ -165,10 +165,3 @@ class Devis(models.Model):
     def invalider_devis(self):
         self.date_envoi = None
         self.etat = 'nouveau'
-        if self.client_id.cee_id:
-            if self.client_id.cee_id.lignes_cee:
-                for l in self.client_id.cee_id.lignes_cee:
-                    l.unlink()
-            self.client_id.cee_id.unlink()
-            self.client_id.solde_client = self.montant_ttc
-        self.client_id.cee_id = None
