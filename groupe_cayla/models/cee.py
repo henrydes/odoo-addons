@@ -120,22 +120,7 @@ class CEE(models.Model):
             else:
                 c.objet_devis = None
 
-    @api.onchange('type_client_id')
-    def onchange_type_client(self):
-        somme_reversion = 0
-        if self.type_client_id and self.lignes_cee:
 
-            for l in self.lignes_cee:
-                prime_cee = l.ligne_devis_id.prime_cee
-                if prime_cee:
-                    if self.type_client_id.mode_calcul_reversion == 'multiplication':
-                        l.montant_reversion = l.ligne_devis_id.prix_total * self.type_client_id.taux_reversion - 1
-                    else:
-                        l.montant_reversion = l.montant_prime_total / self.type_client_id.taux_reversion
-                    somme_reversion += l.montant_reversion
-                else:
-                    l.montant_reversion = 0
-        self.somme_reversion = somme_reversion
 
     @api.onchange('type_client_id', 'zone_habitation_id', 'convention_id', 'type_chauffage_id')
     def onchange_cee_data(self):

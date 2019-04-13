@@ -126,9 +126,9 @@ class Client(models.Model):
             c.etat = 'nouveau'
             _logger.info('NOUVEAU CLIENT')
 
-    solde_client = fields.Float(compute='_compute_solde_client', store=False)
+    solde_client = fields.Float(compute='_compute_solde_client', store=True)
 
-    @api.depends('cee_id', 'devis_id')
+    @api.depends('cee_id', 'devis_id', 'cee_id.somme_reversion', 'devis_id.montant_ttc', 'devis_id.acompte')
     def _compute_solde_client(self):
         for record in self:
             montant_ttc_devis = 0
