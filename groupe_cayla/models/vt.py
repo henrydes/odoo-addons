@@ -38,7 +38,7 @@ class VT(models.Model):
     numero_parcelle = fields.Char(string='Parcelle')
     nombre_spots = fields.Integer(default=None)
     longueur_gaine = fields.Integer(default=None)
-    temps_estime = fields.Char()
+    temps_estime = fields.Integer(compute='_compute_temps_etime', store=True, string='Tps estimé (mn)')
 
     infos = fields.Boolean(compute='_compute_infos', store=True)
     dossier_complet = fields.Boolean(compute='_compute_dossier_complet', store=True)
@@ -51,16 +51,21 @@ class VT(models.Model):
     _rec_name = 'combination'
     combination = fields.Char(string='Combination', compute='_compute_fields_combination')
 
+    @api.depends('client_id.devis_id.superficie')
+    def _compute_temps_etime(self):
+        for d in self:
+            if d.client_id.devis_id.superficie:
+                d.temps_estime = (d.client_id.devis_id.superficie / 1.5 + 40)
+
     @api.depends('numero_parcelle', 'nombre_spots', 'longueur_gaine', 'temps_estime')
     def _compute_infos(self):
         for d in self:
             d.infos = d.numero_parcelle and d.nombre_spots is not None and d.longueur_gaine is not None and d.temps_estime
 
-    @api.depends('infos','documents_complets','vt_validee')
+    @api.depends('infos', 'documents_complets', 'vt_validee')
     def _compute_dossier_complet(self):
         for d in self:
             d.dossier_complet = d.infos and d.documents_complets and d.vt_validee
-
 
     @api.depends('client_id')
     def _compute_adresse_1(self):
