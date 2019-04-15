@@ -27,9 +27,9 @@ class LigneDevis(models.Model):
     resistance_thermique = fields.Char(string='Res.Ther.')
     detail = fields.Char()
 
-    prix_unitaire = fields.Float(required=True, compute='_compute_prix_unitaire', store=True)
+    prix_unitaire = fields.Float(required=False, compute='_compute_prix_unitaire', store=True)
     quantite = fields.Integer(required=True)
-    prix_total = fields.Float(required=True, compute='_compute_prix_total', store=True)
+    prix_total = fields.Float(required=False, compute='_compute_prix_total', store=True)
     prime_cee = fields.Boolean(default=False)
 
     @api.onchange('modele_produit_id')
@@ -90,6 +90,8 @@ class LigneDevis(models.Model):
                     prix_unitaire = ligne_sujet_devis_id.tarif_solidarite_energetique
                 else:
                     prix_unitaire = ligne_sujet_devis_id.tarif_particulier
+        _logger.info('prix unitaire')
+        _logger.info(prix_unitaire)
         return prix_unitaire
 
     @api.onchange('ligne_sujet_devis_id')

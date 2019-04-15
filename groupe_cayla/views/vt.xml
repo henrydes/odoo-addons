@@ -14,6 +14,14 @@
                                 <field name="vt_validee"/>
                                 <field name="date_de_realisation"/>
                                 <field name="documents_complets"/>
+                                <field name="dossier_complet"/>
+                                <field name="infos"/>
+
+                                <field name="numero_parcelle"/>
+                                <field name="temps_estime" />
+                                <field name="nombre_spots"  />
+                                <field name="longueur_gaine" />
+
                                 <field name="utilisateur_id"/>
                                 <field name="technicien_id"/>
                             </group>

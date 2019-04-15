@@ -35,6 +35,14 @@ class VT(models.Model):
     vt_validee = fields.Boolean(default=False)
     documents_complets = fields.Boolean(default=False)
 
+    numero_parcelle = fields.Char(string='Parcelle')
+    nombre_spots = fields.Integer(default=None)
+    longueur_gaine = fields.Integer(default=None)
+    temps_estime = fields.Char()
+
+    infos = fields.Boolean(compute='_compute_infos', store=True)
+    dossier_complet = fields.Boolean(compute='_compute_dossier_complet', store=True)
+
     adresse_1 = fields.Char(compute='_compute_adresse_1')
     adresse_2 = fields.Char(compute='_compute_adresse_2')
     code_postal = fields.Char(compute='_compute_code_postal')
@@ -42,6 +50,17 @@ class VT(models.Model):
 
     _rec_name = 'combination'
     combination = fields.Char(string='Combination', compute='_compute_fields_combination')
+
+    @api.depends('numero_parcelle', 'nombre_spots', 'longueur_gaine', 'temps_estime')
+    def _compute_infos(self):
+        for d in self:
+            d.infos = d.numero_parcelle and d.nombre_spots is not None and d.longueur_gaine is not None and d.temps_estime
+
+    @api.depends('infos','documents_complets','vt_validee')
+    def _compute_dossier_complet(self):
+        for d in self:
+            d.dossier_complet = d.infos and d.documents_complets and d.vt_validee
+
 
     @api.depends('client_id')
     def _compute_adresse_1(self):
