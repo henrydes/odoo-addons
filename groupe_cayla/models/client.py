@@ -45,9 +45,11 @@ class Client(models.Model):
 
     @api.depends('devis_id', 'chantier_id', 'vt_id', 'planif_chantier_id', 'planif_vt_id', 'cee_id',
                  'prospect_qualifie', 'planif_vt_id.date_time_planif', 'planif_chantier_id.date_time_planif',
-                 'vt_id.documents_complets', 'vt_id.vt_validee', 'vt_id.date_de_realisation',
-                 'devis_id.date_envoi', 'devis_id.date_refus', 'devis_id.date_acceptation', 'chantier_id.chantier_realise',
-                 'cee_id.refus', 'cee_id.date_validation', 'cee_id.date_depot', 'cee_id.dossier_valide', 'cee_id.date_controle')
+                 'vt_id.documents_complets', 'vt_id.dossier_complet', 'vt_id.vt_validee', 'vt_id.date_de_realisation',
+                 'devis_id.date_envoi', 'devis_id.date_refus', 'devis_id.date_acceptation',
+                 'chantier_id.chantier_realise',
+                 'cee_id.refus', 'cee_id.date_validation', 'cee_id.date_depot', 'cee_id.dossier_valide',
+                 'cee_id.date_controle')
     def _compute_etat_client(self):
         for c in self:
             cee = c.cee_id
@@ -97,7 +99,7 @@ class Client(models.Model):
                     return
             vt = c.vt_id
             if vt and vt.date_de_realisation:
-                if vt.documents_complets and vt.vt_validee:
+                if vt.documents_complets and vt.vt_validee and vt.dossier_complet:
                     c.etat = 'devis_a_editer'
                     return
                 if not vt.documents_complets:
@@ -445,7 +447,6 @@ class Client(models.Model):
         res['country_id'] = france.id
         return res
 
-
     def onchange_etat(self):
         if self.prospect_qualifie == 'oui':
             self.etat = 'vt_a_planifier'
@@ -454,14 +455,14 @@ class Client(models.Model):
 
     @api.model
     def create(self, values):
-        #if 'prospect_qualifie' in values :
+        # if 'prospect_qualifie' in values :
         #    values['etat'] = 'vt_a_planifier' if values['prospect_qualifie'] == 'oui' else 'annule_telephone'
         rec = super(Client, self).create(values)
         return rec
 
     @api.multi
     def write(self, vals):
-        #if 'prospect_qualifie' in vals and self.etat in('nouveau', 'annule_telephone', 'vt_a_planifier'):
+        # if 'prospect_qualifie' in vals and self.etat in('nouveau', 'annule_telephone', 'vt_a_planifier'):
         #    vals['etat'] = 'vt_a_planifier' if vals['prospect_qualifie'] == 'oui' else 'annule_telephone'
 
         super().write(vals)
