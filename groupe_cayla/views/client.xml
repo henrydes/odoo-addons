@@ -6,8 +6,12 @@
             <field name="model">groupe_cayla.client</field>
             <field name="arch" type="xml">
                 <tree>
+                    <field name="a_dedoublonner"/>
+                    <field name="ref"/>
                     <field name="etat"/>
                     <field name="name"/>
+                    <field name="zip"/>
+                    <field name="city"/>
                 </tree>
             </field>
         </record>

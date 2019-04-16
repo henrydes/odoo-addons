@@ -13,6 +13,8 @@ class Client(models.Model):
     _inherits = {'res.partner': 'res_partner_id'}
     res_partner_id = fields.Many2one(comodel_name="res.partner", ondelete="restrict", required=True)
 
+    a_dedoublonner = fields.Boolean(default=False)
+
     etat = fields.Selection([
         ('nouveau', 'Nouveau prospect à contacter'),
         ('annule_telephone', 'Annulé par téléphone'),
@@ -455,9 +457,27 @@ class Client(models.Model):
 
     @api.model
     def create(self, values):
-        # if 'prospect_qualifie' in values :
-        #    values['etat'] = 'vt_a_planifier' if values['prospect_qualifie'] == 'oui' else 'annule_telephone'
+       # doublon : nom, prenom, code postal (à terme rendre ces champs paramétrables par un admin sans modif du code
+
+        eventuels_doublons = self.env['groupe_cayla.client'].search([('name', 'ilike', values['name']),
+                                                                     ('zip', '=', values['zip'])])
+
         rec = super(Client, self).create(values)
+
+        if eventuels_doublons:
+            type_doublon = self.env['groupe_cayla.doublon_client']
+            for ed in eventuels_doublons:
+                type_doublon.create({
+                    'client_nouveau_id': rec.id,
+                    'client_existant_id': ed.id
+                })
+                ed.write({
+                   'a_dedoublonner': True
+                })
+                rec.write({
+                    'a_dedoublonner': True
+                })
+
         return rec
 
     @api.multi

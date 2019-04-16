@@ -8,6 +8,13 @@
                 res_model="groupe_cayla.client"
                 view_mode="tree,form"/>
         <act_window
+                id="action_cayla_doublon_clients"
+                name="Doublons"
+                res_model="groupe_cayla.doublon_client"
+                view_mode="tree,form"
+
+        />
+        <act_window
                 id="action_cayla_devis"
                 name="Devis"
                 res_model="groupe_cayla.devis"
@@ -122,6 +129,8 @@
         <!-- menu categories -->
         <menuitem name="Clients" id="groupe_cayla.clients" parent="groupe_cayla.menu_root"
                   action="action_cayla_clients"/>
+        <menuitem name="Doublons" id="groupe_cayla.doublon_clients" parent="groupe_cayla.menu_root"
+                  action="action_cayla_doublon_clients"/>
         <menuitem name="Devis" id="groupe_cayla.devis" parent="groupe_cayla.menu_root" action="action_cayla_devis"/>
         <menuitem name="CEE" id="groupe_cayla.cee" parent="groupe_cayla.menu_root" action="action_cayla_cee"/>
         <menuitem name="Administration" id="groupe_cayla.administration" parent="groupe_cayla.menu_root"/>

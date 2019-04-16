@@ -1,0 +1,70 @@
+<odoo>
+    <data>
+        <!-- explicit list view definition -->
+        <record model="ir.ui.view" id="view_tree_doublon_client">
+            <field name="name">Liste des doublon_clients</field>
+            <field name="model">groupe_cayla.doublon_client</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="client_existant_id"/>
+                    <field name="client_nouveau_id"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_form_doublon_client" model="ir.ui.view">
+            <field name="name">Formulaire doublon_client</field>
+            <field name="model">groupe_cayla.doublon_client</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button string="Conserver le client existant et supprimer le nouveau"  confirm="Vous êtes sur le point de supprimer le nouveau client ainsi que toutes ses données (devis, dossier CEE, chantier, VT, etc.).
+                        CETTE ACTION EST IRREVERSIBLE !!! Êtes-vous certain de vouloir le faire ?"
+                                name="garder_client_existant" class="oe_highlight" type="object"></button>
+                         <button string="Ce sont deux clients distincts"
+                                name="garder_les_deux_clients" type="object"></button>
+                    </header>
+                    <sheet>
+                        <group col="2">
+                            <group col="3" string="Client existant">
+                                <field name="client_existant_etat"/>
+                                <field name="client_existant_ref"/>
+                                <field name="client_existant_title"/>
+                                <field name="client_existant_name"/>
+                                <field name="client_existant_street"/>
+                                <field name="client_existant_street2"/>
+                                <field name="client_existant_zip"/>
+                                <field name="client_existant_city"/>
+                                <field name="client_existant_prospect_qualifie"/>
+                                <field name="client_existant_comment"/>
+                            </group>
+                            <group col="3" string="Client nouvellement créé">
+                                <field name="client_nouveau_etat"/>
+                                <field name="client_nouveau_ref"/>
+                                <field name="client_nouveau_title"/>
+                                <field name="client_nouveau_name"/>
+                                <field name="client_nouveau_street"/>
+                                <field name="client_nouveau_street2"/>
+                                <field name="client_nouveau_zip"/>
+                                <field name="client_nouveau_city"/>
+                                <field name="client_nouveau_prospect_qualifie"/>
+                                <field name="client_nouveau_comment"/>
+                            </group>
+                        </group>
+                    </sheet>
+
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+
+                </form>
+
+            </field>
+        </record>
+
+
+    </data>
+</odoo>
