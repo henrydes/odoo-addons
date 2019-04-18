@@ -132,21 +132,23 @@ class Client(models.Model):
 
     solde_client = fields.Float(compute='_compute_solde_client', store=True)
 
-    @api.depends('cee_id', 'devis_id', 'cee_id.somme_reversion', 'devis_id.montant_ttc', 'devis_id.acompte')
+    @api.depends('cee_id', 'devis_id', 'cee_id.somme_reversion', 'devis_id.montant_ttc', 'devis_id.acompte', 'chantier_id', 'chantier_id.reglement')
     def _compute_solde_client(self):
         for record in self:
             montant_ttc_devis = 0
             somme_reversions_cee = 0
             acompte = 0
+            reglement = 0
             if record.devis_id:
                 montant_ttc_devis = record.devis_id.montant_ttc
                 if record.devis_id.acompte:
                     acompte = record.devis_id.acompte
             if record.cee_id:
                 somme_reversions_cee = record.cee_id.somme_reversion
+            if record.chantier_id:
+                reglement = record.chantier_id.reglement
+            record.solde_client = montant_ttc_devis - somme_reversions_cee - acompte - reglement
 
-            record.solde_client = montant_ttc_devis - somme_reversions_cee - acompte
-            _logger.info(record.solde_client)
 
     # 1 Source apporteur
     date_entree = fields.Date()
