@@ -38,21 +38,13 @@ class PlanifChantier(models.Model):
     date_appel = fields.Date(default=date.today(), required=True)
     date_time_planif = fields.Datetime(required=True)
 
-    entreprise = fields.Char(compute='_compute_entreprise')
-    entite_devis_id = fields.Many2one('groupe_cayla.entite_edition_devis', compute='_compute_entite_edition_devis', required=True)
+    entreprise = fields.Char(related='client_id.installateur')
+    entite_devis_id = fields.Many2one('groupe_cayla.entite_edition_devis', related='client_id.devis_id.entite_edition_id', required=True)
 
     _rec_name = 'combination'
     combination = fields.Char(string='Combination', compute='_compute_fields_combination')
 
-    @api.depends('client_id')
-    def _compute_entreprise(self):
-        for d in self:
-            d.entreprise = d.client_id.installateur
 
-    @api.depends('client_id')
-    def _compute_entite_edition_devis(self):
-        for d in self:
-            d.entite_devis_id = d.client_id.devis_id.entite_edition_id
 
     @api.depends('date_appel')
     def _compute_fields_combination(self):

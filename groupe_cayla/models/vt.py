@@ -43,10 +43,10 @@ class VT(models.Model):
     infos = fields.Boolean(compute='_compute_infos', store=True)
     dossier_complet = fields.Boolean(compute='_compute_dossier_complet', store=True)
 
-    adresse_1 = fields.Char(compute='_compute_adresse_1')
-    adresse_2 = fields.Char(compute='_compute_adresse_2')
-    code_postal = fields.Char(compute='_compute_code_postal')
-    ville = fields.Char(compute='_compute_ville')
+    adresse_1 = fields.Char(related='client_id.street')
+    adresse_2 = fields.Char(related='client_id.street2')
+    code_postal = fields.Char(related='client_id.zip')
+    ville = fields.Char(related='client_id.city')
 
     _rec_name = 'combination'
     combination = fields.Char(string='Combination', compute='_compute_fields_combination')
@@ -67,25 +67,7 @@ class VT(models.Model):
         for d in self:
             d.dossier_complet = d.infos and d.documents_complets and d.vt_validee
 
-    @api.depends('client_id')
-    def _compute_adresse_1(self):
-        for d in self:
-            d.adresse_1 = d.client_id.street
 
-    @api.depends('client_id')
-    def _compute_adresse_2(self):
-        for d in self:
-            d.adresse_2 = d.client_id.street2
-
-    @api.depends('client_id')
-    def _compute_code_postal(self):
-        for d in self:
-            d.code_postal = d.client_id.zip
-
-    @api.depends('client_id')
-    def _compute_ville(self):
-        for d in self:
-            d.ville = d.client_id.city
 
     @api.depends('date_de_realisation')
     def _compute_fields_combination(self):
