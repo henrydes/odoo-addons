@@ -164,242 +164,105 @@ class Client(models.Model):
         required=False,
         ondelete='set null'
     )
-    date_appel_planif_vt = fields.Date(compute='_compute_planif_vt',
+    date_appel_planif_vt = fields.Date(related='planif_vt_id.date_appel',
                                        string="Date appel", store=False)
-    date_time_planif_planif_vt = fields.Datetime(compute='_compute_planif_vt',
+    date_time_planif_planif_vt = fields.Datetime(related='planif_vt_id.date_time_planif',
                                                  string="VT planifiée", store=False)
-    utilisateur_planif_vt = fields.Many2one('res.users', compute='_compute_planif_vt',
+    utilisateur_planif_vt = fields.Many2one('res.users', related='planif_vt_id.utilisateur_id',
                                             string="Utilisateur", store=False)
-    technicien_planif_vt = fields.Many2one('res.users', compute='_compute_planif_vt',
+    technicien_planif_vt = fields.Many2one('res.users', related='planif_vt_id.technicien_id',
                                            string="Technicien", store=False)
 
-    @api.depends('planif_vt_id')
-    def _compute_planif_vt(self):
-        for record in self:
-            if record.planif_vt_id is None:
-                record.date_appel_planif_vt = None
-                record.date_time_planif_planif_vt = None
-                record.utilisateur_planif_vt = None
-                record.technicien_planif_vt = None
-            else:
-                record.date_appel_planif_vt = record.planif_vt_id.date_appel
-                record.date_time_planif_planif_vt = record.planif_vt_id.date_time_planif
-                record.utilisateur_planif_vt = record.planif_vt_id.utilisateur_id
-                record.technicien_planif_vt = record.planif_vt_id.technicien_id
-
     # 4 Saisie VT
-    vt_id = fields.Many2one(
-        'groupe_cayla.vt',
-        delegate=False,
-        required=False,
-        ondelete='set null'
-    )
-    date_de_realisation_vt = fields.Date(compute='_compute_vt',
+    vt_id = fields.Many2one('groupe_cayla.vt', required=False, ondelete='set null')
+    date_de_realisation_vt = fields.Date(related='vt_id.date_de_realisation',
                                          string="Date de réalisation", store=False)
-    vt_validee_vt = fields.Boolean(compute='_compute_vt',
+    vt_validee_vt = fields.Boolean(related='vt_id.vt_validee',
                                    string="VT validée", store=False)
-    documents_complets_vt = fields.Boolean(compute='_compute_vt',
+    documents_complets_vt = fields.Boolean(related='vt_id.documents_complets',
                                            string="Documents complets", store=False)
 
-    utilisateur_vt = fields.Many2one('res.users', compute='_compute_vt',
+    utilisateur_vt = fields.Many2one('res.users', related='vt_id.utilisateur_id',
                                      string="Utilisateur", store=False)
-    technicien_vt = fields.Many2one('res.users', compute='_compute_vt',
+    technicien_vt = fields.Many2one('res.users', related='vt_id.technicien_id',
                                     string="Technicien", store=False)
 
-    @api.depends('vt_id')
-    def _compute_vt(self):
-        for record in self:
-            if record.vt_id is None:
-                record.utilisateur_vt = None
-                record.vt_validee_vt = None
-                record.documents_complets_vt = None
-                record.technicien_vt = None
-                record.date_de_realisation_vt = None
-            else:
-                record.utilisateur_vt = record.vt_id.utilisateur_id
-                record.vt_validee_vt = record.vt_id.vt_validee
-                record.documents_complets_vt = record.vt_id.documents_complets
-                record.technicien_vt = record.vt_id.technicien_id
-                record.date_de_realisation_vt = record.vt_id.date_de_realisation
-
     # 5.1 Edition devis
-    devis_id = fields.Many2one(
-        'groupe_cayla.devis',
-        delegate=False,
-        required=False,
-        ondelete='set null'
-    )
-    date_edition_devis = fields.Date(compute='_compute_devis',
+    devis_id = fields.Many2one('groupe_cayla.devis', required=False, ondelete='set null')
+    date_edition_devis = fields.Date(related='devis_id.date_edition',
                                      string="Edition", store=False)
-    date_envoi_devis = fields.Date(compute='_compute_devis',
+    date_envoi_devis = fields.Date(related='devis_id.date_envoi',
                                    string="Envoyé le", store=False)
-    date_acceptation_devis = fields.Date(compute='_compute_devis',
+    date_acceptation_devis = fields.Date(related='devis_id.date_acceptation',
                                          string="Accepté le", store=False)
-    date_refus_devis = fields.Date(compute='_compute_devis',
+    date_refus_devis = fields.Date(related='devis_id.date_refus',
                                    string="Refusé le", store=False)
-    utilisateur_devis = fields.Many2one('res.users', compute='_compute_devis',
+    utilisateur_devis = fields.Many2one('res.users', related='devis_id.user_id',
                                         string="Utilisateur", store=False)
-    numero_devis = fields.Char(compute='_compute_devis',
+    numero_devis = fields.Char(related='devis_id.numero',
                                string="N° Devis", store=False)
-    montant_ttc_devis = fields.Float(compute='_compute_devis',
+    montant_ttc_devis = fields.Float(related='devis_id.montant_ttc',
                                      string="Montant TTC", store=False)
-    etat_devis = fields.Char(compute='_compute_devis',
-                             string="Etat devis", store=False)
-
-    @api.depends('devis_id', 'cee_id')
-    def _compute_devis(self):
-        for record in self:
-            if record.devis_id is None:
-                record.etat_devis = None
-                record.numero_devis = None
-                record.montant_ttc_devis = None
-                record.date_edition_devis = None
-                record.date_envoi_devis = None
-                record.date_acceptation_devis = None
-                record.date_refus_devis = None
-                record.utilisateur_devis = None
-
-            else:
-                record.numero_devis = record.devis_id.numero
-                record.montant_ttc_devis = record.devis_id.montant_ttc
-                record.date_edition_devis = record.devis_id.date_edition
-                record.date_envoi_devis = record.devis_id.date_envoi
-                record.date_acceptation_devis = record.devis_id.date_acceptation
-                record.date_refus_devis = record.devis_id.date_refus
-                record.utilisateur_devis = record.devis_id.user_id
-                record.etat_devis = record.devis_id.etat
+    etat_devis = fields.Selection(related='devis_id.etat',
+                                  string="Etat devis", store=False)
 
     # 5.2 Saisie CEE, 6.2 CEE AH,  8.1 contrôle CEE
-    cee_id = fields.Many2one(
-        'groupe_cayla.cee',
-        delegate=False,
-        required=False,
-        ondelete='set null'
-    )
+    cee_id = fields.Many2one('groupe_cayla.cee', required=False, ondelete='set null')
 
-    type_client_cee = fields.Many2one('groupe_cayla.type_client', compute='_compute_cee',
+    type_client_cee = fields.Many2one('groupe_cayla.type_client', related='cee_id.type_client_id',
                                       string="Type client", store=False)
-    convention_cee = fields.Many2one('groupe_cayla.convention', compute='_compute_cee',
+    convention_cee = fields.Many2one('groupe_cayla.convention', related='cee_id.convention_id',
                                      string="Délégataire", store=False)
-    fiche_1_cee = fields.Many2one('groupe_cayla.fiche', compute='_compute_cee',
+    fiche_1_cee = fields.Many2one('groupe_cayla.fiche', related='cee_id.fiche_1_id',
                                   string="Type d'opération", store=False)
-    fiche_2_cee = fields.Many2one('groupe_cayla.fiche', compute='_compute_cee',
+    fiche_2_cee = fields.Many2one('groupe_cayla.fiche', related='cee_id.fiche_2_id',
                                   string=" ", store=False)
-    somme_reversion_cee = fields.Float(compute='_compute_cee', string='Montant');
-    somme_primes_cee = fields.Float(compute='_compute_cee', string='Montant HT');
+    somme_reversion_cee = fields.Float(related='cee_id.somme_reversion', string='Montant');
+    somme_primes_cee = fields.Float(related='cee_id.somme_primes', string='Montant HT');
 
-    date_edition_contribution_cee = fields.Date(compute='_compute_cee', string='Edition', store=False)
-    utilisateur_edition_contribution_cee = fields.Many2one('res.users', compute='_compute_cee', string='Utilisateur',
+    date_edition_contribution_cee = fields.Date(related='cee_id.contribution_date_edition', string='Edition',
+                                                store=False)
+    utilisateur_edition_contribution_cee = fields.Many2one('res.users', related='cee_id.contribution_user_id',
+                                                           string='Utilisateur',
                                                            store=False)
 
-    date_edition_ah_cee = fields.Date(compute='_compute_cee', string='Edition', store=False)
-    utilisateur_edition_ah_cee = fields.Many2one('res.users', compute='_compute_cee', string='Utilisateur', store=False)
+    date_edition_ah_cee = fields.Date(related='cee_id.ah_date_edition', string='Edition', store=False)
+    utilisateur_edition_ah_cee = fields.Many2one('res.users', related='cee_id.ah_user_id', string='Utilisateur',
+                                                 store=False)
 
-    date_reception_controle_cee = fields.Date(compute='_compute_cee', string='Réception', store=False)
-    utilisateur_controle_cee = fields.Many2one('res.users', compute='_compute_cee', string='Utilisateur', store=False)
-    date_controle_cee = fields.Date(compute='_compute_cee', string='Contrôle', store=False)
-    dossier_valide_controle = fields.Boolean(string='Validé', compute='_compute_cee', store=False)
-    date_depot_cee = fields.Date(compute='_compute_cee', string='Dépôt', store=False)
-    date_validation_cee = fields.Date(compute='_compute_cee', string='Date de valid.', store=False)
-
-    @api.depends('cee_id')
-    def _compute_cee(self):
-        for record in self:
-            if record.cee_id is None:
-                record.type_client_cee = None
-                record.convention_cee = None
-                record.fiche_1_cee = None
-                record.fiche_2_cee = None
-                record.somme_primes_cee = None
-                record.somme_reversion_cee = None
-                record.date_edition_contribution_cee = None
-                record.utilisateur_edition_contribution_cee = None
-                record.date_edition_ah_cee = None
-                record.utilisateur_edition_ah_cee = None
-                record.date_reception_controle_cee = None
-                record.utilisateur_controle_cee = None
-                record.date_controle_cee = None
-                record.dossier_valide_controle = None
-                record.date_depot_cee = None
-                record.date_validation_cee = None
-
-            else:
-                record.type_client_cee = record.cee_id.type_client_id
-                record.convention_cee = record.cee_id.convention_id
-                record.fiche_1_cee = record.cee_id.fiche_1_id
-                record.fiche_2_cee = record.cee_id.fiche_2_id
-                record.somme_primes_cee = record.cee_id.somme_primes
-                record.somme_reversion_cee = record.cee_id.somme_reversion
-                record.date_edition_contribution_cee = record.cee_id.contribution_date_edition
-                record.utilisateur_edition_contribution_cee = record.cee_id.contribution_user_id
-                record.date_edition_ah_cee = record.cee_id.ah_date_edition
-                record.utilisateur_edition_ah_cee = record.cee_id.ah_user_id
-                record.date_reception_controle_cee = record.cee_id.date_reception
-                record.utilisateur_controle_cee = record.cee_id.controle_user_id
-                record.date_controle_cee = record.cee_id.date_controle
-                record.dossier_valide_controle = record.cee_id.dossier_valide
-                record.date_depot_cee = record.cee_id.date_depot
-                record.date_validation_cee = record.cee_id.date_validation
+    date_reception_controle_cee = fields.Date(related='cee_id.date_reception', string='Réception', store=False)
+    utilisateur_controle_cee = fields.Many2one('res.users', related='cee_id.controle_user_id', string='Utilisateur',
+                                               store=False)
+    date_controle_cee = fields.Date(related='cee_id.date_controle', string='Contrôle', store=False)
+    dossier_valide_controle = fields.Boolean(string='Validé', related='cee_id.dossier_valide', store=False)
+    date_depot_cee = fields.Date(related='cee_id.date_depot', string='Dépôt', store=False)
+    date_validation_cee = fields.Date(related='cee_id.date_validation', string='Date de valid.', store=False)
 
     # 6 Planif Chantier
-    planif_chantier_id = fields.Many2one(
-        'groupe_cayla.planif_chantier',
-        delegate=False,
-        required=False,
-        ondelete='set null'
-    )
-    date_appel_planif_chantier = fields.Date(compute='_compute_planif_chantier',
+    planif_chantier_id = fields.Many2one('groupe_cayla.planif_chantier', required=False, ondelete='set null')
+    date_appel_planif_chantier = fields.Date(related='planif_chantier_id.date_appel',
                                              string="Date appel", store=False)
-    date_time_planif_planif_chantier = fields.Datetime(compute='_compute_planif_chantier',
+    date_time_planif_planif_chantier = fields.Datetime(related='planif_chantier_id.date_time_planif',
                                                        string="Chantier planifié", store=False)
-    utilisateur_id_planif_chantier = fields.Many2one('res.users', compute='_compute_planif_chantier',
+    utilisateur_id_planif_chantier = fields.Many2one('res.users', related='planif_chantier_id.utilisateur_id',
                                                      string="Utilisateur", store=False)
-    equipier_1_id_planif_chantier = fields.Many2one('res.users', compute='_compute_planif_chantier',
+    equipier_1_id_planif_chantier = fields.Many2one('res.users', related='planif_chantier_id.equipier_1_id',
                                                     string="Equipe", store=False)
-    equipier_2_id_planif_chantier = fields.Many2one('res.users', compute='_compute_planif_chantier',
+    equipier_2_id_planif_chantier = fields.Many2one('res.users', related='planif_chantier_id.equipier_2_id',
                                                     string=" ", store=False)
-    entreprise_planif_chantier = fields.Char(compute='_compute_planif_chantier',
+    entreprise_planif_chantier = fields.Char(related='planif_chantier_id.entreprise',
                                              string="Entreprise", store=False)
     entite_edition_devis_id_planif_chantier = fields.Many2one('groupe_cayla.entite_edition_devis',
-                                                              compute='_compute_planif_chantier',
+                                                              related='planif_chantier_id.entite_devis_id',
                                                               string="Entité devis", store=False)
-    entreprise_planif_chantier = fields.Char(compute='_compute_planif_chantier',
-                                             string="Entreprise", store=False)
-
-    @api.depends('planif_chantier_id')
-    def _compute_planif_chantier(self):
-        for record in self:
-            if record.planif_chantier_id is None:
-                record.entreprise_planif_chantier = None
-                record.date_appel_planif_chantier = None
-                record.date_time_planif_planif_chantier = None
-                record.utilisateur_id_planif_chantier = None
-                record.equipier_1_id_planif_chantier = None
-                record.equipier_2_id_planif_chantier = None
-                record.entreprise_planif_chantier = None
-                record.entite_edition_devis_id_planif_chantier = None
-            else:
-                record.entreprise_planif_chantier = record.planif_chantier_id.entreprise
-                record.date_appel_planif_chantier = record.planif_chantier_id.date_appel
-                record.date_time_planif_planif_chantier = record.planif_chantier_id.date_time_planif
-                record.utilisateur_id_planif_chantier = record.planif_chantier_id.utilisateur_id
-                record.equipier_1_id_planif_chantier = record.planif_chantier_id.equipier_1_id
-                record.equipier_2_id_planif_chantier = record.planif_chantier_id.equipier_2_id
-                record.entreprise_planif_chantier = record.planif_chantier_id.entreprise
-                record.entite_edition_devis_id_planif_chantier = record.planif_chantier_id.entite_devis_id
 
     # 4 Saisie Chantier
-    chantier_id = fields.Many2one(
-        'groupe_cayla.chantier',
-        delegate=False,
-        required=False,
-        ondelete='set null'
-    )
-    date_de_realisation_chantier = fields.Date(compute='_compute_chantier',
+    chantier_id = fields.Many2one('groupe_cayla.chantier', required=False, ondelete='set null')
+    date_de_realisation_chantier = fields.Date(related='chantier_id.date_de_realisation',
                                                string="Date de réalisation", store=False)
-    equipier_1_id_chantier = fields.Many2one('res.users', compute='_compute_chantier',
+    equipier_1_id_chantier = fields.Many2one('res.users', related='chantier_id.equipier_1_id',
                                              string="Equipe", store=False)
-    equipier_2_id_chantier = fields.Many2one('res.users', compute='_compute_chantier',
+    equipier_2_id_chantier = fields.Many2one('res.users', related='chantier_id.equipier_2_id',
                                              string=" ", store=False)
     produit_chantier = fields.Char(compute='_compute_chantier',
                                    string='Type Produit', store=False)
@@ -409,25 +272,15 @@ class Client(models.Model):
                                      string='Nb sac', store=False)
     temps_passe_chantier = fields.Integer(compute='_compute_chantier',
                                           string='Temps passé', store=False)
-    chantier_realise_chantier = fields.Boolean(compute='_compute_chantier',
+    chantier_realise_chantier = fields.Boolean(related='chantier_id.chantier_realise',
                                                string='Chantier réalisé', store=False)
 
-    @api.depends('chantier_id')
+    @api.depends('chantier_id', 'chantier_id.lignes_chantier', 'chantier_id.lignes_chantier.produit_id',
+                 'chantier_id.lignes_chantier.marque_produit_id', 'chantier_id.lignes_chantier.temps_passe',
+                 'chantier_id.lignes_chantier.nb_sacs')
     def _compute_chantier(self):
         for record in self:
-            if record.chantier_id is None:
-                record.date_de_realisation_chantier = None
-                record.equipier_1_id_chantier = None
-                record.equipier_2_id_chantier = None
-                record.produit_chantier = None
-                record.marque_produit_chantier = None
-                record.nb_sac_chantier = None
-                record.temps_passe_chantier = None
-                record.chantier_realise_chantier = None
-            else:
-                record.date_de_realisation_chantier = record.chantier_id.date_de_realisation
-                record.equipier_1_id_chantier = record.chantier_id.equipier_1_id
-                record.equipier_2_id_chantier = record.chantier_id.equipier_2_id
+            if record.chantier_id:
                 if len(record.chantier_id.lignes_chantier) > 0:
                     record.produit_chantier = record.chantier_id.lignes_chantier[0].produit_id.libelle
                 if len(record.chantier_id.lignes_chantier) > 1:
@@ -440,7 +293,6 @@ class Client(models.Model):
                     record.nb_sac_chantier += ligne.nb_sacs
                 for ligne in record.chantier_id.lignes_chantier:
                     record.temps_passe_chantier += ligne.temps_passe
-                record.chantier_realise_chantier = record.chantier_id.chantier_realise
 
     @api.model
     def default_get(self, fields_list):
@@ -457,7 +309,7 @@ class Client(models.Model):
 
     @api.model
     def create(self, values):
-       # doublon : nom, prenom, code postal (à terme rendre ces champs paramétrables par un admin sans modif du code
+        # doublon : nom, prenom, code postal (à terme rendre ces champs paramétrables par un admin sans modif du code
 
         eventuels_doublons = self.env['groupe_cayla.client'].search([('name', 'ilike', values['name']),
                                                                      ('zip', '=', values['zip'])])
@@ -472,7 +324,7 @@ class Client(models.Model):
                     'client_existant_id': ed.id
                 })
                 ed.write({
-                   'a_dedoublonner': True
+                    'a_dedoublonner': True
                 })
                 rec.write({
                     'a_dedoublonner': True
