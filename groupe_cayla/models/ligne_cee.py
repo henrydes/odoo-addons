@@ -65,11 +65,10 @@ class LigneCEE(models.Model):
                 l.montant_prime_total = l.montant_prime_unitaire * l.ligne_devis_id.quantite
             else:
                 l.montant_prime_total = None
-            _logger.info(l)
-            _logger.info(l.ligne_devis_id)
-            _logger.info(l.cee_id.type_client_id)
-            _logger.info(l.cee_id.type_client_id.taux_reversion)
-            if l.cee_id.type_client_id.mode_calcul_reversion == 'multiplication':
+
+            if not l.cee_id.type_client_id:
+                l.montant_reversion = 0
+            elif l.cee_id.type_client_id.mode_calcul_reversion == 'multiplication':
                 l.montant_reversion = l.ligne_devis_id.prix_total * l.cee_id.type_client_id.taux_reversion - 1
             else:
                 l.montant_reversion = l.montant_prime_total / l.cee_id.type_client_id.taux_reversion

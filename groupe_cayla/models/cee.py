@@ -60,17 +60,17 @@ class CEE(models.Model):
 
     lignes_cee = fields.One2many('groupe_cayla.ligne_cee', 'cee_id', string='Lignes')
 
-    devis_id = fields.Many2one('groupe_cayla.devis', store=False, compute='_compute_devis', ondelete='cascade')
+    devis_id = fields.Many2one('groupe_cayla.devis', store=False, related='client_id.devis_id', ondelete='cascade')
     type_client_id = fields.Many2one('groupe_cayla.type_client', required=True)
     zone_habitation_id = fields.Many2one('groupe_cayla.zone_habitation', required=True)
     type_chauffage_id = fields.Many2one('groupe_cayla.type_chauffage', required=True)
-    source_energie_chauffage = fields.Char(compute='_compute_source_energie_chauffage', store=False)
+    source_energie_chauffage = fields.Char(related='type_chauffage_id.source_energie_chauffage_id.libelle', store=False)
 
     convention_id = fields.Many2one('groupe_cayla.convention', required=True)
     fiche_1_id = fields.Many2one('groupe_cayla.fiche', required=True, string='Fiches')
     fiche_2_id = fields.Many2one('groupe_cayla.fiche', required=False, string=' ')
 
-    objet_devis = fields.Char(compute='_compute_devis_data', store=False)
+    objet_devis = fields.Char(related='devis_id.objet.libelle', store=False)
 
     ref_fiscale = fields.Char(required=True)
     foyer = fields.Integer(required=True)
@@ -89,28 +89,7 @@ class CEE(models.Model):
         for d in self:
             d.combination = d.convention_id.libelle + ' * ' + d.type_client_id.libelle
 
-    @api.depends('type_chauffage_id')
-    def _compute_source_energie_chauffage(self):
-        for c in self:
-            if c.type_chauffage_id:
-                c.source_energie_chauffage = c.type_chauffage_id.source_energie_chauffage_id.libelle
 
-    @api.depends('client_id')
-    def _compute_devis(self):
-        for c in self:
-            if c.client_id:
-                if c.client_id.devis_id:
-                    c.devis_id = c.client_id.devis_id
-                else:
-                    c.devis_id = None
-
-    @api.depends('devis_id')
-    def _compute_devis_data(self):
-        for c in self:
-            if c.devis_id:
-                c.objet_devis = c.devis_id.objet.libelle
-            else:
-                c.objet_devis = None
 
     @api.depends('lignes_cee', 'lignes_cee.montant_reversion', 'lignes_cee.montant_prime_total')
     def _compute_sommes(self):

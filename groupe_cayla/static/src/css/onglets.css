@@ -1,0 +1,26 @@
+.onglet_client .nav-link, .onglet_client .nav-link.active {
+    color: white;
+}
+.onglet_client .nav-link.active {
+    text-decoration: underline;
+}
+
+.onglet_client_commercial .nav-link, .onglet_client_commercial .nav-link.active{
+    background-color: #002060;
+}
+
+.onglet_client_technique .nav-link, .onglet_client_technique .nav-link.active{
+    background-color: #92D050;
+}
+
+.onglet_client_planning .nav-link, .onglet_client_planning .nav-link.active{
+    background-color: #92D050;
+}
+
+.onglet_client_energie .nav-link, .onglet_client_energie .nav-link.active{
+    background-color: #ED7D31;
+}
+
+.onglet_client_comptabilite .nav-link, .onglet_client_comptabilite .nav-link.active{
+    background-color: #002060;
+}
