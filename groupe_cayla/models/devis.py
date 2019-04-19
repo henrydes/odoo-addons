@@ -10,21 +10,15 @@ class Devis(models.Model):
     _name = 'groupe_cayla.devis'
     _description = 'Un devis'
     _inherit = ['mail.thread', 'mail.activity.mixin']
-    _sql_constraints = [
-        ('client_id', 'unique (client_id)', 'Ce client a déjà un devis')
-    ]
     etat = fields.Selection([
         ('nouveau', "En cours d'édition, non envoyé. Devis modifiable."),
         ('valide', 'Devis envoyé. Non modifiable')
     ], default='nouveau'
     )
 
-    client_id = fields.Many2one(
-        'groupe_cayla.client',
-        delegate=False,
-        required=True,
-        ondelete='cascade'
-    )
+    client_id = fields.Many2one('groupe_cayla.client',required=True,ondelete='cascade')
+
+
 
     user_id = fields.Many2one(
         'res.users',
@@ -71,10 +65,10 @@ class Devis(models.Model):
     _rec_name = 'combination'
     combination = fields.Char(string='Combination', compute='_compute_fields_combination')
 
-    @api.depends('numero')
+    @api.depends('numero', 'montant_ht', 'objet')
     def _compute_fields_combination(self):
         for d in self:
-            d.combination = 'Devis numéro ' + d.numero
+            d.combination = 'Devis numéro ' + d.numero+' '+ str(d.montant_ht)+'€ HT ('+d.objet.libelle+')'
 
     @api.depends('type_eco_cheque')
     def _compute_montant_eco_cheque(self):
