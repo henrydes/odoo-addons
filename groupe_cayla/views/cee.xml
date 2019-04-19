@@ -26,6 +26,9 @@
                             <group col="1">
                                 <group string="Situation client">
                                     <field name="client_id" attrs="{'invisible': True}"/>
+                                    <field name="devis_id" attrs="{'readonly':[('active_id', '!=', False)]}"  domain="[('client_id', '=', client_id)]"  options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
+
+
                                     <field name="type_client_id"
                                            options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
                                     <field name="zone_habitation_id"
@@ -77,6 +80,7 @@
                             <page string="Contrôle" attrs="{'invisible':[('active_id', '=', False)]}">
                                 <sheet>
                                     <group>
+
                                         <field name="saisie_controle"/>
                                         <field name="controle_user_id"
                                                attrs="{'readonly':[('saisie_controle', '=', False)]}"/>

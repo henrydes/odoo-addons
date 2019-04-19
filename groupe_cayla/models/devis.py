@@ -17,6 +17,7 @@ class Devis(models.Model):
     )
 
     client_id = fields.Many2one('groupe_cayla.client',required=True,ondelete='cascade')
+    cee_id = fields.Many2one('groupe_cayla.cee',required=False,ondelete='cascade')
 
 
 
@@ -65,7 +66,7 @@ class Devis(models.Model):
     _rec_name = 'combination'
     combination = fields.Char(string='Combination', compute='_compute_fields_combination')
 
-    @api.depends('numero', 'montant_ht', 'objet')
+    @api.depends('numero', 'montant_ht', 'objet', 'lignes_devis', 'lignes_devis.prix_total')
     def _compute_fields_combination(self):
         for d in self:
             d.combination = 'Devis numéro ' + d.numero+' '+ str(d.montant_ht)+'€ HT ('+d.objet.libelle+')'

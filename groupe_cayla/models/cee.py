@@ -10,30 +10,14 @@ class CEE(models.Model):
     _name = 'groupe_cayla.cee'
     _description = 'Un dossier CEE'
     _inherit = ['mail.thread', 'mail.activity.mixin']
-    _sql_constraints = [
-        ('client_id', 'unique (client_id)', 'Ce client a déjà un dossier CEE')
-    ]
 
-    client_id = fields.Many2one(
-        'groupe_cayla.client',
-        required=True,
-        ondelete='cascade'
-    )
-    user_id = fields.Many2one(
-        'res.users',
-        delegate=False,
-        required=True,
-        string='Utilisateur'
-    )
+    client_id = fields.Many2one('groupe_cayla.client',required=True,ondelete='cascade')
+    devis_id = fields.Many2one('groupe_cayla.devis',required=True,ondelete='cascade')
+    user_id = fields.Many2one('res.users',required=True,string='Utilisateur')
 
     # controle
     saisie_controle = fields.Boolean(string='Saisir le contrôle', store=False, default=False)
-    controle_user_id = fields.Many2one(
-        'res.users',
-        delegate=False,
-        required=False,
-        string='Utilisateur'
-    )
+    controle_user_id = fields.Many2one('res.users',required=False,string='Utilisateur')
     date_reception = fields.Date()
     date_controle = fields.Date()
     fiche_vt = fields.Boolean(default=False, string='Fiche de VT')
@@ -60,7 +44,6 @@ class CEE(models.Model):
 
     lignes_cee = fields.One2many('groupe_cayla.ligne_cee', 'cee_id', string='Lignes')
 
-    devis_id = fields.Many2one('groupe_cayla.devis', store=False, related='client_id.devis_id', ondelete='cascade')
     type_client_id = fields.Many2one('groupe_cayla.type_client', required=True)
     zone_habitation_id = fields.Many2one('groupe_cayla.zone_habitation', required=True)
     type_chauffage_id = fields.Many2one('groupe_cayla.type_chauffage', required=True)
@@ -84,10 +67,10 @@ class CEE(models.Model):
 
 
 
-    @api.depends('convention_id', 'type_client_id')
+    @api.depends('convention_id', 'type_client_id', 'devis_id')
     def _compute_fields_combination(self):
         for d in self:
-            d.combination = d.convention_id.libelle + ' * ' + d.type_client_id.libelle
+            d.combination = d.convention_id.libelle + ' * ' + d.type_client_id.libelle+' devis n°'+d.devis_id.numero+' ('+str(d.devis_id.montant_ht)+'€ HT)'
 
 
 
@@ -108,26 +91,25 @@ class CEE(models.Model):
                 for l in d.lignes_cee:
                     l._compute_ligne()
 
-    @api.model
-    def default_get(self, fields_list):
-        res = models.Model.default_get(self, fields_list)
-        if 'client_id' not in res:
-            return res
-        client = self.env['groupe_cayla.client'].search([('id', '=', res['client_id'])], limit=1)
-        lignes_devis = client.devis_id.lignes_devis
+    @api.onchange('devis_id')
+    def onchange_devis(self):
+        for r in self:
+            devis = r.devis_id
+            if devis:
+                lignes_devis = devis.lignes_devis
 
-        type_ligne_cee = self.env['groupe_cayla.ligne_cee']
-        lignes_cee = []
-        for ligne_devis in lignes_devis:
-            lcee = type_ligne_cee.create({
-                'ligne_devis_id': ligne_devis.id,
-                'montant_prime_unitaire': 0,
-                'montant_prime_total': 0
-            })
-            lignes_cee.append(lcee.id)
-        res['lignes_cee'] = lignes_cee
+                type_ligne_cee = self.env['groupe_cayla.ligne_cee']
+                lignes_cee = []
+                for ligne_devis in lignes_devis:
+                    lcee = type_ligne_cee.create({
+                        'ligne_devis_id': ligne_devis.id,
+                        'montant_prime_unitaire': 0,
+                        'montant_prime_total': 0
+                    })
+                    lignes_cee.append(lcee.id)
+                r.lignes_cee = lignes_cee
 
-        return res
+
 
     @api.onchange('refus')
     def onchange_refus(self):
@@ -144,9 +126,10 @@ class CEE(models.Model):
     @api.model
     def create(self, values):
         rec = super(CEE, self).create(values)
-        client = self.env['groupe_cayla.client'].search([('id', '=', values['client_id'])], limit=1)
-
-        self.modification_tarifs_lignes_devis(client)
+        devis = self.env['groupe_cayla.devis'].search([('id', '=', values['devis_id'])], limit=1)
+        devis.cee_ic = rec
+        type_client = self.env['groupe_cayla.type_client'].search([('id', '=', values['type_client_id'])], limit=1)
+        self.modification_tarifs_lignes_devis(devis, type_client)
         return rec
 
     @api.multi
@@ -154,42 +137,41 @@ class CEE(models.Model):
         client = self.client_id
 
         super().write(vals)
-        self.modification_tarifs_lignes_devis(client)
+        self.modification_tarifs_lignes_devis(self.devis_id, self.type_client_id)
         return True
 
-    def modification_tarifs_lignes_devis(self, client):
-        if client.devis_id and client.devis_id.lignes_devis:
+    def modification_tarifs_lignes_devis(self, devis_id, type_client_id):
+
+        if devis_id and devis_id.lignes_devis:
             montant_ht = 0
-            for record in client.devis_id.lignes_devis:
+            for record in devis_id.lignes_devis:
                 record.prix_unitaire = 0
                 record.prix_total = 0
                 if record.sujet_devis_id:
-                    _logger.info(client.cee_id.type_client_id.donne_droit_tarif_solidarite_energetique)
-                    _logger.info(record.prime_cee)
                     if record.sujet_devis_id.tarif_tout_compris:
                         if record.devis_id.type_professionnel:
                             record.prix_unitaire = record.sujet_devis_id.tarif_pro
-                        elif client.cee_id.type_client_id.donne_droit_tarif_solidarite_energetique == True and record.prime_cee == True:
+                        elif type_client_id.donne_droit_tarif_solidarite_energetique == True and record.prime_cee == True:
                             record.prix_unitaire = record.sujet_devis_id.tarif_solidarite_energetique
                         else:
                             record.prix_unitaire = record.sujet_devis_id.tarif_particulier
                     else:
                         if record.devis_id.type_professionnel:
                             record.prix_unitaire = record.ligne_sujet_devis_id.tarif_pro
-                        elif client.cee_id.type_client_id.donne_droit_tarif_solidarite_energetique == True and record.prime_cee == True:
+                        elif type_client_id.donne_droit_tarif_solidarite_energetique == True and record.prime_cee == True:
                             record.prix_unitaire = record.ligne_sujet_devis_id.tarif_solidarite_energetique
                         else:
                             record.prix_unitaire = record.ligne_sujet_devis_id.tarif_particulier
                 record.prix_total = record.prix_unitaire * record.quantite
-            if client.devis_id.lignes_supplement_devis:
-                for ligne_supplement in client.devis_id.lignes_supplement_devis:
+            if devis_id.lignes_supplement_devis:
+                for ligne_supplement in devis_id.lignes_supplement_devis:
                     montant_ht += ligne_supplement.tarif
-            for ligne in client.devis_id.lignes_devis:
+            for ligne in devis_id.lignes_devis:
                 montant_ht += ligne.prix_total
             # client.devis_id.montant_ht = montant_ht
-            if False or client.devis_id.remise:
-                client.devis_id.montant_remise = client.devis_id.montant_ht * client.devis_id.remise / 100
-                client.devis_id.montant_ht = client.devis_id.montant_ht - client.devis_id.montant_remise
+            if False or devis_id.remise:
+                devis_id.montant_remise = devis_id.montant_ht * devis_id.remise / 100
+                devis_id.montant_ht = devis_id.montant_ht - devis_id.montant_remise
             # client.devis_id.montant_tva = client.devis_id.montant_ht * client.devis_id.choix_tva.taux / 100
             # client.devis_id.montant_ttc = client.devis_id.montant_ht + client.devis_id.montant_tva
             # client.montant_ttc_devis = client.devis_id.montant_ttc

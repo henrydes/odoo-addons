@@ -67,7 +67,7 @@ class LigneDevis(models.Model):
                 record.modele_produit_id = None
 
     @api.depends('devis_id', 'sujet_devis_id', 'ligne_sujet_devis_id', 'prime_cee',
-                 'devis_id.type_professionnel','devis_id.client_id.cee_id', 'devis_id.client_id.cee_id.type_client_id.donne_droit_tarif_solidarite_energetique')
+                 'devis_id.type_professionnel','devis_id.cee_id', 'devis_id.cee_id.type_client_id.donne_droit_tarif_solidarite_energetique')
     def _compute_prix_unitaire(self):
         for r in self:
             r.prix_unitaire = self.get_prix_unitaire(r.devis_id, r.sujet_devis_id, r.ligne_sujet_devis_id, r.prime_cee)
@@ -79,14 +79,14 @@ class LigneDevis(models.Model):
             if sujet_devis_id.tarif_tout_compris:
                 if devis_id.type_professionnel:
                     prix_unitaire = sujet_devis_id.tarif_pro
-                elif devis_id.client_id.cee_id and devis_id.client_id.cee_id.type_client_id.donne_droit_tarif_solidarite_energetique == True and prime_cee == True:
+                elif devis_id.cee_id and devis_id.cee_id.type_client_id.donne_droit_tarif_solidarite_energetique == True and prime_cee == True:
                     prix_unitaire = sujet_devis_id.tarif_solidarite_energetique
                 else:
                     prix_unitaire = sujet_devis_id.tarif_particulier
             else:
                 if devis_id.type_professionnel:
                     prix_unitaire = ligne_sujet_devis_id.tarif_pro
-                elif devis_id.client_id.cee_id and devis_id.client_id.cee_id.type_client_id.donne_droit_tarif_solidarite_energetique == True and prime_cee == True:
+                elif devis_id.cee_id and devis_id.cee_id.type_client_id.donne_droit_tarif_solidarite_energetique == True and prime_cee == True:
                     prix_unitaire = ligne_sujet_devis_id.tarif_solidarite_energetique
                 else:
                     prix_unitaire = ligne_sujet_devis_id.tarif_particulier
