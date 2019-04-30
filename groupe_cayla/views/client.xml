@@ -29,6 +29,10 @@
             <field name="model">groupe_cayla.client</field>
             <field name="arch" type="xml">
                 <form>
+                    <header>
+                        <field name="dates_coherentes" attrs="{'invisible': True}"></field>
+                        <field name="message_dates_incoherentes" attrs="{'invisible': [('dates_coherentes', '=', True)]}"></field>
+                    </header>
                     <sheet>
 
 

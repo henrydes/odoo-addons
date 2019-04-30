@@ -46,6 +46,7 @@ class Client(models.Model):
     ], default=None, string='Prospect qualifié')
 
     dates_coherentes = fields.Boolean(compute='_compute_dates_coherentes')
+    message_dates_incoherentes = fields.Char(compute='_compute_dates_coherentes')
 
     # ajouter date facture
     @api.depends('devis_id', 'vt_id', 'vt_id.date_de_realisation', 'devis_id.date_edition', 'devis_id.date_acceptation',
@@ -53,16 +54,17 @@ class Client(models.Model):
     def _compute_dates_coherentes(self):
         for c in self:
             c.dates_coherentes = True
+            c.message_dates_incoherentes = ""
             if c.vt_id and c.devis_id and c.devis_id.date_edition:
                 if c.vt_id.date_de_realisation > c.devis_id.date_edition:
                     c.dates_coherentes = False
-                    return
+                    c.message_dates_incoherentes += "Date de réalisation VT postèrieure à date édition devis. "
                 if c.devis_id.date_acceptation and c.devis_id.date_edition > c.devis_id.date_acceptation:
                     c.dates_coherentes = False
-                    return
+                    c.message_dates_incoherentes += "Date édition devis postèrieure à date acceptation devis. "
                 if c.devis_id.date_refus and c.devis_id.date_edition > c.devis_id.date_refus:
                     c.dates_coherentes = False
-                    return
+                    c.message_dates_incoherentes += "Date édition devis postèrieure à date refus devis. "
 
     @api.depends('devis_id', 'chantier_id', 'vt_id', 'planif_chantier_id', 'planif_vt_id', 'cee_id',
                  'prospect_qualifie', 'planif_vt_id.date_time_planif', 'planif_chantier_id.date_time_planif',
