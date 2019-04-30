@@ -20,7 +20,7 @@
                 res_model="groupe_cayla.devis"
                 view_mode="tree,form"/>
 
-         <act_window
+        <act_window
                 id="action_cayla_cee"
                 name="CEE"
                 res_model="groupe_cayla.cee"
@@ -121,12 +121,22 @@
                 view_mode="tree,form"/>
 
 
-          <act_window
+        <act_window
                 id="action_cayla_tournee_vt"
                 name="Tournées VT"
                 res_model="groupe_cayla.tournee_vt"
                 view_mode="tree,form"/>
 
+        <act_window
+                id="action_cayla_tournee_vt_wizard"
+                name="Tournées VT"
+                src_model="groupe_cayla.client"
+                res_model="groupe_cayla.tournee_vt"
+                view_type="form"
+                view_mode="form"
+                target="new"
+                multi="True"
+        />
 
 
         <!-- Top menu item -->
@@ -138,8 +148,9 @@
                   action="action_cayla_clients"/>
         <menuitem name="Doublons" id="groupe_cayla.doublon_clients" parent="groupe_cayla.menu_root"
                   action="action_cayla_doublon_clients"/>
-        <menuitem name="Tournées VT" id="groupe_cayla.tournee_vt" parent="groupe_cayla.menu_root" action="action_cayla_tournee_vt"/>
-<!--        <menuitem name="CEE" id="groupe_cayla.cee" parent="groupe_cayla.menu_root" action="action_cayla_cee"/>-->
+        <menuitem name="Tournées VT" id="groupe_cayla.tournee_vt" parent="groupe_cayla.menu_root"
+                  action="action_cayla_tournee_vt"/>
+        <!--        <menuitem name="CEE" id="groupe_cayla.cee" parent="groupe_cayla.menu_root" action="action_cayla_cee"/>-->
         <menuitem name="Administration" id="groupe_cayla.administration" parent="groupe_cayla.menu_root"/>
         <menuitem name="Taux TVA" id="groupe_cayla.taux_tva" parent="groupe_cayla.administration"
                   action="action_cayla_taux_tva"/>
