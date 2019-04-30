@@ -121,6 +121,13 @@
                 view_mode="tree,form"/>
 
 
+          <act_window
+                id="action_cayla_tournee_vt"
+                name="Tournées VT"
+                res_model="groupe_cayla.tournee_vt"
+                view_mode="tree,form"/>
+
+
 
         <!-- Top menu item -->
         <menuitem name="Groupe Cayla" id="groupe_cayla.menu_root"
@@ -131,7 +138,7 @@
                   action="action_cayla_clients"/>
         <menuitem name="Doublons" id="groupe_cayla.doublon_clients" parent="groupe_cayla.menu_root"
                   action="action_cayla_doublon_clients"/>
-<!--        <menuitem name="Devis" id="groupe_cayla.devis" parent="groupe_cayla.menu_root" action="action_cayla_devis"/>-->
+        <menuitem name="Tournées VT" id="groupe_cayla.tournee_vt" parent="groupe_cayla.menu_root" action="action_cayla_tournee_vt"/>
 <!--        <menuitem name="CEE" id="groupe_cayla.cee" parent="groupe_cayla.menu_root" action="action_cayla_cee"/>-->
         <menuitem name="Administration" id="groupe_cayla.administration" parent="groupe_cayla.menu_root"/>
         <menuitem name="Taux TVA" id="groupe_cayla.taux_tva" parent="groupe_cayla.administration"

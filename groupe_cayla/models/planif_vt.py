@@ -13,6 +13,8 @@ class PlanifVT(models.Model):
     _sql_constraints = [
         ('client_id', 'unique (client_id)', 'Ce client a déjà une VT planifiée')
     ]
+
+    tournee_vt_id = fields.Many2one('groupe_cayla.tournee_vt')
     client_id = fields.Many2one(
         'groupe_cayla.client',
         delegate=False,
@@ -34,7 +36,7 @@ class PlanifVT(models.Model):
     date_time_planif = fields.Datetime(required=True)
 
     _rec_name = 'combination'
-    combination = fields.Char(string='Combination', compute='_compute_fields_combination')
+    combination = fields.Char(string='VT planifiée', compute='_compute_fields_combination')
 
     @api.depends('date_appel')
     def _compute_fields_combination(self):

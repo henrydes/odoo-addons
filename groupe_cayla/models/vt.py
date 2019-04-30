@@ -30,6 +30,7 @@ class VT(models.Model):
         required=True,
     )
 
+
     date_de_realisation = fields.Date(default=date.today(), required=True)
 
     vt_validee = fields.Boolean(default=False)
