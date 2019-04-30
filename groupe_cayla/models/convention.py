@@ -12,3 +12,4 @@ class Convention(models.Model):
     _rec_name = 'libelle'
 
     libelle = fields.Char(required=True)
+    delegataire_id = fields.Many2one('groupe_cayla.delegataire')

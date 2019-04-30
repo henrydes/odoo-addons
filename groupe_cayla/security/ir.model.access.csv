@@ -32,5 +32,6 @@ access_tarif_prime_cee_resp_admin,Accès pour tarif_prime_cee Responsable Admini
 
 access_cee_resp_admin,Accès pour cee Responsable Administratif,model_groupe_cayla_cee,groupe_cayla_group_resp_admin,1,1,1,1
 access_ligne_cee_resp_admin,Accès pour ligne_cee Responsable Administratif,model_groupe_cayla_ligne_cee,groupe_cayla_group_resp_admin,1,1,1,1
+access_delegataire_resp_admin,Accès pour delegataire Responsable Administratif,model_groupe_cayla_delegataire,groupe_cayla_group_resp_admin,1,1,1,1
 
 access_tournee_vt_resp_admin,Accès pour tournee_vt Responsable Administratif,model_groupe_cayla_tournee_vt,groupe_cayla_group_resp_admin,1,1,1,1

@@ -58,6 +58,7 @@
         'reports/report_pv_vt.xml',
         'views/facture.xml',
         'views/tournee_vt.xml',
+        'views/delegataire.xml',
     ],
     'application': True,
 }

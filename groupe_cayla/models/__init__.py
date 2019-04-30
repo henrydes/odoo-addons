@@ -32,3 +32,4 @@ from . import ligne_cee
 from . import doublon_client
 from . import facture
 from . import tournee_vt
+from . import delegataire

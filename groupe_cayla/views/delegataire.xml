@@ -1,27 +1,27 @@
 <odoo>
     <data>
 
-        <record model="ir.ui.view" id="view_tree_convention">
-            <field name="name">Liste des convention</field>
-            <field name="model">groupe_cayla.convention</field>
+        <record model="ir.ui.view" id="view_tree_delegataire">
+            <field name="name">Liste des delegataire</field>
+            <field name="model">groupe_cayla.delegataire</field>
             <field name="arch" type="xml">
                 <tree>
-                    <field name="libelle"/>
-                    <field name="delegataire_id"/>
+                    <field name="nom"/>
+                    <field name="adresse_facturation"/>
                 </tree>
             </field>
         </record>
 
 
-        <record id="view_form_convention" model="ir.ui.view">
-            <field name="name">Formulaire convention</field>
-            <field name="model">groupe_cayla.convention</field>
+        <record id="view_form_delegataire" model="ir.ui.view">
+            <field name="name">Formulaire delegataire</field>
+            <field name="model">groupe_cayla.delegataire</field>
             <field name="arch" type="xml">
                 <form>
                     <sheet>
                         <group>
-                            <field name="libelle"/>
-                            <field name="delegataire_id"/>
+                            <field name="nom"/>
+                            <field name="adresse_facturation"/>
                         </group>
                     </sheet>
                     <div class="oe_chatter">
