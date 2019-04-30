@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <report id="action_planif_vt_report" string="Procès verbal de Visite Technique" model="groupe_cayla.planif_vt" report_type="qweb-html"
+            name="groupe_cayla.report_planif_vt_template"/>
+    <template id="report_planif_vt_template">
+        <t t-call="web.html_container">
+
+            <t t-foreach="docs" t-as="o">
+                <div class="page">
+                    <div class="row"><h1>Proces verbal de visite technique</h1></div>
+                    <div class="row"><strong>Réf dossier : </strong> <span t-field="o.client_id.ref"/></div>
+                    <table border="1" width="100%">
+                        <tr height="50px">
+                            <td width="50%" style="vertical-align: top">
+                                <strong>Nom :</strong> <span t-field="o.client_id.name"/>
+                            </td>
+                            <td width="50%" style="vertical-align: top">
+                                <strong>Provenance :</strong> <span>la provenance</span>
+                            </td>
+                        </tr>
+                        <tr height="50px">
+                            <td  style="vertical-align: top">
+                                <strong>Tel : </strong> <span t-field="o.client_id.phone"/>
+                            </td>
+                            <td style="vertical-align: top">
+                                <strong>Email : </strong> <span t-field="o.client_id.email"/>
+                            </td>
+                        </tr>
+                        <tr height="100px">
+                           <td  style="vertical-align: top">
+                               <strong>Adresse chantier :</strong><br />
+                               <span t-field="o.client_id.street"/><br />
+                               <span t-field="o.client_id.street2"/><br />
+                               <span t-field="o.client_id.zip"/> <span t-field="o.client_id.city"/>
+                           </td>
+                            <td  style="vertical-align: top">
+                                <strong>Adresse de facturation :</strong><br />
+                                <span t-field="o.client_id.street"/><br />
+                               <span t-field="o.client_id.street2"/><br />
+                               <span t-field="o.client_id.zip"/> <span t-field="o.client_id.city"/>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table border="1" width="100%">
+                        <tr>
+                            <td width="50%" style="text-aligne: center">
+                                <strong>RENSEIGNEMENTS TECHNIQUES</strong>
+                            </td>
+                            <td rowspan="3">
+                                <p><strong>Stationnement</strong></p>
+                                Devant la maison / Dans la cour / Dans la rue <br/>
+                                Demande en mairie / Autres :
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Technicien : <br/>
+                                Date : <br />
+                                Heure : <br />
+                            </td>
+
+                        </tr>
+                        <tr>
+                             <td>
+                                Mode chauffage
+                            </td>
+                        </tr>
+
+                    </table>
+                </div>
+            </t>
+
+
+        </t>
+
+    </template>
+</odoo>

@@ -1,0 +1,47 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="view_tree_ligne_supplement_devis">
+            <field name="name">Liste des lignes supplement devis</field>
+            <field name="model">groupe_cayla.ligne_supplement_devis</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="supplement_libelle"/>
+                    <field name="quantite"/>
+                    <field name="prix_unitaire"/>
+                    <field name="tarif"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_form_ligne_supplement_devis" model="ir.ui.view">
+            <field name="name">Formulaire lignes supplement devis</field>
+            <field name="model">groupe_cayla.ligne_supplement_devis</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group col="2">
+                            <field name="supplement_devis_id" attrs="{'invisible':[('id', '!=', False)]}" options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
+                            <field name="supplement_libelle"  attrs="{'readonly': True, 'invisible':[('id', '=', False)]}"/>
+                            <field name="supplement_libelle"  attrs="{'invisible': True}"/>
+
+
+
+                            <field name="quantite"/>
+                            <field name="prix_unitaire"/>
+                            <field name="tarif"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

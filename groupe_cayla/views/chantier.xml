@@ -1,0 +1,43 @@
+<odoo>
+    <data>
+
+
+        <record id="view_form_chantier" model="ir.ui.view">
+            <field name="name">Chantier form view</field>
+            <field name="model">groupe_cayla.chantier</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+
+                        <group col="2">
+                            <group>
+                                <field name="client_id" attrs="{'invisible': True}"/>
+                                <field name="utilisateur_id"/>
+                                <field name="date_de_realisation"/>
+
+                            </group>
+                            <group>
+                                <field name="equipier_1_id"/>
+                                <field name="equipier_2_id"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="lignes_chantier" widget="one2many"/>
+                            <field name="reglement"/>
+                            <field name="chantier_realise"/>
+                        </group>
+
+
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

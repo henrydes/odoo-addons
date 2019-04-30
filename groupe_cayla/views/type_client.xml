@@ -1,0 +1,47 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="view_tree_type_client">
+            <field name="name">Liste des types client</field>
+            <field name="model">groupe_cayla.type_client</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code"/>
+                    <field name="libelle"/>
+                    <field name="mode_calcul_reversion"/>
+                    <field name="taux_reversion_char"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_form_type_client" model="ir.ui.view">
+            <field name="name">Formulaire type_client</field>
+            <field name="model">groupe_cayla.type_client</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group col="6">
+                            <field name="code"/>
+                            <field name="libelle"/>
+                            <field name="donne_droit_tarif_solidarite_energetique"/>
+                        </group>
+                        <group col="2">
+                            <field name="mode_calcul_reversion"/>
+                        </group>
+                        <group col="2">
+                            <field name="taux_reversion"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

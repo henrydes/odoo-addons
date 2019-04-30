@@ -1,0 +1,50 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="view_tree_ligne_chantier">
+            <field name="name">Liste des lignes chantier</field>
+            <field name="model">groupe_cayla.ligne_chantier</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="sujet_devis_id"/>
+                    <field name="produit_id"/>
+                    <field name="marque_produit_id"/>
+                    <field name="modele_produit_id"/>
+                    <field name="nb_sacs"/>
+                    <field name="temps_passe"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_form_ligne_chantier" model="ir.ui.view">
+            <field name="name">Formulaire lignes chantier</field>
+            <field name="model">groupe_cayla.ligne_chantier</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group col="2">
+                           <field name="sujet_devis_id" options="{'no_create': True, 'no_create_edit':True}"/>
+                            <field name="produit_id" options="{'no_create': True, 'no_create_edit':True}"
+                                   domain="[('sujet_devis_id','in',[sujet_devis_id])]"/>
+                            <field name="marque_produit_id" options="{'no_create': True, 'no_create_edit':True}"
+                                   domain="[('produit_id','in',[produit_id])]"/>
+                            <field name="modele_produit_id" options="{'no_create': True, 'no_create_edit':True}"
+                                   domain="[('marque_produit_id','in',[marque_produit_id])]"/>
+
+                            <field name="nb_sacs"/>
+                            <field name="temps_passe"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

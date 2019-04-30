@@ -1,0 +1,46 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="view_tree_tarif_prime_cee">
+            <field name="name">Liste des tarifs des primes CEE</field>
+            <field name="model">groupe_cayla.tarif_prime_cee</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="prix_unitaire"/>
+                    <field name="sujet_devis_id"/>
+                    <field name="convention_id"/>
+                    <field name="zone_habitation_id"/>
+                    <field name="type_client_id"/>
+                    <field name="source_energie_chauffage_id"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_form_tarif_prime_cee" model="ir.ui.view">
+            <field name="name">Formulaire tarif prime CEE</field>
+            <field name="model">groupe_cayla.tarif_prime_cee</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="sujet_devis_id" options="{'no_open': True, 'no_edit': True, 'no_create': True}"/>
+                            <field name="convention_id" options="{'no_open': True, 'no_edit': True, 'no_create': True}"/>
+                            <field name="zone_habitation_id" options="{'no_open': True, 'no_edit': True, 'no_create': True}"/>
+                            <field name="type_client_id" options="{'no_open': True, 'no_edit': True, 'no_create': True}"/>
+                            <field name="source_energie_chauffage_id" options="{'no_open': True, 'no_edit': True, 'no_create': True}"/>
+                            <field name="prix_unitaire"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

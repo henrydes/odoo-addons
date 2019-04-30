@@ -1,0 +1,100 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="view_tree_ligne_devis">
+            <field name="name">Liste des lignes devis</field>
+            <field name="model">groupe_cayla.ligne_devis</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="sujet_libelle"/>
+                    <field name="produit_libelle"/>
+                    <field name="marque_libelle"/>
+                    <field name="modele_libelle"/>
+                    <field name="acermi"/>
+                    <field name="epaisseur"/>
+                    <field name="resistance_thermique"/>
+                    <field name="prix_unitaire"/>
+                    <field name="quantite"/>
+                    <field name="prix_total"/>
+                    <field name="prime_cee"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_form_ligne_devis" model="ir.ui.view">
+            <field name="name">Formulaire lignes devis</field>
+            <field name="model">groupe_cayla.ligne_devis</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group col="2">
+
+                            <group string="Sélection modèle" attrs="{'invisible':[('id', '!=', False)]}">
+                                <field name="sujet_devis_id"
+                                       options="{'no_create': True, 'no_create_edit':True, 'no_open':True}"/>
+                                <field name="ligne_sujet_devis_id"
+                                       options="{'no_create': True, 'no_create_edit':True, 'no_open':True}"
+                                       domain="[('sujet_devis_id','=',sujet_devis_id)]"/>
+                                <field name="produit_id"
+                                       options="{'no_create': True, 'no_create_edit':True, 'no_open':True}"
+                                       attrs="{'invisible':True}"
+                                />
+                                <field name="marque_produit_id"
+                                       options="{'no_create': True, 'no_create_edit':True, 'no_open':True}"
+                                       domain="[('produits_id','in',produit_id)]"/>
+                                <field name="modele_produit_id"
+                                       options="{'no_create': True, 'no_create_edit':True, 'no_open':True}"
+                                       domain="[('sujets_devis_id','in',[sujet_devis_id]),('produits_id','in',[produit_id]),('marque_produit_id','in',[marque_produit_id])]"/>
+
+                            </group>
+                            <group string="Données techniques et quantités"
+                                   attrs="{'invisible':[('modele_produit_id', '=', False)]}">
+
+                                <field name="sujet_libelle"
+                                       attrs="{'readonly': True}"/>
+                                <field name="sujet_libelle"
+                                       attrs="{'invisible': True}"/>
+
+                                <field name="produit_libelle"
+                                       attrs="{'readonly': True}"/>
+                                <field name="produit_libelle"
+                                       attrs="{'invisible': True}"/>
+
+                                <field name="marque_libelle"
+                                       attrs="{'readonly': True}"/>
+                                <field name="marque_libelle"
+                                       attrs="{'invisible': True}"/>
+
+                                <field name="modele_libelle"
+                                       attrs="{'readonly': True}"/>
+                                 <field name="modele_libelle"
+                                       attrs="{'invisible': True}"/>
+
+                                <field name="acermi" attrs="{'readonly': True}"/>
+                                <field name="acermi" attrs="{'invisible': True}"/>
+                                <field name="epaisseur" attrs="{'readonly': True}"/>
+                                <field name="epaisseur" attrs="{'invisible': True}"/>
+                                <field name="resistance_thermique" attrs="{'readonly': True}"/>
+                                <field name="resistance_thermique" attrs="{'invisible': True}"/>
+                                <field name="prix_unitaire"/>
+                                <field name="quantite"/>
+                                <field name="prix_total" attrs="{'readonly':[True]}"/>
+                                <field name="prix_total" attrs="{'invisible':[True]}"/>
+                                <field name="prime_cee"/>
+                                <field name="detail"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

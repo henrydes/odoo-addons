@@ -1,0 +1,236 @@
+<odoo>
+    <data>
+
+        <template id="assets_backend" name="project assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" href="/groupe_cayla/static/src/css/onglets.css"/>
+            </xpath>
+        </template>
+
+        <!-- explicit list view definition -->
+        <record model="ir.ui.view" id="view_tree_client">
+            <field name="name">Liste des clients</field>
+            <field name="model">groupe_cayla.client</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="a_dedoublonner"/>
+                    <field name="ref"/>
+                    <field name="etat"/>
+                    <field name="name"/>
+                    <field name="zip"/>
+                    <field name="city"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_form_client" model="ir.ui.view">
+            <field name="name">Formulaire client</field>
+            <field name="model">groupe_cayla.client</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+
+
+                        <div name="button_box" class="oe_button_box">
+
+                            <span style="font-weight: bold">Solde client :
+                                <field string="Solde client" name="solde_client"/>
+                                €
+                            </span>
+                        </div>
+                        <group col="6">
+                            <field name="etat" attrs="{'readonly': True}"/>
+                            <field name="ref" position="attributes">
+                                <attribute name="string">Réf.</attribute>
+                            </field>
+                            <field name="type_client_cee"/>
+                        </group>
+                        <group col="6">
+                            <field name="title" options="{'no_create': True, 'no_create_edit':True, 'no_open':True}"/>
+                            <field name="name"/>
+                            <field name="street"/>
+                            <field name="street2"/>
+                            <field name="zip"/>
+                            <field name="city"/>
+                            <field name="country_id"
+                                   options="{'no_create': True, 'no_create_edit':True, 'no_open':True}"/>
+                            <field name="comment"/>
+                        </group>
+                        <group col="2">
+                            <field name="prospect_qualifie"/>
+                        </group>
+                        <notebook>
+                            <page string="Service commercial" class="onglet_client onglet_client_commercial">
+                                <sheet>
+                                    <group col="3">
+                                        <group string="1 - Apporteur">
+                                            <field name="date_entree"/>
+                                            <field name="utilisateur_id"/>
+                                            <field name="source_client"/>
+                                        </group>
+                                        <group string="2 - Maitrise d'oeuvre">
+                                            <field name="maitre_oeuvre"/>
+                                            <field name="installateur"/>
+                                            <field name="contrat"/>
+                                        </group>
+                                        <group string="5.1 - Edition devis"
+                                               attrs="{'invisible':[('active_id', '=', False)]}">
+                                            <field name="devis_id"
+                                                   domain="[('client_id', '=', active_id)]"
+                                                   context="{'default_client_id': active_id, 'default_user_id': uid}"
+                                            />
+                                            <field name="utilisateur_devis"/>
+                                            <field name="date_edition_devis"/>
+                                            <field name="date_envoi_devis"/>
+                                            <field name="date_acceptation_devis"/>
+                                            <field name="date_refus_devis"/>
+                                            <field name="montant_ttc_devis"/>
+                                        </group>
+                                    </group>
+                                </sheet>
+                            </page>
+                            <page string="Service planning" class="onglet_client onglet_client_planning">
+                                <sheet>
+                                    <group col="3" attrs="{'invisible':[('active_id', '=', False)]}">
+                                        <group string="3 - Planif VT">
+
+                                            <field name="planif_vt_id"
+                                                   domain="[('client_id', '=', active_id)]"
+                                                   context="{'default_client_id': active_id, 'default_utilisateur_id': uid}"/>
+
+
+                                            <field name="date_time_planif_planif_vt"/>
+                                            <field name="utilisateur_planif_vt"/>
+                                            <field name="technicien_planif_vt"/>
+
+
+                                        </group>
+                                        <group string="6.1 - Planif chantier">
+                                            <field name="planif_chantier_id"
+                                                   domain="[('client_id', '=', active_id)]"
+                                                   context="{'default_client_id': active_id, 'default_utilisateur_id': uid}"/>
+
+                                            <field name="date_appel_planif_chantier"/>
+                                            <field name="date_time_planif_planif_chantier"/>
+                                            <field name="utilisateur_id_planif_chantier"/>
+                                        </group>
+                                        <group string=".">
+                                            <field name="equipier_1_id_planif_chantier"/>
+                                            <field name="equipier_2_id_planif_chantier"/>
+                                            <field name="entreprise_planif_chantier"/>
+                                            <field name="entite_edition_devis_id_planif_chantier"/>
+                                            <field name="entreprise_planif_chantier"/>
+                                        </group>
+                                    </group>
+                                </sheet>
+                            </page>
+                            <page string="Service technique"  class="onglet_client onglet_client_technique">
+                                <sheet>
+                                    <group col="2">
+                                        <group string="4 - Visite technique"
+                                               attrs="{'invisible':[('active_id', '=', False)]}">
+
+
+                                            <field name="vt_id"
+                                                   domain="[('client_id', '=', active_id)]"
+                                                   context="{'default_client_id': active_id, 'default_utilisateur_id': uid}"/>
+                                            <field name="utilisateur_vt"/>
+                                            <field name="technicien_vt"/>
+                                            <field name="vt_validee_vt"/>
+                                            <field name="documents_complets_vt"/>
+
+
+                                        </group>
+                                        <group string="7 - Chantier"
+                                               attrs="{'invisible':[('active_id', '=', False)]}">
+
+                                            <field name="chantier_id"
+                                                   domain="[('client_id', '=', active_id)]"
+                                                   context="{'default_client_id': active_id,
+                                                    'default_utilisateur_id': uid,
+                                                    'default_equipier_1_id': equipier_1_id_planif_chantier,
+                                                    'default_equipier_2_id': equipier_2_id_planif_chantier}"/>
+
+
+                                            <field name="date_de_realisation_chantier"/>
+                                            <field name="equipier_1_id_chantier"/>
+                                            <field name="equipier_2_id_chantier"/>
+                                            <field name="produit_chantier"/>
+                                            <field name="marque_produit_chantier"/>
+                                            <field name="nb_sac_chantier"/>
+                                            <field name="temps_passe_chantier"/>
+                                            <field name="chantier_realise_chantier"/>
+
+
+                                        </group>
+                                    </group>
+                                </sheet>
+                            </page>
+                            <page string="Service énergie" class="onglet_client onglet_client_energie">
+                                <sheet>
+                                    <group col="3" attrs="{'invisible':[('active_id', '=', False)]}">
+                                        <group col="2" colspan="2">
+                                            <field name="cee_id"
+                                                   domain="[('client_id', '=', active_id)]"
+                                                   context="{'default_client_id': active_id, 'default_user_id': uid}"/>
+
+
+                                        </group>
+                                        <group col="1"></group>
+                                        <group string="5.2 - CEE contribution" col="1">
+                                            <group>
+                                                <field name="etat_devis" attrs="{'invisible': True}"/>
+                                                <field name="fiche_1_cee" options="{'no_open': True}"/>
+                                                <field name="fiche_2_cee" options="{'no_open': True}"/>
+                                                <field name="convention_cee" options="{'no_open': True}"/>
+                                                <field name="utilisateur_edition_contribution_cee"/>
+                                                <field name="date_edition_contribution_cee"/>
+                                                <field name="somme_reversion_cee"/>
+                                            </group>
+
+                                        </group>
+                                        <group string="6.2 - CEE AH" col="1">
+                                            <group>
+                                                <field name="date_edition_ah_cee"/>
+                                                <field name="utilisateur_edition_ah_cee"/>
+                                            </group>
+
+                                        </group>
+                                        <group string="8.1 - Contrôle" col="1">
+                                            <group>
+                                                <field name="date_reception_controle_cee"/>
+                                                <field name="utilisateur_controle_cee"/>
+                                                <field name="date_controle_cee"/>
+                                                <field name="date_depot_cee"/>
+                                                <field name="date_validation_cee"/>
+                                            </group>
+
+                                        </group>
+                                    </group>
+                                </sheet>
+                            </page>
+                            <page string="Comptabilité client"  class="onglet_client onglet_client_comptabilite">
+                                <sheet>
+                                    <group col="3">
+                                    </group>
+                                </sheet>
+                            </page>
+
+                        </notebook>
+                    </sheet>
+
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+
+                </form>
+
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,46 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="view_tree_ligne_cee">
+            <field name="name">Liste des lignes cee</field>
+            <field name="model">groupe_cayla.ligne_cee</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="sujet_ligne_devis"/>
+                    <field name="montant_prime_unitaire"/>
+                    <field name="quantite_ligne_devis"/>
+                    <field name="montant_prime_total"/>
+                    <field name="montant_reversion"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_form_ligne_cee" model="ir.ui.view">
+            <field name="name">Formulaire lignes cee</field>
+            <field name="model">groupe_cayla.ligne_cee</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group col="2">
+                            <field name="ligne_devis_id" attrs="{'invisible': True}"/>
+                            <field name="sujet_ligne_devis"/>
+                            <field name="montant_prime_unitaire"/>
+                            <field name="quantite_ligne_devis"/>
+                            <field name="montant_prime_total"/>
+                            <field name="montant_reversion"/>
+
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

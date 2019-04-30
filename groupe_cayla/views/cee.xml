@@ -1,0 +1,127 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="view_tree_cee">
+            <field name="name">Liste des cee</field>
+            <field name="model">groupe_cayla.cee</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="client_id" attrs="{'invisible': True}"/>
+                    <field name="type_client_id"/>
+                    <field name="zone_habitation_id"/>
+
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_form_cee" model="ir.ui.view">
+            <field name="name">Formulaire cee</field>
+            <field name="model">groupe_cayla.cee</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+
+                        <group col="2">
+                            <group col="1">
+                                <group string="Situation client">
+                                    <field name="client_id" attrs="{'invisible': True}"/>
+                                    <field name="devis_id" attrs="{'readonly':[('active_id', '!=', False)]}"  domain="[('client_id', '=', client_id)]"  options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
+
+
+                                    <field name="type_client_id"
+                                           options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
+                                    <field name="zone_habitation_id"
+                                           options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
+                                    <field name="source_energie_chauffage"/>
+                                    <field name="type_chauffage_id"
+                                           options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
+                                    <field name="ref_fiscale"/>
+                                    <field name="foyer"/>
+                                    <field name="locataire"/>
+                                </group>
+                                <group string="Contrat CEE">
+                                    <field name="convention_id"
+                                           options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
+                                    <field name="fiche_1_id"
+                                           options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
+                                    <field name="fiche_2_id"
+                                           options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
+                                </group>
+                            </group>
+                            <group col="1">
+
+                                <group string="Edition fiche contribution"
+                                       attrs="{'invisible':[('active_id', '=', False)]}">
+                                    <field name="contribution_user_id"/>
+                                    <field name="contribution_date_edition"/>
+                                </group>
+                                <group string="Edition Attestation sur l'honneur"
+                                       attrs="{'invisible':[('active_id', '=', False)]}">
+                                    <field name="ah_user_id"/>
+                                    <field name="ah_date_edition"/>
+                                </group>
+
+                                <group>
+                                    <field name="somme_reversion"/>
+                                    <field name="somme_primes"/>
+                                </group>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Primes">
+                                <sheet>
+                                    <group>
+                                        <field name="objet_devis"/>
+                                        <field name="lignes_cee" widget="one2many"/>
+                                    </group>
+                                </sheet>
+                            </page>
+                            <page string="Contrôle" attrs="{'invisible':[('active_id', '=', False)]}">
+                                <sheet>
+                                    <group>
+
+                                        <field name="saisie_controle"/>
+                                        <field name="controle_user_id"
+                                               attrs="{'readonly':[('saisie_controle', '=', False)]}"/>
+                                        <field name="date_reception"
+                                               attrs="{'readonly':[('saisie_controle', '=', False)]}"/>
+                                        <field name="date_controle"
+                                               attrs="{'readonly':[('saisie_controle', '=', False)]}"/>
+
+                                        <field name="fiche_vt" attrs="{'readonly':[('saisie_controle', '=', False)]}"/>
+                                        <field name="devis" attrs="{'readonly':[('saisie_controle', '=', False)]}"/>
+                                        <field name="ah" attrs="{'readonly':[('saisie_controle', '=', False)]}"/>
+                                        <field name="fiche_chantier"
+                                               attrs="{'readonly':[('saisie_controle', '=', False)]}"/>
+                                        <field name="dossier_valide"
+                                               attrs="{'readonly':[('saisie_controle', '=', False)]}"/>
+                                    </group>
+                                </sheet>
+                            </page>
+                            <page string="Dépôt" attrs="{'invisible':[('active_id', '=', False)]}">
+                                <sheet>
+                                    <group>
+                                        <field name="saisie_depot"/>
+                                        <field name="date_depot" attrs="{'readonly':[('saisie_depot', '=', False)]}"/>
+                                        <field name="date_validation" attrs="{'readonly':[('saisie_depot', '=', False)]}"/>
+                                        <field name="refus" attrs="{'readonly':[('saisie_depot', '=', False)]}"/>
+                                        <field name="reference_cee" attrs="{'readonly':[('saisie_depot', '=', False)]}"/>
+                                    </group>
+                                </sheet>
+                            </page>
+                        </notebook>
+                    </sheet>
+
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

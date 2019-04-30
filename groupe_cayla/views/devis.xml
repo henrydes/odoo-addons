@@ -1,0 +1,140 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="view_tree_devis">
+            <field name="name">Liste des devis</field>
+            <field name="model">groupe_cayla.devis</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="numero"/>
+                    <field name="client_id"/>
+                    <field name="date_edition"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_form_devis" model="ir.ui.view">
+
+            <field name="name">Formulaire devis</field>
+            <field name="model">groupe_cayla.devis</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button attrs="{'invisible': [('etat','=','nouveau')]}"
+                                string="Rendre le devis à nouveau éditable" type="object"
+                                name="invalider_devis"/>
+                    </header>
+                    <sheet>
+
+                        <group col="1">
+                            <group>
+                                <field name="etat" attrs="{'readonly': True}"/>
+                            </group>
+                            <group col="6">
+
+
+                                <field name="client_id" attrs="{'readonly': [('etat', '=', 'valide')]}"
+                                       options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
+                                <field name="user_id" attrs="{'readonly': [('etat', '=', 'valide')]}"
+                                       options="{'no_open': True}"/>
+                                <field name="numero" attrs="{'readonly': [('etat', '=', 'valide')]}"/>
+                                <field name="date_edition" attrs="{'readonly': [('etat', '=', 'valide')]}"/>
+                                <field name="date_envoi" attrs="{'readonly': [('etat', '=', 'valide')]}"/>
+                                <field name="date_acceptation"/>
+                                <field name="date_refus"/>
+                                <field name="motif_refus"/>
+                            </group>
+                            <group>
+                                <field name="entite_edition_id" attrs="{'readonly': [('etat', '=', 'valide')]}"
+                                       options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
+
+
+
+                            </group>
+                            <group col="4">
+                                <field name="montant_ht"/>
+                                <field name="montant_remise"/>
+                                <field name="montant_tva"/>
+                                <field name="superficie"/>
+                                <field name="montant_ttc"/>
+                                <field name="montant_eco_cheque"/>
+                                <field name="acompte"/>
+                            </group>
+                            <group string="Type de devis">
+                                <table style='width:100%;' border='0'>
+                                    <tr>
+                                        <th style='width:16%; text-align: center'>
+                                            <label for="type_octeha" style="font-weight:bold"/>
+                                        </th>
+                                        <th style='width:16%; text-align: center'>
+                                            <label for="type_anah" style="font-weight:bold"/>
+                                        </th>
+                                        <th style='width:16%; text-align: center'>
+                                            <label for="type_eco_cheque" style="font-weight:bold"/>
+                                        </th>
+                                        <th style='width:16%; text-align: center'>
+                                            <label for="type_cee" style="font-weight:bold"/>
+                                        </th>
+                                        <th style='width:16%; text-align: center'>
+                                            <label for="type_professionnel" style="font-weight:bold"/>
+                                        </th>
+                                        <th style='width:20%; text-align: center'>
+                                            <label for="remise" style="font-weight:bold"/>
+                                        </th>
+
+                                    </tr>
+                                    <tr>
+                                        <td style='text-align: center'>
+                                            <field name="type_octeha" attrs="{'readonly': [('etat', '=', 'valide')]}"/>
+                                        </td>
+                                        <td style='text-align: center'>
+                                            <field name="type_anah" attrs="{'readonly': [('etat', '=', 'valide')]}"/>
+                                        </td>
+                                        <td style='text-align: center'>
+                                            <field name="type_eco_cheque"
+                                                   attrs="{'readonly': [('etat', '=', 'valide')]}"/>
+                                        </td>
+                                        <td style='text-align: center'>
+                                            <field name="type_cee" attrs="{'readonly': [('etat', '=', 'valide')]}"/>
+                                        </td>
+                                        <td style='text-align: center'>
+                                            <field name="type_professionnel"
+                                                   attrs="{'readonly': [('etat', '=', 'valide')]}"/>
+                                        </td>
+                                        <td style='text-align: center'>
+                                            <field name="remise" attrs="{'readonly': [('etat', '=', 'valide')]}"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </group>
+                            <group string="Edition devis">
+
+                                <field name="choix_tva"
+                                       options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"
+                                       attrs="{'readonly': [('etat', '=', 'valide')]}"/>
+                                <field name="objet"
+                                       options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"
+                                       attrs="{'readonly': [('etat', '=', 'valide')]}"/>
+                                <field name="objet_autres" attrs="{'readonly': [('etat', '=', 'valide')]}"/>
+                                <field name="lignes_supplement_devis" widget="one2many"
+                                       attrs="{'readonly': [('etat', '=', 'valide')]}"/>
+                                <field name="lignes_devis" widget="one2many"
+                                       attrs="{'readonly': [('etat', '=', 'valide')]}"/>
+                            </group>
+
+
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>
