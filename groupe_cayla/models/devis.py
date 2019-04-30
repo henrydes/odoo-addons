@@ -17,10 +17,6 @@ class Devis(models.Model):
     )
 
     client_id = fields.Many2one('groupe_cayla.client',required=True,ondelete='cascade')
-    cee_id = fields.Many2one('groupe_cayla.cee',required=False,ondelete='cascade')
-
-
-
     user_id = fields.Many2one(
         'res.users',
         delegate=False,
@@ -85,6 +81,7 @@ class Devis(models.Model):
     @api.depends('lignes_supplement_devis', 'lignes_devis', 'remise', 'lignes_devis.prix_unitaire', 'lignes_devis.prix_total')
     def _compute_montant_ht_montant_remise(self):
         for d in self:
+            d.montant_ht = 0
             for ligne_supplement in d.lignes_supplement_devis:
                 d.montant_ht += ligne_supplement.tarif
             for ligne in d.lignes_devis:

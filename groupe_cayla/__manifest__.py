@@ -56,6 +56,7 @@
         'views/ligne_cee.xml',
         'views/doublon_client.xml',
         'reports/report_pv_vt.xml',
+        'views/facture.xml',
     ],
     'application': True,
 }

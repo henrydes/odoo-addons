@@ -31,7 +31,8 @@
                 <form>
                     <header>
                         <field name="dates_coherentes" attrs="{'invisible': True}"></field>
-                        <field name="message_dates_incoherentes" attrs="{'invisible': [('dates_coherentes', '=', True)]}"></field>
+                        <field name="message_dates_incoherentes"
+                               attrs="{'invisible': [('dates_coherentes', '=', True)]}"></field>
                     </header>
                     <sheet>
 
@@ -129,7 +130,7 @@
                                     </group>
                                 </sheet>
                             </page>
-                            <page string="Service technique"  class="onglet_client onglet_client_technique">
+                            <page string="Service technique" class="onglet_client onglet_client_technique">
                                 <sheet>
                                     <group col="2">
                                         <group string="4 - Visite technique"
@@ -214,9 +215,13 @@
                                     </group>
                                 </sheet>
                             </page>
-                            <page string="Comptabilité client"  class="onglet_client onglet_client_comptabilite">
+                            <page string="Comptabilité client" class="onglet_client onglet_client_comptabilite">
                                 <sheet>
-                                    <group col="3">
+                                    <group attrs="{'invisible':[('active_id', '=', False)]}">
+                                        <field name="facture_id"
+                                               domain="[('client_id', '=', active_id)]"
+                                               context="{'default_client_id': active_id, 'default_user_id': uid}"
+                                        />
                                     </group>
                                 </sheet>
                             </page>

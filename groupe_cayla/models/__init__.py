@@ -30,3 +30,4 @@ from . import tarif_prime_cee
 from . import cee
 from . import ligne_cee
 from . import doublon_client
+from . import facture

@@ -151,16 +151,19 @@ class Client(models.Model):
             c.etat = 'nouveau'
             _logger.info('NOUVEAU CLIENT')
 
+
+    facture_id = fields.Many2one('groupe_cayla.facture')
     solde_client = fields.Float(compute='_compute_solde_client', store=True)
 
     @api.depends('cee_id', 'devis_id', 'cee_id.somme_reversion', 'devis_id.montant_ttc', 'devis_id.acompte',
-                 'chantier_id', 'chantier_id.reglement')
+                 'chantier_id', 'chantier_id.reglement', 'facture_id', 'facture_id.reglement_facture')
     def _compute_solde_client(self):
         for record in self:
             montant_ttc_devis = 0
             somme_reversions_cee = 0
             acompte = 0
             reglement = 0
+            reglement_facture = 0
             if record.devis_id:
                 montant_ttc_devis = record.devis_id.montant_ttc
                 if record.devis_id.acompte:
@@ -169,7 +172,10 @@ class Client(models.Model):
                 somme_reversions_cee = record.cee_id.somme_reversion
             if record.chantier_id:
                 reglement = record.chantier_id.reglement
-            record.solde_client = montant_ttc_devis - somme_reversions_cee - acompte - reglement
+            if record.facture_id and record.facture_id.reglement_facture:
+                reglement_facture = record.facture_id.reglement_facture
+            record.solde_client = montant_ttc_devis - somme_reversions_cee - acompte - reglement - reglement_facture
+            _logger.info("Montants : "+ str(montant_ttc_devis)+" - "+str(somme_reversions_cee)+" - "+str(acompte)+" - "+str(reglement)+" - "+str(reglement_facture))
 
     # 1 Source apporteur
     date_entree = fields.Date()
