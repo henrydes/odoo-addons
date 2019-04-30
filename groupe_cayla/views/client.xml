@@ -30,6 +30,8 @@
             <field name="arch" type="xml">
                 <form>
                     <sheet>
+
+
                         <div name="button_box" class="oe_button_box">
 
                             <span style="font-weight: bold">Solde client :

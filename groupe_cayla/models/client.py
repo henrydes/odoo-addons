@@ -45,6 +45,25 @@ class Client(models.Model):
         ('non', 'NON')
     ], default=None, string='Prospect qualifié')
 
+    dates_coherentes = fields.Boolean(compute='_compute_dates_coherentes')
+
+    # ajouter date facture
+    @api.depends('devis_id', 'vt_id', 'vt_id.date_de_realisation', 'devis_id.date_edition', 'devis_id.date_acceptation',
+                 'devis_id.date_refus')
+    def _compute_dates_coherentes(self):
+        for c in self:
+            c.dates_coherentes = True
+            if c.vt_id and c.devis_id and c.devis_id.date_edition:
+                if c.vt_id.date_de_realisation > c.devis_id.date_edition:
+                    c.dates_coherentes = False
+                    return
+                if c.devis_id.date_acceptation and c.devis_id.date_edition > c.devis_id.date_acceptation:
+                    c.dates_coherentes = False
+                    return
+                if c.devis_id.date_refus and c.devis_id.date_edition > c.devis_id.date_refus:
+                    c.dates_coherentes = False
+                    return
+
     @api.depends('devis_id', 'chantier_id', 'vt_id', 'planif_chantier_id', 'planif_vt_id', 'cee_id',
                  'prospect_qualifie', 'planif_vt_id.date_time_planif', 'planif_chantier_id.date_time_planif',
                  'vt_id.documents_complets', 'vt_id.dossier_complet', 'vt_id.vt_validee', 'vt_id.date_de_realisation',
@@ -132,7 +151,8 @@ class Client(models.Model):
 
     solde_client = fields.Float(compute='_compute_solde_client', store=True)
 
-    @api.depends('cee_id', 'devis_id', 'cee_id.somme_reversion', 'devis_id.montant_ttc', 'devis_id.acompte', 'chantier_id', 'chantier_id.reglement')
+    @api.depends('cee_id', 'devis_id', 'cee_id.somme_reversion', 'devis_id.montant_ttc', 'devis_id.acompte',
+                 'chantier_id', 'chantier_id.reglement')
     def _compute_solde_client(self):
         for record in self:
             montant_ttc_devis = 0
@@ -148,7 +168,6 @@ class Client(models.Model):
             if record.chantier_id:
                 reglement = record.chantier_id.reglement
             record.solde_client = montant_ttc_devis - somme_reversions_cee - acompte - reglement
-
 
     # 1 Source apporteur
     date_entree = fields.Date()
