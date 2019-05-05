@@ -11,8 +11,8 @@ class Devis(models.Model):
     _description = 'Un devis'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     etat = fields.Selection([
-        ('nouveau', "En cours d'édition, non envoyé. Devis modifiable."),
-        ('valide', 'Devis envoyé. Non modifiable')
+        ('nouveau', "Facture non éditée : devis modifiable"),
+        ('valide', 'Facture client éditée. Devis non modifiable')
     ], default='nouveau'
     )
 
@@ -98,8 +98,6 @@ class Devis(models.Model):
 
     @api.model
     def create(self, values):
-        if 'date_envoi' in values and values['date_envoi']:
-            values['etat'] = 'valide'
         rec = super(Devis, self).create(values)
 
         client = self.env['groupe_cayla.client'].search([('id', '=', values['client_id'])], limit=1)
@@ -109,8 +107,6 @@ class Devis(models.Model):
 
     @api.multi
     def write(self, vals):
-        if 'date_envoi' in vals and vals['date_envoi']:
-            vals['etat'] = 'valide'
         super().write(vals)
 
 

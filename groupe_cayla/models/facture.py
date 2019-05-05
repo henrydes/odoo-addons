@@ -27,3 +27,11 @@ class Facture(models.Model):
     def _compute_fields_combination(self):
         for d in self:
             d.combination = 'Facture numéro ' + str(d.numero)
+
+    @api.model
+    def create(self, values):
+        rec = super(Facture, self).create(values)
+        devis = self.env['groupe_cayla.client'].search([('id', '=', values['client_id'])], limit=1).devis_id
+        if devis:
+            devis.etat = 'valide'
+        return rec

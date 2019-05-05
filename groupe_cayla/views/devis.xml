@@ -20,20 +20,12 @@
             <field name="model">groupe_cayla.devis</field>
             <field name="arch" type="xml">
                 <form>
-                    <header>
-                        <button attrs="{'invisible': [('etat','=','nouveau')]}"
-                                string="Rendre le devis à nouveau éditable" type="object"
-                                name="invalider_devis"/>
-                    </header>
                     <sheet>
-
                         <group col="1">
                             <group>
                                 <field name="etat" attrs="{'readonly': True}"/>
                             </group>
                             <group col="6">
-
-
                                 <field name="client_id" attrs="{'readonly': [('etat', '=', 'valide')]}"
                                        options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
                                 <field name="user_id" attrs="{'readonly': [('etat', '=', 'valide')]}"
