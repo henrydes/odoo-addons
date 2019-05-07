@@ -10,7 +10,9 @@ class Facture(models.Model):
     _name = 'groupe_cayla.facture'
     _description = 'Facture'
     _inherit = ['mail.thread', 'mail.activity.mixin']
-
+    _sql_constraints = [
+        ('client_id', 'unique (client_id)', 'Ce client a déjà une facture')
+    ]
     client_id = fields.Many2one('groupe_cayla.client',required=True,ondelete='cascade')
     user_id = fields.Many2one('res.users',required=True,string='Utilisateur')
 

@@ -15,7 +15,9 @@ class Devis(models.Model):
         ('valide', 'Facture client éditée. Devis non modifiable')
     ], default='nouveau'
     )
-
+    _sql_constraints = [
+        ('client_id', 'unique (client_id)', 'Ce client a déjà un devis')
+    ]
     client_id = fields.Many2one('groupe_cayla.client',required=True,ondelete='cascade')
     user_id = fields.Many2one(
         'res.users',

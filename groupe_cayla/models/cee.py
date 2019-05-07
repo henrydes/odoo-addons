@@ -10,7 +10,9 @@ class CEE(models.Model):
     _name = 'groupe_cayla.cee'
     _description = 'Un dossier CEE'
     _inherit = ['mail.thread', 'mail.activity.mixin']
-
+    _sql_constraints = [
+        ('client_id', 'unique (client_id)', 'Ce client a déjà un dossier CEE')
+    ]
     client_id = fields.Many2one('groupe_cayla.client',required=True,ondelete='cascade')
     devis_id = fields.Many2one('groupe_cayla.devis',required=True,ondelete='cascade')
     user_id = fields.Many2one('res.users',required=True,string='Utilisateur')
