@@ -7,6 +7,8 @@
             <field name="arch" type="xml">
                 <tree>
                     <field name="user_id"/>
+                    <field name="technicien_id"/>
+                    <field name="date_tournee"/>
                 </tree>
             </field>
         </record>
@@ -22,6 +24,8 @@
 
                         <group col="2">
                             <field name="user_id"/>
+                            <field name="technicien_id"/>
+                            <field name="date_tournee"/>
                             <field name="vts" widget="many2many"/>
 
                         </group>
