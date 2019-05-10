@@ -67,9 +67,9 @@
                                     <div style="text-align: center">
                                         <strong>RENSEIGNEMENTS TECHNIQUES</strong>
                                     </div>
-                                    <div>Technicien :</div>
-                                    <div>Date :</div>
-                                    <div>Heure :</div>
+                                    <div>Technicien : <span t-field="o.technicien_id.name"/></div>
+                                    <div>Date et heure : <span t-field="o.date_time_planif"/></div>
+
                                 </div>
                             </td>
                             <td rowspan="3" width="50%">
