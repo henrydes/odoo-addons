@@ -26,11 +26,7 @@ class PlanifVT(models.Model):
         delegate=False,
         required=True,
     )
-    technicien_id = fields.Many2one(
-        'res.users',
-        delegate=False,
-        required=True,
-    )
+    technicien_id = fields.Many2one('hr.employee')
 
     date_appel = fields.Date(default=date.today(), required=True)
     date_time_planif = fields.Datetime(required=True)

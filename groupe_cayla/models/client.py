@@ -199,7 +199,7 @@ class Client(models.Model):
                                                  string="VT planifiée", store=False)
     utilisateur_planif_vt = fields.Many2one('res.users', related='planif_vt_id.utilisateur_id',
                                             string="Utilisateur", store=False)
-    technicien_planif_vt = fields.Many2one('res.users', related='planif_vt_id.technicien_id',
+    technicien_planif_vt = fields.Many2one('hr.employee', related='planif_vt_id.technicien_id',
                                            string="Technicien", store=False)
 
     # 4 Saisie VT
@@ -213,7 +213,7 @@ class Client(models.Model):
 
     utilisateur_vt = fields.Many2one('res.users', related='vt_id.utilisateur_id',
                                      string="Utilisateur", store=False)
-    technicien_vt = fields.Many2one('res.users', related='vt_id.technicien_id',
+    technicien_vt = fields.Many2one('hr.employee', related='vt_id.technicien_id',
                                     string="Technicien", store=False)
 
     # 5.1 Edition devis
@@ -275,9 +275,9 @@ class Client(models.Model):
                                                        string="Chantier planifié", store=False)
     utilisateur_id_planif_chantier = fields.Many2one('res.users', related='planif_chantier_id.utilisateur_id',
                                                      string="Utilisateur", store=False)
-    equipier_1_id_planif_chantier = fields.Many2one('res.users', related='planif_chantier_id.equipier_1_id',
+    equipier_1_id_planif_chantier = fields.Many2one('hr.employee', related='planif_chantier_id.equipier_1_id',
                                                     string="Equipe", store=False)
-    equipier_2_id_planif_chantier = fields.Many2one('res.users', related='planif_chantier_id.equipier_2_id',
+    equipier_2_id_planif_chantier = fields.Many2one('hr.employee', related='planif_chantier_id.equipier_2_id',
                                                     string=" ", store=False)
     entreprise_planif_chantier = fields.Char(related='planif_chantier_id.entreprise',
                                              string="Entreprise", store=False)
@@ -289,9 +289,9 @@ class Client(models.Model):
     chantier_id = fields.Many2one('groupe_cayla.chantier', required=False, ondelete='set null')
     date_de_realisation_chantier = fields.Date(related='chantier_id.date_de_realisation',
                                                string="Date de réalisation", store=False)
-    equipier_1_id_chantier = fields.Many2one('res.users', related='chantier_id.equipier_1_id',
+    equipier_1_id_chantier = fields.Many2one('hr.employee', related='chantier_id.equipier_1_id',
                                              string="Equipe", store=False)
-    equipier_2_id_chantier = fields.Many2one('res.users', related='chantier_id.equipier_2_id',
+    equipier_2_id_chantier = fields.Many2one('hr.employee', related='chantier_id.equipier_2_id',
                                              string=" ", store=False)
     produit_chantier = fields.Char(compute='_compute_chantier',
                                    string='Type Produit', store=False)

@@ -17,7 +17,7 @@ class TourneeVT(models.Model):
         required=True,
     )
 
-    technicien_id = fields.Many2one('res.users',compute='_compute_tournee')
+    technicien_id = fields.Many2one('hr.employee',compute='_compute_tournee')
     date_tournee = fields.Date(compute='_compute_tournee')
     vts = fields.Many2many('groupe_cayla.planif_vt', string='Visites')
 

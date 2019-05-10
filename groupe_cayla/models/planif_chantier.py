@@ -25,12 +25,12 @@ class PlanifChantier(models.Model):
         required=True,
     )
     equipier_1_id = fields.Many2one(
-        'res.users',
+        'hr.employee',
         delegate=False,
         required=True,
     )
     equipier_2_id = fields.Many2one(
-        'res.users',
+        'hr.employee',
         delegate=False,
         required=True,
     )

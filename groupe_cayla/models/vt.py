@@ -25,7 +25,7 @@ class VT(models.Model):
         required=True,
     )
     technicien_id = fields.Many2one(
-        'res.users',
+        'hr.employee',
         delegate=False,
         required=True,
     )
