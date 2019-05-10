@@ -59,24 +59,36 @@
                             </td>
                         </tr>
                     </table>
-
+                    <br/>
                     <table border="1" width="100%">
                         <tr>
-                            <td style="text-aligne: center" width="50%">
-                                <strong>RENSEIGNEMENTS TECHNIQUES</strong>
+                            <td colspan="2" width="50%">
+                                <div style="width: 100%; background-color: #EEE">
+                                    <div style="text-align: center">
+                                        <strong>RENSEIGNEMENTS TECHNIQUES</strong>
+                                    </div>
+                                    <div>Technicien :</div>
+                                    <div>Date :</div>
+                                    <div>Heure :</div>
+                                </div>
                             </td>
                             <td rowspan="3" width="50%">
                                 <div style="width: 100%; text-align: center; text-decoration: underline">
                                     <strong>Stationnement</strong>
                                 </div>
                                 <div>
-                                    <input type="checkbox"/> Devant la maison<![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]>
-                                    <input type="checkbox"/> Dans la cour<![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]>
-                                    <input type="checkbox"/> Dans la rue
+                                    <input type="checkbox"/>
+                                    Devant la maison<![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                    <input type="checkbox"/>
+                                    Dans la cour<![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                    <input type="checkbox"/>
+                                    Dans la rue
                                 </div>
                                 <div>
-                                    <input type="checkbox"/> Demande en mairie<![CDATA[&nbsp;&nbsp;]]>
-                                    <input type="checkbox"/> Autres :
+                                    <input type="checkbox"/>
+                                    Demande en mairie<![CDATA[&nbsp;&nbsp;]]>
+                                    <input type="checkbox"/>
+                                    Autres :
                                 </div>
                                 <div style="width: 100%; text-align: center; text-decoration: underline">
                                     <strong>Mise en place</strong>
@@ -85,57 +97,283 @@
                                     Longueur de gaine nécessaire :
                                 </div>
                                 <div>
-                                    Alimentation électrique :<![CDATA[&nbsp;&nbsp;]]> <input type="checkbox"/> Client<![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]><input type="checkbox"/> Groupe élect
+                                    Alimentation électrique :<![CDATA[&nbsp;&nbsp;]]>
+                                    <input type="checkbox"/>
+                                    Client<![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                    <input type="checkbox"/>
+                                    Groupe élect
                                 </div>
                                 <div style="width: 100%; text-align: center; text-decoration: underline">
                                     <strong>Accessiblité</strong>
                                 </div>
-                                <div>Nbre de TRAPPE : <![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]> Nbre PASSAGE PAR LE TOIT :
+                                <div>Nbre de TRAPPE :
+                                    <![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                    Nbre PASSAGE PAR LE TOIT :
                                 </div>
-                                <div>Hauteur : <![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]> Hauteur : <![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]> Volige : <input type="checkbox"/> OUI <input type="checkbox"/> NON
+                                <div>Hauteur :
+                                    <![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                    Hauteur :
+                                    <![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                    Volige :
+                                    <input type="checkbox"/>
+                                    OUI
+                                    <input type="checkbox"/>
+                                    NON
                                 </div>
                                 <div>
-                                    inter ou exter : <![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]> Si autres détails :
+                                    inter ou exter :
+                                    <![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                    Si autres détails :
                                 </div>
                                 <div style="width: 100%; text-align: center; text-decoration: underline">
                                     <strong>Caractéristiques des combles</strong>
                                 </div>
                                 <div>
-                                    <input type="checkbox"/> Plancher <![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]> <input type="checkbox"/> Hourdis <![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]> <input type="checkbox"/> Briquettes
+                                    <input type="checkbox"/>
+                                    Plancher
+                                    <![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                    <input type="checkbox"/>
+                                    Hourdis
+                                    <![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                    <input type="checkbox"/>
+                                    Briquettes
                                 </div>
-                                <div>Type charpente : <![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]><input type="checkbox"/> Fermette <![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]> <input type="checkbox"/> Tradi
+                                <div>Type charpente : <![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                    <input type="checkbox"/>
+                                    Fermette
+                                    <![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                    <input type="checkbox"/>
+                                    Tradi
                                 </div>
                                 <div>
-                                    <input type="checkbox"/> Placo suspendu <![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]> Ecart des rails :<![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]> <input type="checkbox"/> Autres
+                                    <input type="checkbox"/>
+                                    Placo suspendu <![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]> Ecart des rails :
+                                    <![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                    <input type="checkbox"/>
+                                    Autres
                                 </div>
 
                                 <div style="width: 100%; text-align: center; text-decoration: underline">
                                     <strong>Ecarts au feu</strong>
                                 </div>
-                                <div>Spots :<![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]> <input type="checkbox"/> Oui <input type="checkbox"/> Non <![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]> Nbre :</div>
-                                <div>Cheminée :<![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]> <input type="checkbox"/> Oui <input type="checkbox"/> Non <![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]> Nbre :</div>
-                                <div>VMC :<![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]> <input type="checkbox"/> Oui <input type="checkbox"/> Non </div>
-
+                                <div>Spots :
+                                    <![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                    <input type="checkbox"/>
+                                    Oui
+                                    <input type="checkbox"/>
+                                    Non <![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]> Nbre :
+                                </div>
+                                <div>Cheminée :<![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                    <input type="checkbox"/>
+                                    Oui
+                                    <input type="checkbox"/>
+                                    Non <![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]> Nbre :
+                                </div>
+                                <div>VMC :
+                                    <![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                    <input type="checkbox"/>
+                                    Oui
+                                    <input type="checkbox"/>
+                                    Non
+                                </div>
+                                <div style="background-color: #CCC; padding: 5px">Copie des documents obligatoires
+                                    fournis :
+                                    <br/>
+                                    <input type="checkbox"/>
+                                    Dernier avis d'imposition
+                                    <![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                    <input type="checkbox"/>
+                                    Facture d'énergie
+                                </div>
+                                <div style="border-top: 1px solid black">
+                                    Commentaires et TEMPS ESTIME
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                </div>
                             </td>
-
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div style="width: 100%; text-align: center; text-decoration: underline">
+                                    <strong>Mode de chauffage principale</strong>
+                                </div>
+                                <div>
+                                    <input type="checkbox"/>
+                                    Electrique<![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                    <input type="checkbox"/>
+                                    Bois<![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                    <input type="checkbox"/>
+                                    Fioul<![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                    <input type="checkbox"/>
+                                    Gaz nat.<![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                    <input type="checkbox"/>
+                                    Propane
+                                </div>
+                                <div style="width: 100%; text-align: center; text-decoration: underline">
+                                    <strong>Type de bâtiment</strong>
+                                </div>
+                                <div>
+                                    <input type="checkbox"/>
+                                    Propriétaire<![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                    <input type="checkbox"/>
+                                    Locataire<![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                    <input type="checkbox"/>
+                                    Syndic<![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                    <input type="checkbox"/>
+                                    Autre
+                                </div>
+                                <div>
+                                    <input type="checkbox"/>
+                                    Maison<![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                    <input type="checkbox"/>
+                                    Appartement<![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                    <input type="checkbox"/>
+                                    Copropriété
+                                </div>
+                                <div>
+                                    <input type="checkbox"/>
+                                    Plein pied<![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                    <input type="checkbox"/>
+                                    Etage<![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                    Nbr d'étage :
+                                </div>
+                                <div>
+                                    <input type="checkbox"/>
+                                    Neuf<![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                    <input type="checkbox"/>
+                                    Rénov (+2 ans)<![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                    <input type="checkbox"/>
+                                    Autres :
+                                </div>
+                                <div style="width: 100%; text-align: center; text-decoration: underline">
+                                    <strong>Accessibilité</strong>
+                                </div>
+                                <input type="checkbox"/>
+                                Trappe<![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                <input type="checkbox"/>
+                                Escalier<![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                <input type="checkbox"/>
+                                Passage par toit
+                                <div style="width: 100%; text-align: center; text-decoration: underline">
+                                    <strong>Isolation actuelle</strong>
+                                </div>
+                                <div>
+                                    Type : <![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]> Epaisseur :
+                                </div>
+                                <div>
+                                    <input type="checkbox"/>
+                                    Enlèvement ancien isolant
+                                </div>
+                                <div style="width: 100%; text-align: center; text-decoration: underline">
+                                    <strong>Travaux souhaités</strong>
+                                </div>
+                                <div>
+                                    <input type="checkbox"/>
+                                    Combles perdus<![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                    <input type="checkbox"/>
+                                    Rampants<![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                    <input type="checkbox"/>
+                                    Plancher bas
+                                </div>
+                                <div>
+                                    <input type="checkbox"/>
+                                    Entre plancher<![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                    <input type="checkbox"/>
+                                    Murs<![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                    Autres :
+                                </div>
+                                <div>
+                                    Produit à installer :
+                                </div>
+                            </td>
                         </tr>
                         <tr>
                             <td>
-                                Technicien :
-                                <br/>
-                                Date :
-                                <br/>
-                                Heure :
-                                <br/>
+                                Surface habitable<br/>à isoler
                             </td>
+                            <td>
+                                Autre surface<br/>à isoler
+                            </td>
+                        </tr>
 
+                    </table>
+                    <br/>
+                    <table width="100%" border="1">
+                        <tr>
+                            <td colspan="3">
+                                <span style="text-decoration: underline">
+                                    <strong>Aides éligibles</strong>
+                                </span><![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                <input type="checkbox"/>
+                                CEE <![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                <input type="checkbox"/>
+                                ANAH<![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                <input type="checkbox"/>
+                                Autres
+                            </td>
                         </tr>
                         <tr>
-                            <td>
-                                Mode chauffage
+                            <td width="50%">
+                                Nbr de personnes<br/>dans le foyer :
+                            </td>
+                            <td width="30%">
+                                <strong>REVENU FICAL DE<br/>REFERENCE GLOBAL
+                                </strong>
+                            </td>
+                            <td width="20%">
+                                Tarif<br/>annoncé
                             </td>
                         </tr>
-
+                        <tr>
+                            <td rowspan="2">
+                                <strong>Revenu fical de référence du<br/>1er avis d'impôt :
+                                </strong>
+                                <br/>
+                                Numéro fiscal:
+                                <br/>
+                                Référence avis :
+                            </td>
+                            <td colspan="2">
+                                <input type="checkbox"/>
+                                CLASSIQUE
+                                <![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                <input type="checkbox"/>
+                                PRECA SIMPLE
+                                <![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                <input type="checkbox"/>
+                                GRANDE PRECA
+                            </td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2" colspan="1">
+                                <strong>Revenu fical de référence du<br/>2ème avis d'impôt :
+                                </strong>
+                                <br/>
+                                Numéro fiscal:
+                                <br/>
+                                Référence avis :
+                            </td>
+                            <td colspan="2" rowspan="5">
+                                Le client certifie la véracité des informations administratives fournies (Composition du
+                                foyer, revenu fiscal du foyer et avis d'impôsition)
+                                <br/>
+                                Date et signature client
+                                <![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]>
+                                Signature technicien
+                            </td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2" colspan="1">
+                                <strong>Revenu fical de référence du<br/>3ème avis d'impôt :
+                                </strong>
+                                <br/>
+                                Numéro fiscal:
+                                <br/>
+                                Référence avis :
+                            </td>
+                        </tr>
                     </table>
                 </div>
             </t>
