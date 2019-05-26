@@ -36,11 +36,12 @@
                                 <field name="date_acceptation"/>
                                 <field name="date_refus"/>
                                 <field name="motif_refus"/>
+
                             </group>
                             <group>
                                 <field name="entite_edition_id" attrs="{'readonly': [('etat', '=', 'valide')]}"
                                        options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
-
+                                <field name="mention_legale"/>
 
 
                             </group>

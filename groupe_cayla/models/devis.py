@@ -18,7 +18,7 @@ class Devis(models.Model):
     _sql_constraints = [
         ('client_id', 'unique (client_id)', 'Ce client a déjà un devis')
     ]
-    client_id = fields.Many2one('groupe_cayla.client',required=True,ondelete='cascade')
+    client_id = fields.Many2one('groupe_cayla.client', required=True, ondelete='cascade')
     user_id = fields.Many2one(
         'res.users',
         delegate=False,
@@ -39,6 +39,7 @@ class Devis(models.Model):
     montant_remise = fields.Float(compute='_compute_montant_ht_montant_remise', store=True)
     montant_eco_cheque = fields.Float(compute='_compute_montant_eco_cheque', store=True)
     superficie = fields.Integer(compute='_compute_superficie', store=True)
+    mention_legale = fields.Char(compute='_compute_mention_legale', store=True)
     # fin champs en lecture seuls
 
     entite_edition_id = fields.Many2one(
@@ -64,10 +65,25 @@ class Devis(models.Model):
     _rec_name = 'combination'
     combination = fields.Char(string='Combination', compute='_compute_fields_combination')
 
+    @api.depends('date_edition', 'client_id', 'client_id.cee_id', 'client_id.cee_id.convention_id',
+                 'client_id.cee_id.convention_id.mention_legale_convention_ids', 'client_id.cee_id.convention_id.mention_legale_convention_ids.mention')
+    def _compute_mention_legale(self):
+        for d in self:
+            mention = '**********'
+            if d.date_edition and d.client_id and d.client_id.cee_id and d.client_id.cee_id.convention_id and d.client_id.cee_id.convention_id.mention_legale_convention_ids:
+                mentions = d.client_id.cee_id.convention_id.mention_legale_convention_ids
+                mentions_valables = [m for m in mentions if
+                 m.date_debut <= d.date_edition and (not m.date_fin or m.date_fin >= d.date_edition)]
+                _logger.info(mentions_valables)
+                if mentions_valables and len(mentions_valables) == 1:
+                    mention = mentions_valables[0].mention
+                # empecher en amont la création de plusieurs mentions légales valables à la même date
+            d.mention_legale = mention
+
     @api.depends('numero', 'montant_ht', 'objet', 'lignes_devis', 'lignes_devis.prix_total')
     def _compute_fields_combination(self):
         for d in self:
-            d.combination = 'Devis numéro ' + d.numero+' '+ str(d.montant_ht)+'€ HT ('+d.objet.libelle+')'
+            d.combination = 'Devis numéro ' + d.numero + ' ' + str(d.montant_ht) + '€ HT (' + d.objet.libelle + ')'
 
     @api.depends('type_eco_cheque')
     def _compute_montant_eco_cheque(self):
@@ -80,7 +96,8 @@ class Devis(models.Model):
             for ligne in d.lignes_devis:
                 d.superficie += ligne.quantite
 
-    @api.depends('lignes_supplement_devis', 'lignes_devis', 'remise', 'lignes_devis.prix_unitaire', 'lignes_devis.prix_total')
+    @api.depends('lignes_supplement_devis', 'lignes_devis', 'remise', 'lignes_devis.prix_unitaire',
+                 'lignes_devis.prix_total')
     def _compute_montant_ht_montant_remise(self):
         for d in self:
             d.montant_ht = 0
@@ -111,10 +128,7 @@ class Devis(models.Model):
     def write(self, vals):
         super().write(vals)
 
-
         return True
-
-
 
     @api.onchange('date_refus')
     def onchange_date_refus(self):
