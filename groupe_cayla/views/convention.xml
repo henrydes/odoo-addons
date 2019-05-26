@@ -22,6 +22,7 @@
                         <group>
                             <field name="libelle"/>
                             <field name="delegataire_id"/>
+                            <field name="mention_legale_convention_ids" widget="many2many"/>
                         </group>
                     </sheet>
                     <div class="oe_chatter">

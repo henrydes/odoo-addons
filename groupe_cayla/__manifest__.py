@@ -59,6 +59,7 @@
         'views/facture.xml',
         'views/tournee_vt.xml',
         'views/delegataire.xml',
+        'views/mention_legale_convention.xml',
     ],
     'application': True,
 }

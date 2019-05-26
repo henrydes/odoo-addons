@@ -126,6 +126,11 @@
                 res_model="groupe_cayla.delegataire"
                 view_mode="tree,form"/>
 
+        <act_window
+                id="action_cayla_mention_legale_convention"
+                name="Mentions légales convention"
+                res_model="groupe_cayla.mention_legale_convention"
+                view_mode="tree,form"/>
 
         <act_window
                 id="action_cayla_tournee_vt"
@@ -201,6 +206,8 @@
                   action="action_cayla_type_chauffage"/>
         <menuitem name="Tarifs des primes CEE" id="groupe_cayla.tarif_prime_cee" parent="groupe_cayla.param_cee"
                   action="action_cayla_tarif_prime_cee"/>
+        <menuitem name="Mentions légales convention" id="groupe_cayla.mention_legale_convention" parent="groupe_cayla.param_cee"
+                  action="action_cayla_mention_legale_convention"/>
 
     </data>
 </odoo>

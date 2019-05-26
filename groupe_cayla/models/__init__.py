@@ -33,3 +33,4 @@ from . import doublon_client
 from . import facture
 from . import tournee_vt
 from . import delegataire
+from . import mention__legale_convention

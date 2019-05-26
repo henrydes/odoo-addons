@@ -13,3 +13,4 @@ class Convention(models.Model):
 
     libelle = fields.Char(required=True)
     delegataire_id = fields.Many2one('groupe_cayla.delegataire')
+    mention_legale_convention_ids = fields.Many2many('groupe_cayla.mention_legale_convention', required=False, string='Mention légale', relation='groupe_cayla_convention_m2m_mention_legal_rel')
