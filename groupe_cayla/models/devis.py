@@ -78,7 +78,6 @@ class Devis(models.Model):
                 mentions_valables = [m for m in mentions if
                                      m.date_debut <= d.date_edition and (
                                                  not m.date_fin or m.date_fin >= d.date_edition)]
-                _logger.info(mentions_valables)
                 if mentions_valables and len(mentions_valables) == 1:
                     mention = mentions_valables[0].mention
                 # empecher en amont la création de plusieurs mentions légales valables à la même date
