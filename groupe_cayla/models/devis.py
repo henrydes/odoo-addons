@@ -66,14 +66,18 @@ class Devis(models.Model):
     combination = fields.Char(string='Combination', compute='_compute_fields_combination')
 
     @api.depends('date_edition', 'client_id', 'client_id.cee_id', 'client_id.cee_id.convention_id',
-                 'client_id.cee_id.convention_id.mention_legale_convention_ids', 'client_id.cee_id.convention_id.mention_legale_convention_ids.mention')
+                 'client_id.cee_id.convention_id.mention_legale_convention_ids',
+                 'client_id.cee_id.convention_id.mention_legale_convention_ids.mention',
+                 'client_id.cee_id.convention_id.mention_legale_convention_ids.date_debut',
+                 'client_id.cee_id.convention_id.mention_legale_convention_ids.date_fin')
     def _compute_mention_legale(self):
         for d in self:
             mention = '**********'
             if d.date_edition and d.client_id and d.client_id.cee_id and d.client_id.cee_id.convention_id and d.client_id.cee_id.convention_id.mention_legale_convention_ids:
                 mentions = d.client_id.cee_id.convention_id.mention_legale_convention_ids
                 mentions_valables = [m for m in mentions if
-                 m.date_debut <= d.date_edition and (not m.date_fin or m.date_fin >= d.date_edition)]
+                                     m.date_debut <= d.date_edition and (
+                                                 not m.date_fin or m.date_fin >= d.date_edition)]
                 _logger.info(mentions_valables)
                 if mentions_valables and len(mentions_valables) == 1:
                     mention = mentions_valables[0].mention
